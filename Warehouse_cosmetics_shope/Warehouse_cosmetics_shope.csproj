@@ -46,14 +46,62 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="CartochkaForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="CartochkaForm.Designer.cs">
+      <DependentUpon>CartochkaForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CatalogFormAdmin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CatalogFormAdmin.Designer.cs">
+      <DependentUpon>CatalogFormAdmin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CatalogFormClad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CatalogFormClad.Designer.cs">
+      <DependentUpon>CatalogFormClad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OtgruzkaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OtgruzkaForm.Designer.cs">
+      <DependentUpon>OtgruzkaForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CartochkaForm.resx">
+      <DependentUpon>CartochkaForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CatalogFormAdmin.resx">
+      <DependentUpon>CatalogFormAdmin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CatalogFormClad.resx">
+      <DependentUpon>CatalogFormClad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OtgruzkaForm.resx">
+      <DependentUpon>OtgruzkaForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

@@ -8,13 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Warehouse_cosmetics_shope
+namespace Warehouse
 {
-    public partial class Form1 : Form
+    public partial class CartochkaForm : Form
     {
-        public Form1()
+        public CartochkaForm()
         {
             InitializeComponent();
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
