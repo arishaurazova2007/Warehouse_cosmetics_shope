@@ -64,6 +64,18 @@
     <Compile Include="CatalogFormClad.Designer.cs">
       <DependentUpon>CatalogFormClad.cs</DependentUpon>
     </Compile>
+    <Compile Include="EditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditForm.Designer.cs">
+      <DependentUpon>EditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HistoryChangeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HistoryChangeForm.Designer.cs">
+      <DependentUpon>HistoryChangeForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,6 +104,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CatalogFormClad.resx">
       <DependentUpon>CatalogFormClad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditForm.resx">
+      <DependentUpon>EditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HistoryChangeForm.resx">
+      <DependentUpon>HistoryChangeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
