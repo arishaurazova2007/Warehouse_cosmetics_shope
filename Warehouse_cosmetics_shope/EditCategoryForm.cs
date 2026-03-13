@@ -10,14 +10,14 @@ using System.Windows.Forms;
 
 namespace Warehouse_cosmetics_shope
 {
-    public partial class HistoryChangeForm : Form
+    public partial class EditCategoryForm : Form
     {
-        public HistoryChangeForm()
+        public EditCategoryForm()
         {
             InitializeComponent();
         }
 
-        private void HistoryChangeForm_Load(object sender, EventArgs e)
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

@@ -19,8 +19,22 @@ namespace Warehouse
 
         private void buttonLogin_Click(object sender, EventArgs e)
         {
-            //LoginForm login = new LoginForm();
+            LoginForm loginForm = new LoginForm();
+            loginForm.FormClosed += (s, args) => this.Close();
+            loginForm.Show();
+            this.Hide();
+        }
 
+        private void buttonRegister_Click(object sender, EventArgs e)
+        {
+            RegistrationForm registrationForm = new RegistrationForm();
+            registrationForm.FormClosed += (s, args) => this.Close();
+            registrationForm.Show();
+            this.Hide();
+        }
+
+        private void buttonLogin_Click_1(object sender, EventArgs e)
+        {
 
         }
     }

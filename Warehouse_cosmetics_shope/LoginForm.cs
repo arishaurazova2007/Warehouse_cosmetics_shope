@@ -16,6 +16,12 @@ namespace Warehouse
         {
             InitializeComponent();
         }
-
+        private void buttonBack_Click(object sender, EventArgs e)
+        {
+            MainForm mainForm = new MainForm();
+            mainForm.FormClosed += (s, args) => Application.Exit();
+            mainForm.Show();
+            this.Hide();
+        }
     }
 }
