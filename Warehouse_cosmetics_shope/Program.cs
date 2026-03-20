@@ -28,6 +28,14 @@ namespace Warehouse_cosmetics_shope
                     Role = Roles.Админ
                 };
                 db.Users.Add(user);
+                db.SaveChanges();
+                Console.WriteLine("Пользователь успешно сохранен в базе!");
+                var userInDb = db.Users.FirstOrDefault(u => u.Surname == "Тестовый");
+                if (userInDb != null)
+                {
+                    Console.WriteLine($"УРА! Пользователь {userInDb.Surname} найден в базе.");
+                    Console.WriteLine($"Его ID: {userInDb.UserID}");
+                }
             }
             Console.ReadLine();
         }
