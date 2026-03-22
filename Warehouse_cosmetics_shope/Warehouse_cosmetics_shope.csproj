@@ -171,11 +171,18 @@
     <Compile Include="Migrations\202603201423229_InitialCreate.Designer.cs">
       <DependentUpon>202603201423229_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202603221305082_FixIdTypeToString.cs" />
+    <Compile Include="Migrations\202603221305082_FixIdTypeToString.Designer.cs">
+      <DependentUpon>202603221305082_FixIdTypeToString.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Migrations\202603201423229_InitialCreate.resx">
       <DependentUpon>202603201423229_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202603221305082_FixIdTypeToString.resx">
+      <DependentUpon>202603221305082_FixIdTypeToString.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
