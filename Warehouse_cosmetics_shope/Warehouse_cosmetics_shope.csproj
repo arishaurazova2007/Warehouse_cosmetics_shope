@@ -161,12 +161,6 @@
     <Compile Include="DataBaseEnum\Roles.cs" />
     <Compile Include="DataBaseClass\User.cs" />
     <Compile Include="DataBaseClass\Client.cs" />
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\202603201423229_InitialCreate.cs" />
     <Compile Include="Migrations\202603201423229_InitialCreate.Designer.cs">
       <DependentUpon>202603201423229_InitialCreate.cs</DependentUpon>
