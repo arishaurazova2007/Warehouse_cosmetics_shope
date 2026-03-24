@@ -51,7 +51,7 @@
             // labelLogin
             // 
             this.labelLogin.AutoSize = true;
-            this.labelLogin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.labelLogin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
             this.labelLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelLogin.Location = new System.Drawing.Point(269, 9);
             this.labelLogin.Name = "labelLogin";
@@ -134,7 +134,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label8.Location = new System.Drawing.Point(189, 343);
+            this.label8.Location = new System.Drawing.Point(189, 341);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(85, 22);
             this.label8.TabIndex = 14;
@@ -142,7 +142,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox1.Location = new System.Drawing.Point(337, 81);
             this.textBox1.Name = "textBox1";
@@ -151,7 +151,7 @@
             // 
             // textBox2
             // 
-            this.textBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.textBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
             this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox2.Location = new System.Drawing.Point(337, 114);
             this.textBox2.Name = "textBox2";
@@ -160,7 +160,7 @@
             // 
             // textBox3
             // 
-            this.textBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.textBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
             this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox3.Location = new System.Drawing.Point(337, 152);
             this.textBox3.Name = "textBox3";
@@ -169,7 +169,7 @@
             // 
             // textBox4
             // 
-            this.textBox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.textBox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
             this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox4.Location = new System.Drawing.Point(337, 190);
             this.textBox4.Name = "textBox4";
@@ -178,7 +178,7 @@
             // 
             // textBox5
             // 
-            this.textBox5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.textBox5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
             this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox5.Location = new System.Drawing.Point(337, 228);
             this.textBox5.Name = "textBox5";
@@ -187,7 +187,7 @@
             // 
             // textBox6
             // 
-            this.textBox6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.textBox6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
             this.textBox6.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox6.Location = new System.Drawing.Point(337, 263);
             this.textBox6.Name = "textBox6";
@@ -196,7 +196,7 @@
             // 
             // textBox7
             // 
-            this.textBox7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.textBox7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
             this.textBox7.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox7.Location = new System.Drawing.Point(337, 299);
             this.textBox7.Name = "textBox7";
@@ -205,17 +205,17 @@
             // 
             // textBox8
             // 
-            this.textBox8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.textBox8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
             this.textBox8.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox8.Location = new System.Drawing.Point(337, 348);
+            this.textBox8.Location = new System.Drawing.Point(337, 341);
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(191, 15);
             this.textBox8.TabIndex = 22;
             // 
             // button1
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.button1.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
             this.button1.FlatAppearance.BorderSize = 2;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Location = new System.Drawing.Point(390, 383);
@@ -229,7 +229,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox8);
@@ -250,7 +250,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.labelLogin);
             this.Name = "CartochkaForm";
-            this.Text = "CartochkaForm";
+            this.Text = "Карточка товара (кладовщик)";
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -58,11 +58,11 @@
     <Compile Include="CatalogFormAdmin.Designer.cs">
       <DependentUpon>CatalogFormAdmin.cs</DependentUpon>
     </Compile>
-    <Compile Include="CatalogFormClad.cs">
+    <Compile Include="CatalogFormKlad.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CatalogFormClad.Designer.cs">
-      <DependentUpon>CatalogFormClad.cs</DependentUpon>
+    <Compile Include="CatalogFormKlad.Designer.cs">
+      <DependentUpon>CatalogFormKlad.cs</DependentUpon>
     </Compile>
     <Compile Include="EditCategoryForm.cs">
       <SubType>Form</SubType>
@@ -75,6 +75,12 @@
     </Compile>
     <Compile Include="EditForm.Designer.cs">
       <DependentUpon>EditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FiltrationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FiltrationForm.Designer.cs">
+      <DependentUpon>FiltrationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="HistoryChangeForm.cs">
       <SubType>Form</SubType>
@@ -93,6 +99,12 @@
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NewCategoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewCategoryForm.Designer.cs">
+      <DependentUpon>NewCategoryForm.cs</DependentUpon>
     </Compile>
     <Compile Include="OtgruzkaForm.cs">
       <SubType>Form</SubType>
@@ -114,14 +126,17 @@
     <EmbeddedResource Include="CatalogFormAdmin.resx">
       <DependentUpon>CatalogFormAdmin.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CatalogFormClad.resx">
-      <DependentUpon>CatalogFormClad.cs</DependentUpon>
+    <EmbeddedResource Include="CatalogFormKlad.resx">
+      <DependentUpon>CatalogFormKlad.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditCategoryForm.resx">
       <DependentUpon>EditCategoryForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditForm.resx">
       <DependentUpon>EditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FiltrationForm.resx">
+      <DependentUpon>FiltrationForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HistoryChangeForm.resx">
       <DependentUpon>HistoryChangeForm.cs</DependentUpon>
@@ -131,6 +146,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewCategoryForm.resx">
+      <DependentUpon>NewCategoryForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OtgruzkaForm.resx">
       <DependentUpon>OtgruzkaForm.cs</DependentUpon>

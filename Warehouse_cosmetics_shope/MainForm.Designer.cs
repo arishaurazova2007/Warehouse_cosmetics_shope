@@ -36,9 +36,9 @@
             // labelWarehouse
             // 
             this.labelWarehouse.AutoSize = true;
-            this.labelWarehouse.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.labelWarehouse.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
             this.labelWarehouse.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
-            this.labelWarehouse.ForeColor = System.Drawing.SystemColors.Control;
+            this.labelWarehouse.ForeColor = System.Drawing.Color.White;
             this.labelWarehouse.Location = new System.Drawing.Point(178, 80);
             this.labelWarehouse.Name = "labelWarehouse";
             this.labelWarehouse.Size = new System.Drawing.Size(440, 39);
@@ -59,7 +59,7 @@
             // 
             // buttonRegister
             // 
-            this.buttonRegister.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.buttonRegister.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonRegister.Location = new System.Drawing.Point(291, 246);
             this.buttonRegister.Name = "buttonRegister";
             this.buttonRegister.Size = new System.Drawing.Size(215, 41);
@@ -72,7 +72,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.buttonRegister);
             this.Controls.Add(this.buttonLogin);
