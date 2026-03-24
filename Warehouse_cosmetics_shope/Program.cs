@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using Warehouse_cosmetics_shope.DataBaseClass;
 
 namespace Warehouse_cosmetics_shope
