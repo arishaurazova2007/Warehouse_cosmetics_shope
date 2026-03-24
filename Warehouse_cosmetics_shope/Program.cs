@@ -65,13 +65,15 @@ namespace Warehouse_cosmetics_shope
 
                 var subCatDuhyFemale = new Category { CategoryID = Guid.NewGuid(), CategoryName = "Духи женские", ParentID = catFemale.CategoryID };
                 var subCatDuhyMale = new Category { CategoryID = Guid.NewGuid(), CategoryName = "Духи мужские", ParentID = catMale.CategoryID };
-                var subCatWaterFemale = new Category { CategoryID = Guid.NewGuid(), CategoryName = "Парфюмерная вода женская", ParentID = catFemale.CategoryID };
+                var subCatWaterPerfumFemale = new Category { CategoryID = Guid.NewGuid(), CategoryName = "Парфюмерная вода женская", ParentID = catFemale.CategoryID };
+                var subCatWaterPerfumMale = new Category { CategoryID = Guid.NewGuid(), CategoryName = "Парфюмерная вода мужская", ParentID = catMale.CategoryID };
+                var subCatWaterFemale = new Category { CategoryID = Guid.NewGuid(), CategoryName = "Туалетная вода женская", ParentID = catFemale.CategoryID };
                 var subCatWaterMale = new Category { CategoryID = Guid.NewGuid(), CategoryName = "Туалетная вода мужская", ParentID = catMale.CategoryID };
+
                 db.Categories.AddRange(new List<Category> { subCatDuhyFemale, subCatDuhyMale, subCatWaterFemale, subCatWaterMale });
 
                 db.SaveChanges();
 
-                
                 db.Items.AddRange(new List<Item>
                 {
                     new Item
