@@ -1,57 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
-namespace Warehouse
+namespace Warehouse_cosmetics_shope
 {
-    public partial class CatalogForm : Form
+    public partial class CatalogFormAdmin : Form
     {
-        public CatalogForm()
+        private int currentUserId;
+        public CatalogFormAdmin(int userId)
         {
             InitializeComponent();
+            currentUserId = userId;
         }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void buttonPlus_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void pictureBox1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void buttonBack_Click(object sender, EventArgs e)
-        {
-            MainForm mainForm = new MainForm();
-            mainForm.FormClosed += (s, args) => Application.Exit();
-            mainForm.Show();
+            EditForm editForm = new EditForm();
+            editForm.Show();
             this.Hide();
         }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void buttonFilter_Click(object sender, EventArgs e)
         {
-
+            FiltrationForm filterForm = new FiltrationForm();
+            filterForm.Show();
+            this.Hide();
+        }
+        private void buttonHistory_Click(object sender, EventArgs e)
+        {
+            HistoryChangeForm historyForm = new HistoryChangeForm(currentUserId);
+            historyForm.Show();
+            this.Hide();
+        }
+        private void buttonExit_Click(object sender, EventArgs e)
+        {
+            MainForm mainForm = new MainForm();
+            mainForm.Show();
+            this.Hide();
         }
     }
 }

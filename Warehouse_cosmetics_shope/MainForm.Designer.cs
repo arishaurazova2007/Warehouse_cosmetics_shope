@@ -1,4 +1,4 @@
-﻿namespace Warehouse
+﻿namespace Warehouse_cosmetics_shope
 {
     partial class MainForm
     {

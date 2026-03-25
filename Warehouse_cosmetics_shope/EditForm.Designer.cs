@@ -37,8 +37,8 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.buttonSave = new System.Windows.Forms.Button();
+            this.buttonBack = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
@@ -47,7 +47,7 @@
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.button3 = new System.Windows.Forms.Button();
+            this.buttonEditCategory = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -60,7 +60,6 @@
             this.label1.Size = new System.Drawing.Size(355, 32);
             this.label1.TabIndex = 0;
             this.label1.Text = "Редактирование товара";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
             // 
@@ -94,7 +93,6 @@
             this.label4.Size = new System.Drawing.Size(107, 20);
             this.label4.TabIndex = 3;
             this.label4.Text = "Категория";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // label5
             // 
@@ -117,7 +115,6 @@
             this.label6.Size = new System.Drawing.Size(147, 20);
             this.label6.TabIndex = 5;
             this.label6.Text = "Срок годности";
-            this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // label7
             // 
@@ -152,29 +149,31 @@
             this.label9.TabIndex = 8;
             this.label9.Text = "Остаток";
             // 
-            // button1
+            // buttonSave
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(223, 375);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(140, 39);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "Сохранить";
-            this.button1.UseVisualStyleBackColor = false;
+            this.buttonSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
+            this.buttonSave.FlatAppearance.BorderSize = 0;
+            this.buttonSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonSave.Location = new System.Drawing.Point(223, 375);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(140, 39);
+            this.buttonSave.TabIndex = 9;
+            this.buttonSave.Text = "Сохранить";
+            this.buttonSave.UseVisualStyleBackColor = false;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
-            // button2
+            // buttonBack
             // 
-            this.button2.BackColor = System.Drawing.Color.PaleTurquoise;
-            this.button2.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Location = new System.Drawing.Point(379, 375);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(140, 39);
-            this.button2.TabIndex = 10;
-            this.button2.Text = "Назад";
-            this.button2.UseVisualStyleBackColor = false;
+            this.buttonBack.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.buttonBack.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
+            this.buttonBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonBack.Location = new System.Drawing.Point(379, 375);
+            this.buttonBack.Name = "buttonBack";
+            this.buttonBack.Size = new System.Drawing.Size(140, 39);
+            this.buttonBack.TabIndex = 10;
+            this.buttonBack.Text = "Назад";
+            this.buttonBack.UseVisualStyleBackColor = false;
+            this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
             // 
             // textBox1
             // 
@@ -244,17 +243,18 @@
             this.comboBox2.Size = new System.Drawing.Size(281, 24);
             this.comboBox2.TabIndex = 18;
             // 
-            // button3
+            // buttonEditCategory
             // 
-            this.button3.BackColor = System.Drawing.Color.PaleTurquoise;
-            this.button3.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Location = new System.Drawing.Point(597, 166);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(136, 24);
-            this.button3.TabIndex = 19;
-            this.button3.Text = "Редактировать";
-            this.button3.UseVisualStyleBackColor = false;
+            this.buttonEditCategory.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.buttonEditCategory.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.buttonEditCategory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonEditCategory.Location = new System.Drawing.Point(597, 166);
+            this.buttonEditCategory.Name = "buttonEditCategory";
+            this.buttonEditCategory.Size = new System.Drawing.Size(136, 24);
+            this.buttonEditCategory.TabIndex = 19;
+            this.buttonEditCategory.Text = "Редактировать";
+            this.buttonEditCategory.UseVisualStyleBackColor = false;
+            this.buttonEditCategory.Click += new System.EventHandler(this.buttonEditCategory_Click);
             // 
             // EditForm
             // 
@@ -262,7 +262,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.buttonEditCategory);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.textBox6);
@@ -271,8 +271,8 @@
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonBack);
+            this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
@@ -300,8 +300,8 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.Button buttonBack;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox3;
@@ -310,6 +310,6 @@
         private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button buttonEditCategory;
     }
 }

@@ -33,10 +33,10 @@
             this.label3 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.buttonDelete = new System.Windows.Forms.Button();
+            this.buttonSave = new System.Windows.Forms.Button();
+            this.buttonBack = new System.Windows.Forms.Button();
+            this.buttonNewCategory = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -80,7 +80,6 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(281, 24);
             this.comboBox1.TabIndex = 18;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // textBox2
             // 
@@ -90,52 +89,56 @@
             this.textBox2.Size = new System.Drawing.Size(281, 15);
             this.textBox2.TabIndex = 19;
             // 
-            // button1
+            // buttonDelete
             // 
-            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(302, 222);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(174, 26);
-            this.button1.TabIndex = 20;
-            this.button1.Text = "Удалить категорию";
-            this.button1.UseVisualStyleBackColor = true;
+            this.buttonDelete.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
+            this.buttonDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonDelete.Location = new System.Drawing.Point(302, 222);
+            this.buttonDelete.Name = "buttonDelete";
+            this.buttonDelete.Size = new System.Drawing.Size(174, 26);
+            this.buttonDelete.TabIndex = 20;
+            this.buttonDelete.Text = "Удалить категорию";
+            this.buttonDelete.UseVisualStyleBackColor = true;
+            this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
             // 
-            // button2
+            // buttonSave
             // 
-            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Location = new System.Drawing.Point(325, 308);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(140, 39);
-            this.button2.TabIndex = 21;
-            this.button2.Text = "Сохранить";
-            this.button2.UseVisualStyleBackColor = false;
+            this.buttonSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
+            this.buttonSave.FlatAppearance.BorderSize = 0;
+            this.buttonSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonSave.Location = new System.Drawing.Point(325, 308);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(140, 39);
+            this.buttonSave.TabIndex = 21;
+            this.buttonSave.Text = "Сохранить";
+            this.buttonSave.UseVisualStyleBackColor = false;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
-            // button3
+            // buttonBack
             // 
-            this.button3.BackColor = System.Drawing.Color.PaleTurquoise;
-            this.button3.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Location = new System.Drawing.Point(325, 367);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(140, 39);
-            this.button3.TabIndex = 22;
-            this.button3.Text = "Назад";
-            this.button3.UseVisualStyleBackColor = false;
+            this.buttonBack.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.buttonBack.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
+            this.buttonBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonBack.Location = new System.Drawing.Point(325, 367);
+            this.buttonBack.Name = "buttonBack";
+            this.buttonBack.Size = new System.Drawing.Size(140, 39);
+            this.buttonBack.TabIndex = 22;
+            this.buttonBack.Text = "Назад";
+            this.buttonBack.UseVisualStyleBackColor = false;
+            this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
             // 
-            // button4
+            // buttonNewCategory
             // 
-            this.button4.BackColor = System.Drawing.Color.PaleTurquoise;
-            this.button4.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
-            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Location = new System.Drawing.Point(302, 265);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(174, 26);
-            this.button4.TabIndex = 23;
-            this.button4.Text = "Новая категория";
-            this.button4.UseVisualStyleBackColor = false;
+            this.buttonNewCategory.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.buttonNewCategory.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
+            this.buttonNewCategory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonNewCategory.Location = new System.Drawing.Point(302, 265);
+            this.buttonNewCategory.Name = "buttonNewCategory";
+            this.buttonNewCategory.Size = new System.Drawing.Size(174, 26);
+            this.buttonNewCategory.TabIndex = 23;
+            this.buttonNewCategory.Text = "Новая категория";
+            this.buttonNewCategory.UseVisualStyleBackColor = false;
+            this.buttonNewCategory.Click += new System.EventHandler(this.buttonNewCategory_Click);
             // 
             // EditCategoryForm
             // 
@@ -143,10 +146,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonNewCategory);
+            this.Controls.Add(this.buttonBack);
+            this.Controls.Add(this.buttonSave);
+            this.Controls.Add(this.buttonDelete);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label3);
@@ -167,9 +170,9 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button buttonDelete;
+        private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.Button buttonBack;
+        private System.Windows.Forms.Button buttonNewCategory;
     }
 }

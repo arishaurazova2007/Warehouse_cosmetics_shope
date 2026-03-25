@@ -33,8 +33,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.buttonAdd = new System.Windows.Forms.Button();
+            this.buttonBack = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -47,7 +47,6 @@
             this.label1.Size = new System.Drawing.Size(251, 32);
             this.label1.TabIndex = 1;
             this.label1.Text = "Новая категория";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
             // 
@@ -88,29 +87,31 @@
             this.textBox3.Size = new System.Drawing.Size(281, 15);
             this.textBox3.TabIndex = 19;
             // 
-            // button1
+            // buttonAdd
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(366, 263);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(140, 39);
-            this.button1.TabIndex = 20;
-            this.button1.Text = "Добавить";
-            this.button1.UseVisualStyleBackColor = false;
+            this.buttonAdd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
+            this.buttonAdd.FlatAppearance.BorderSize = 0;
+            this.buttonAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonAdd.Location = new System.Drawing.Point(366, 263);
+            this.buttonAdd.Name = "buttonAdd";
+            this.buttonAdd.Size = new System.Drawing.Size(140, 39);
+            this.buttonAdd.TabIndex = 20;
+            this.buttonAdd.Text = "Добавить";
+            this.buttonAdd.UseVisualStyleBackColor = false;
+            this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
             // 
-            // button2
+            // buttonBack
             // 
-            this.button2.BackColor = System.Drawing.Color.PaleTurquoise;
-            this.button2.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Location = new System.Drawing.Point(366, 327);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(140, 39);
-            this.button2.TabIndex = 21;
-            this.button2.Text = "Назад";
-            this.button2.UseVisualStyleBackColor = false;
+            this.buttonBack.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.buttonBack.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
+            this.buttonBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonBack.Location = new System.Drawing.Point(366, 327);
+            this.buttonBack.Name = "buttonBack";
+            this.buttonBack.Size = new System.Drawing.Size(140, 39);
+            this.buttonBack.TabIndex = 21;
+            this.buttonBack.Text = "Назад";
+            this.buttonBack.UseVisualStyleBackColor = false;
+            this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
             // 
             // NewCategoryForm
             // 
@@ -118,8 +119,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonBack);
+            this.Controls.Add(this.buttonAdd);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label3);
@@ -139,7 +140,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button buttonAdd;
+        private System.Windows.Forms.Button buttonBack;
     }
 }

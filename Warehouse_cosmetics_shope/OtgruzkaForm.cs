@@ -1,39 +1,60 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
-
-namespace Warehouse
+namespace Warehouse_cosmetics_shope
 {
     public partial class OtgruzkaForm : Form
     {
+        private int currentUserId;
         public OtgruzkaForm()
         {
             InitializeComponent();
         }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        public OtgruzkaForm(int userId)
         {
-
+            InitializeComponent();
+            this.currentUserId = userId;
         }
-
-        private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        private void buttonAddProduct_Click(object sender, EventArgs e)
         {
-
+            AddProductToOtgruzka(); // Метод для БД
+            LoadOtgruzkaTable();    // для обновления таблицы
         }
-
-        private void labelLogin_Click(object sender, EventArgs e)
+        private void buttonGenerateList_Click(object sender, EventArgs e)
         {
-
+            GenerateShipmentList(); // Метод для БД
         }
-
-        private void label4_Click(object sender, EventArgs e)
+        private void buttonBack_Click(object sender, EventArgs e)
         {
-
+            CatalogFormKlad catalogForm = new CatalogFormKlad();
+            catalogForm.Show();
+            this.Hide();
         }
-
-        private void label1_Click(object sender, EventArgs e)
+        private void AddProductToOtgruzka()
+        {
+            // Добавление товара в отгрузку
+        }
+        private void GenerateShipmentList()
+        {
+            // Формирование списка отгрузки
+        }
+        private void LoadProducts()
+        {
+            // Загрузка товаров в ComboBox
+        }
+        private void LoadClientTypes()
+        {
+            // Загрузка типов клиентов в ComboBox
+        }
+        private void LoadOtgruzkaTable()
         {
 
+            // Загрузка таблицы отгрузки
+        }
+        private void OtgruzkaForm_Load(object sender, EventArgs e)
+        {
+            LoadProducts();      // Загрузить товары
+            LoadClientTypes();   // Загрузить типы клиентов
+            LoadOtgruzkaTable(); // Загрузить таблицу
         }
     }
 }

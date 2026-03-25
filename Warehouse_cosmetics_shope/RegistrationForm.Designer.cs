@@ -1,4 +1,4 @@
-﻿namespace Warehouse
+﻿namespace Warehouse_cosmetics_shope
 {
     partial class RegistrationForm
     {
@@ -35,10 +35,10 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBoxId = new System.Windows.Forms.TextBox();
+            this.passwordBox = new System.Windows.Forms.TextBox();
+            this.patronimicBox = new System.Windows.Forms.TextBox();
+            this.nameBox = new System.Windows.Forms.TextBox();
+            this.surnameBox = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.labelWarehouse = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
@@ -71,7 +71,6 @@
             this.label4.Size = new System.Drawing.Size(70, 16);
             this.label4.TabIndex = 3;
             this.label4.Text = "Отчество";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // label6
             // 
@@ -106,10 +105,10 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
-            this.panel1.Controls.Add(this.textBox4);
-            this.panel1.Controls.Add(this.textBox2);
-            this.panel1.Controls.Add(this.textBox1);
-            this.panel1.Controls.Add(this.textBoxId);
+            this.panel1.Controls.Add(this.passwordBox);
+            this.panel1.Controls.Add(this.patronimicBox);
+            this.panel1.Controls.Add(this.nameBox);
+            this.panel1.Controls.Add(this.surnameBox);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label6);
@@ -119,47 +118,47 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(433, 262);
             this.panel1.TabIndex = 13;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
-            // textBox4
+            // passwordBox
             // 
-            this.textBox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
-            this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.textBox4.Location = new System.Drawing.Point(151, 159);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(195, 19);
-            this.textBox4.TabIndex = 17;
+            this.passwordBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
+            this.passwordBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.passwordBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.passwordBox.Location = new System.Drawing.Point(151, 159);
+            this.passwordBox.Name = "passwordBox";
+            this.passwordBox.PasswordChar = '*';
+            this.passwordBox.Size = new System.Drawing.Size(195, 19);
+            this.passwordBox.TabIndex = 17;
             // 
-            // textBox2
+            // patronimicBox
             // 
-            this.textBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.textBox2.Location = new System.Drawing.Point(151, 113);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(195, 19);
-            this.textBox2.TabIndex = 15;
+            this.patronimicBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
+            this.patronimicBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.patronimicBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.patronimicBox.Location = new System.Drawing.Point(151, 113);
+            this.patronimicBox.Name = "patronimicBox";
+            this.patronimicBox.Size = new System.Drawing.Size(195, 19);
+            this.patronimicBox.TabIndex = 15;
             // 
-            // textBox1
+            // nameBox
             // 
-            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.textBox1.Location = new System.Drawing.Point(151, 68);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(195, 19);
-            this.textBox1.TabIndex = 14;
+            this.nameBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
+            this.nameBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.nameBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.nameBox.Location = new System.Drawing.Point(151, 68);
+            this.nameBox.Name = "nameBox";
+            this.nameBox.Size = new System.Drawing.Size(195, 19);
+            this.nameBox.TabIndex = 14;
             // 
-            // textBoxId
+            // surnameBox
             // 
-            this.textBoxId.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
-            this.textBoxId.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBoxId.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.textBoxId.Location = new System.Drawing.Point(151, 25);
-            this.textBoxId.Name = "textBoxId";
-            this.textBoxId.Size = new System.Drawing.Size(195, 19);
-            this.textBoxId.TabIndex = 13;
+            this.surnameBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
+            this.surnameBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.surnameBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.surnameBox.Location = new System.Drawing.Point(151, 25);
+            this.surnameBox.Name = "surnameBox";
+            this.surnameBox.Size = new System.Drawing.Size(195, 19);
+            this.surnameBox.TabIndex = 13;
             // 
             // panel2
             // 
@@ -211,9 +210,9 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label labelWarehouse;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBoxId;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox patronimicBox;
+        private System.Windows.Forms.TextBox nameBox;
+        private System.Windows.Forms.TextBox surnameBox;
+        private System.Windows.Forms.TextBox passwordBox;
     }
 }

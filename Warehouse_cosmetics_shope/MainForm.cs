@@ -1,14 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
-namespace Warehouse
+namespace Warehouse_cosmetics_shope
 {
     public partial class MainForm : Form
     {
@@ -31,11 +23,6 @@ namespace Warehouse
             registrationForm.FormClosed += (s, args) => this.Close();
             registrationForm.Show();
             this.Hide();
-        }
-
-        private void buttonLogin_Click_1(object sender, EventArgs e)
-        {
-
         }
     }
 }

@@ -1,35 +1,62 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
 namespace Warehouse_cosmetics_shope
 {
     public partial class EditForm : Form
     {
+        private int productId;
+        private int currentUserId;
         public EditForm()
         {
             InitializeComponent();
+            productId = 0;
         }
-
-        private void label1_Click(object sender, EventArgs e)
+        public EditForm(int productId, int userId)
         {
-
+            InitializeComponent();
+            this.productId = productId;
+            this.currentUserId = userId;
+            LoadProductData();
         }
-
-        private void label6_Click(object sender, EventArgs e)
+        private void buttonSave_Click(object sender, EventArgs e)
         {
-
+            SaveProduct(); // Метод для БД
+            CatalogFormAdmin catalogForm = new CatalogFormAdmin(currentUserId);
+            catalogForm.Show();
+            this.Hide();
         }
-
-        private void label4_Click(object sender, EventArgs e)
+        private void buttonBack_Click(object sender, EventArgs e)
         {
-
+            CatalogFormAdmin catalogForm = new CatalogFormAdmin(currentUserId);
+            catalogForm.Show();
+            this.Hide();
+        }
+        private void buttonEditCategory_Click(object sender, EventArgs e)
+        {
+            EditCategoryForm editCategoryForm = new EditCategoryForm();
+            editCategoryForm.Show();
+            this.Hide();
+        }
+        private void LoadProductData()
+        {
+            // Загрузка данных товара (БД)
+        }
+        private void SaveProduct()
+        {
+            // Сохранение товара (БД)
+        }
+        private void LoadCategories()
+        {
+            // Загрузка категорий в ComboBox (БД)
+        }
+        private void LoadTypes()
+        {
+            // Загрузка видов в ComboBox (БД)
+        }
+        private void EditForm_Load(object sender, EventArgs e)
+        {
+            LoadCategories(); //  БД
+            LoadTypes();      //  БД
         }
     }
 }

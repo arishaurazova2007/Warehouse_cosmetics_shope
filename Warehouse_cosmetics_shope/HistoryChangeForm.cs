@@ -1,25 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
 namespace Warehouse_cosmetics_shope
 {
     public partial class HistoryChangeForm : Form
     {
-        public HistoryChangeForm()
+        private int currentUserId;
+        public HistoryChangeForm(int userId)
         {
             InitializeComponent();
+            currentUserId = userId;
         }
-
+        // Загрузка истории изменений
+        private void LoadHistoryData()
+        {
+            //загрузка из БД
+        }
         private void HistoryChangeForm_Load(object sender, EventArgs e)
         {
-
+            LoadHistoryData();
+        }
+        private void buttonBackToCatalog_Click(object sender, EventArgs e)
+        {
+            CatalogFormAdmin catalogForm = new CatalogFormAdmin(currentUserId);
+            catalogForm.Show();
+            this.Hide();
         }
     }
 }

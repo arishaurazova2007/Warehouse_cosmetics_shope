@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using Warehouse;
 
 namespace Warehouse_cosmetics_shope
 {
@@ -18,28 +17,21 @@ namespace Warehouse_cosmetics_shope
         }
         private void buttonExit_Click(object sender, EventArgs e)
         {
-            this.Hide();
             MainForm mainForm = new MainForm();
             mainForm.Show();
-            this.Close();
+            this.Hide();
         }
         private void buttonFilter_Click(object sender, EventArgs e)
-        {
-            this.Hide();
+        { 
             FiltrationForm filterForm = new FiltrationForm();
             filterForm.Show();
-            this.Close();
+            this.Hide();
         }
         private void buttonOtgruzka_Click(object sender, EventArgs e)
         {
-            this.Hide();
             OtgruzkaForm otgruzkaForm = new OtgruzkaForm();
             otgruzkaForm.Show();
-            this.Close();
-        }
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-           
+            this.Hide();
         }
 
     }

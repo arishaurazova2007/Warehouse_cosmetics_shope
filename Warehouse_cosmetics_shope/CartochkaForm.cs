@@ -1,14 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
-namespace Warehouse
+namespace Warehouse_cosmetics_shope
 {
     public partial class CartochkaForm : Form
     {
@@ -16,10 +8,11 @@ namespace Warehouse
         {
             InitializeComponent();
         }
-
-        private void label6_Click(object sender, EventArgs e)
+        private void buttonBack_Click(object sender, EventArgs e)
         {
-
+            CatalogFormKlad catalogForm = new CatalogFormKlad();
+            catalogForm.Show();
+            this.Hide();
         }
     }
 }

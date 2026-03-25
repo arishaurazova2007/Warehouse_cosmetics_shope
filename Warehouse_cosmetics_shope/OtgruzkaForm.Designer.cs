@@ -1,4 +1,4 @@
-﻿namespace Warehouse
+﻿namespace Warehouse_cosmetics_shope
 {
     partial class OtgruzkaForm
     {
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -47,10 +47,10 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonAddProduct = new System.Windows.Forms.Button();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.buttonGenerateList = new System.Windows.Forms.Button();
+            this.buttonBack = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -72,14 +72,14 @@
             this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnName,
@@ -98,7 +98,6 @@
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(411, 380);
             this.dataGridView1.TabIndex = 0;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick_1);
             // 
             // ColumnName
             // 
@@ -149,10 +148,9 @@
             this.labelLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelLogin.Location = new System.Drawing.Point(490, 31);
             this.labelLogin.Name = "labelLogin";
-            this.labelLogin.Size = new System.Drawing.Size(261, 29);
+            this.labelLogin.Size = new System.Drawing.Size(247, 29);
             this.labelLogin.TabIndex = 7;
-            this.labelLogin.Text = "Товары к откгрузке";
-            this.labelLogin.Click += new System.EventHandler(this.labelLogin_Click);
+            this.labelLogin.Text = "Товары к отгрузке";
             // 
             // Название
             // 
@@ -173,7 +171,6 @@
             this.label1.Size = new System.Drawing.Size(71, 18);
             this.label1.TabIndex = 9;
             this.label1.Text = "Артикул";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
             // 
@@ -204,7 +201,6 @@
             this.label4.Size = new System.Drawing.Size(64, 18);
             this.label4.TabIndex = 12;
             this.label4.Text = "Клиент";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // comboBox1
             // 
@@ -241,18 +237,19 @@
             this.textBox3.Size = new System.Drawing.Size(197, 15);
             this.textBox3.TabIndex = 17;
             // 
-            // button1
+            // buttonAddProduct
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.Location = new System.Drawing.Point(542, 280);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(172, 36);
-            this.button1.TabIndex = 18;
-            this.button1.Text = "Добавить  товар";
-            this.button1.UseVisualStyleBackColor = false;
+            this.buttonAddProduct.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
+            this.buttonAddProduct.FlatAppearance.BorderSize = 0;
+            this.buttonAddProduct.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonAddProduct.ForeColor = System.Drawing.Color.Black;
+            this.buttonAddProduct.Location = new System.Drawing.Point(542, 280);
+            this.buttonAddProduct.Name = "buttonAddProduct";
+            this.buttonAddProduct.Size = new System.Drawing.Size(172, 36);
+            this.buttonAddProduct.TabIndex = 18;
+            this.buttonAddProduct.Text = "Добавить  товар";
+            this.buttonAddProduct.UseVisualStyleBackColor = false;
+            this.buttonAddProduct.Click += new System.EventHandler(this.buttonAddProduct_Click);
             // 
             // comboBox2
             // 
@@ -265,30 +262,32 @@
             this.comboBox2.Size = new System.Drawing.Size(197, 24);
             this.comboBox2.TabIndex = 19;
             // 
-            // button2
+            // buttonGenerateList
             // 
-            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.ForeColor = System.Drawing.Color.Black;
-            this.button2.Location = new System.Drawing.Point(542, 322);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(172, 34);
-            this.button2.TabIndex = 20;
-            this.button2.Text = "Сформировать список";
-            this.button2.UseVisualStyleBackColor = false;
+            this.buttonGenerateList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
+            this.buttonGenerateList.FlatAppearance.BorderSize = 0;
+            this.buttonGenerateList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonGenerateList.ForeColor = System.Drawing.Color.Black;
+            this.buttonGenerateList.Location = new System.Drawing.Point(542, 322);
+            this.buttonGenerateList.Name = "buttonGenerateList";
+            this.buttonGenerateList.Size = new System.Drawing.Size(172, 34);
+            this.buttonGenerateList.TabIndex = 20;
+            this.buttonGenerateList.Text = "Сформировать список";
+            this.buttonGenerateList.UseVisualStyleBackColor = false;
+            this.buttonGenerateList.Click += new System.EventHandler(this.buttonGenerateList_Click);
             // 
-            // button3
+            // buttonBack
             // 
-            this.button3.BackColor = System.Drawing.Color.PaleTurquoise;
-            this.button3.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Location = new System.Drawing.Point(576, 377);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(110, 23);
-            this.button3.TabIndex = 21;
-            this.button3.Text = "Назад";
-            this.button3.UseVisualStyleBackColor = false;
+            this.buttonBack.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.buttonBack.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
+            this.buttonBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonBack.Location = new System.Drawing.Point(576, 377);
+            this.buttonBack.Name = "buttonBack";
+            this.buttonBack.Size = new System.Drawing.Size(110, 23);
+            this.buttonBack.TabIndex = 21;
+            this.buttonBack.Text = "Назад";
+            this.buttonBack.UseVisualStyleBackColor = false;
+            this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
             // 
             // OtgruzkaForm
             // 
@@ -296,10 +295,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.buttonBack);
+            this.Controls.Add(this.buttonGenerateList);
             this.Controls.Add(this.comboBox2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonAddProduct);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
@@ -340,9 +339,9 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonAddProduct;
         private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button buttonGenerateList;
+        private System.Windows.Forms.Button buttonBack;
     }
 }

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
-using Warehouse;
-using Warehouse_cosmetics_shop; 
+using Warehouse_cosmetics_shope;
 
-namespace Warehouse_cosmetics_shop
+namespace  Warehouse_cosmetics_shope
 {
     static class Program
     {
