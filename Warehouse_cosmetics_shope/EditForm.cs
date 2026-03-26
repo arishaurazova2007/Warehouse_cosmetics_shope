@@ -4,14 +4,13 @@ namespace Warehouse_cosmetics_shope
 {
     public partial class EditForm : Form
     {
-        private int productId;
-        private int currentUserId;
+        private Guid productId;
+        private Guid currentUserId;
         public EditForm()
         {
             InitializeComponent();
-            productId = 0;
         }
-        public EditForm(int productId, int userId)
+        public EditForm(Guid productId, Guid userId)
         {
             InitializeComponent();
             this.productId = productId;
@@ -21,19 +20,19 @@ namespace Warehouse_cosmetics_shope
         private void buttonSave_Click(object sender, EventArgs e)
         {
             SaveProduct(); // Метод для БД
-            CatalogFormAdmin catalogForm = new CatalogFormAdmin(currentUserId);
+            var catalogForm = new CatalogFormAdmin(currentUserId);
             catalogForm.Show();
             this.Hide();
         }
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            CatalogFormAdmin catalogForm = new CatalogFormAdmin(currentUserId);
+            var catalogForm = new CatalogFormAdmin(currentUserId);
             catalogForm.Show();
             this.Hide();
         }
         private void buttonEditCategory_Click(object sender, EventArgs e)
         {
-            EditCategoryForm editCategoryForm = new EditCategoryForm();
+            var editCategoryForm = new EditCategoryForm();
             editCategoryForm.Show();
             this.Hide();
         }

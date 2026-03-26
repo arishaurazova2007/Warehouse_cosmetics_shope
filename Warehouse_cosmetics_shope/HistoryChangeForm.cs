@@ -4,8 +4,8 @@ namespace Warehouse_cosmetics_shope
 {
     public partial class HistoryChangeForm : Form
     {
-        private int currentUserId;
-        public HistoryChangeForm(int userId)
+        private Guid currentUserId;
+        public HistoryChangeForm(Guid userId)
         {
             InitializeComponent();
             currentUserId = userId;
@@ -21,7 +21,7 @@ namespace Warehouse_cosmetics_shope
         }
         private void buttonBackToCatalog_Click(object sender, EventArgs e)
         {
-            CatalogFormAdmin catalogForm = new CatalogFormAdmin(currentUserId);
+            var catalogForm = new CatalogFormAdmin(currentUserId);
             catalogForm.Show();
             this.Hide();
         }

@@ -15,16 +15,16 @@ namespace Warehouse_cosmetics_shope
                 RegisterUser(); // Метод для БД
                 MessageBox.Show("Регистрация прошла успешно!", "Регистрация",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
-                LoginForm loginForm = new LoginForm();
+                var loginForm = new LoginForm();
                 loginForm.Show();
                 this.Hide();
             }
         }
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            MainForm mainForm = new MainForm();
+            var mainForm = new MainForm();
             mainForm.Show();
-            this.Hide(); 
+            this.Hide();
         }
         private void RegisterUser()
         {

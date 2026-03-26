@@ -4,12 +4,12 @@ namespace Warehouse_cosmetics_shope
 {
     public partial class NewCategoryForm : Form
     {
-        private int currentUserId;
+        private Guid currentUserId;
         public NewCategoryForm()
         {
             InitializeComponent();
         }
-        public NewCategoryForm(int userId)
+        public NewCategoryForm(Guid userId)
         {
             InitializeComponent();
             this.currentUserId = userId;
@@ -17,13 +17,13 @@ namespace Warehouse_cosmetics_shope
         private void buttonAdd_Click(object sender, EventArgs e)
         {
             AddCategory(); // Сохранение в БД
-            EditCategoryForm editCategoryForm = new EditCategoryForm();
+            var editCategoryForm = new EditCategoryForm();
             editCategoryForm.Show();
             this.Hide();
         }
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            EditCategoryForm editCategoryForm = new EditCategoryForm();
+            var editCategoryForm = new EditCategoryForm();
             editCategoryForm.Show();
             this.Hide();
         }

@@ -4,26 +4,26 @@ namespace Warehouse_cosmetics_shope
 {
     public partial class FiltrationForm : Form
     {
-        private int currentUserId;
+        private Guid currentUserId;
         public FiltrationForm()
         {
             InitializeComponent();
         }
-        public FiltrationForm(int userId)
+        public FiltrationForm(Guid userId)
         {
             InitializeComponent();
             this.currentUserId = userId;
         }
         private void buttonShow_Click(object sender, EventArgs e)
         {
-           
-            FilterCriteria criteria = GetFilterCriteria();
+
+            var criteria = GetFilterCriteria();
             ApplyFilter(criteria);
             this.Hide();
         }
         private FilterCriteria GetFilterCriteria()
         {
-            FilterCriteria criteria = new FilterCriteria();
+            var criteria = new FilterCriteria();
             // Категория
             criteria.CategoryPerfumeMen = checkBoxPerfumeMen.Checked;
             criteria.CategoryPerfumeWomen = checkBoxPerfumeWomen.Checked;
@@ -56,26 +56,58 @@ namespace Warehouse_cosmetics_shope
         }
         private void FiltrationForm_Load(object sender, EventArgs e)
         {
-            
+
         }
     }
     public class FilterCriteria
     {
-        // Категория
+        /// <summary>
+        /// Категория: Парфюм для мужчин
+        /// </summary>
         public bool CategoryPerfumeMen { get; set; }
+        /// <summary>
+        /// Категория: Парфюм для женщин
+        /// </summary>
         public bool CategoryPerfumeWomen { get; set; }
+        /// <summary>
+        /// Категория: Косметика
+        /// </summary>
         public bool CategoryCosmetics { get; set; }
-        // Вид
+        /// <summary>
+        /// Вид: Парфюм
+        /// </summary>
         public bool TypePerfume { get; set; }
+        /// <summary>
+        /// Вид: Парфюмированная вода
+        /// </summary>
         public bool TypePerfumeWater { get; set; }
+        /// <summary>
+        /// Вид: Туалетная вода
+        /// </summary>
         public bool TypeToiletWater { get; set; }
+        /// <summary>
+        /// Вид: Уходовая косметика
+        /// </summary>
         public bool TypeCare { get; set; }
+        /// <summary>
+        /// Вид: Декоративная косметика
+        /// </summary>
         public bool TypeDecor { get; set; }
-        // Цена
+        /// <summary>
+        /// Цена: от
+        /// </summary>
         public string PriceFrom { get; set; }
+        /// <summary>
+        /// Цена: до
+        /// </summary>
         public string PriceTo { get; set; }
-        // Наличие
+        /// <summary>
+        /// Наличие: в наличии
+        /// </summary>
         public bool InStock { get; set; }
+        /// <summary>
+        /// Наличие: нет в наличии
+        /// </summary>
         public bool NotInStock { get; set; }
     }
 }

@@ -4,12 +4,12 @@ namespace Warehouse_cosmetics_shope
 {
     public partial class OtgruzkaForm : Form
     {
-        private int currentUserId;
+        private Guid currentUserId;
         public OtgruzkaForm()
         {
             InitializeComponent();
         }
-        public OtgruzkaForm(int userId)
+        public OtgruzkaForm(Guid userId)
         {
             InitializeComponent();
             this.currentUserId = userId;
@@ -25,7 +25,7 @@ namespace Warehouse_cosmetics_shope
         }
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            CatalogFormKlad catalogForm = new CatalogFormKlad();
+            var catalogForm = new CatalogFormKlad();
             catalogForm.Show();
             this.Hide();
         }
@@ -47,7 +47,6 @@ namespace Warehouse_cosmetics_shope
         }
         private void LoadOtgruzkaTable()
         {
-
             // Загрузка таблицы отгрузки
         }
         private void OtgruzkaForm_Load(object sender, EventArgs e)

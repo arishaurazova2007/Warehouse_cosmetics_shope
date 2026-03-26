@@ -7,11 +7,11 @@ namespace Warehouse_cosmetics_shope
         public LoginForm()
         {
             InitializeComponent();
-            textBoxPassword.PasswordChar = '*'; 
+            textBoxPassword.PasswordChar = '*';
         }
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            MainForm mainForm = new MainForm();
+            var mainForm = new MainForm();
 
             mainForm.Show();
             this.Hide();
@@ -20,21 +20,21 @@ namespace Warehouse_cosmetics_shope
         {
             if (ValidateLoginData())
             {
-                int userId = AuthenticateUser(); // Метод для БД
+                var userId = AuthenticateUser(); // Метод для БД
 
-                if (userId > 0)
+                if (userId != Guid.Empty)
                 {
                     // Успешная авторизация
-                    string userRole = GetUserRole(userId); // Метод для БД
+                    var userRole = GetUserRole(userId); // Метод для БД
                     if (userRole == "Admin")
                     {
-                        CatalogFormAdmin catalogForm = new CatalogFormAdmin(userId);
+                        var catalogForm = new CatalogFormAdmin(userId);
                         catalogForm.Show();
                         this.Hide();
                     }
                     else if (userRole == "Kladovshik")
                     {
-                        CatalogFormKlad catalogForm = new CatalogFormKlad();
+                        var catalogForm = new CatalogFormKlad();
                         catalogForm.Show();
                         this.Hide();
                     }
@@ -48,13 +48,13 @@ namespace Warehouse_cosmetics_shope
                 }
             }
         }
-        private int AuthenticateUser()
+        private Guid AuthenticateUser()
         {
             //добавлю код для проверки ID/пароля в БД
-            // Верну ID пользователя при успехе, или 0 при ошибке
-            return 0;
+            // Верну ID пользователя при успехе, или Guid.Empty при ошибке
+            return Guid.Empty;
         }
-        private string GetUserRole(int userId)
+        private string GetUserRole(Guid userId)
         {
             // Получение роли пользователя
             return "Kladovshik";
