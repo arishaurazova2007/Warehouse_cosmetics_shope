@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using Serilog;
 using Warehouse_cosmetics_shope.DataBaseClass;
 
@@ -16,7 +17,11 @@ namespace Warehouse_cosmetics_shope
             Log.Logger = new LoggerConfiguration().WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day).CreateLogger();
             try
             {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+
                 Log.Information("Приложение запущено");
+                
                 using (WarehouseContext db = new WarehouseContext())
                 {
                     db.Items.RemoveRange(db.Items);
@@ -32,7 +37,7 @@ namespace Warehouse_cosmetics_shope
                             Surname = "Иванова",
                             Name = "Татьяна",
                             Patronymic = "Константиновна",
-                            Password = BCrypt.Net.BCrypt.HashPassword("16Kl7SDt!"),// Хешируем!
+                            Password = BCrypt.Net.BCrypt.HashPassword("16Kl7SDt!"),
                             Role = Roles.Админ
                         },
                         new User
@@ -72,7 +77,6 @@ namespace Warehouse_cosmetics_shope
                     var subCatWaterFemale = new Category { CategoryID = Guid.NewGuid(), CategoryName = "Туалетная вода женская", ParentID = catFemale.CategoryID };
                     var subCatWaterMale = new Category { CategoryID = Guid.NewGuid(), CategoryName = "Туалетная вода мужская", ParentID = catMale.CategoryID };
                     db.Categories.AddRange(new List<Category> { subCatDuhyFemale, subCatDuhyMale, subCatWaterFemale, subCatWaterMale, subCatWaterPerfumFemale, subCatWaterPerfumMale });
-
                     db.SaveChanges();
 
                     db.Items.AddRange(new List<Item>
@@ -81,7 +85,7 @@ namespace Warehouse_cosmetics_shope
                         {
                             ProductID = Guid.NewGuid(),
                             ProductName = "Chanel №5 (50 мл)",
-                            CategoryID = catFemale.CategoryID, // Привязка к созданной категории
+                            CategoryID = catFemale.CategoryID,
                             Price = 12100,
                             Quantity = 14,
                             Units = MeasurementUnits.Шт,
@@ -112,6 +116,8 @@ namespace Warehouse_cosmetics_shope
                     db.SaveChanges();
                     Console.WriteLine("База данных успешно заполнена данными из таблицы!");
                 }
+                
+                Application.Run(new MainForm());
             }
             catch (Exception ex)
             {
@@ -119,7 +125,7 @@ namespace Warehouse_cosmetics_shope
             }
             finally
             {
-                Log.CloseAndFlush(); // Сохраняем логи перед выходом
+                Log.CloseAndFlush();
                 if (!Console.IsInputRedirected)
                     Console.ReadKey();
             }
