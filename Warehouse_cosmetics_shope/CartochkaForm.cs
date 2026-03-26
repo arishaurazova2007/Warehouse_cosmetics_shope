@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Linq;
+using System.Data.Entity; 
+using Warehouse_cosmetics_shope.DataBaseClass;
 namespace Warehouse_cosmetics_shope
 {
     public partial class CartochkaForm : Form

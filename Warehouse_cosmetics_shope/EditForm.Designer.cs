@@ -39,11 +39,11 @@
             this.label9 = new System.Windows.Forms.Label();
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonBack = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBoxProductName = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.textBoxQuantity = new System.Windows.Forms.TextBox();
+            this.textBoxPrice = new System.Windows.Forms.TextBox();
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
@@ -176,13 +176,13 @@
             this.buttonBack.UseVisualStyleBackColor = false;
             this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
             // 
-            // textBox1
+            // textBoxProductName
             // 
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Location = new System.Drawing.Point(292, 97);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(281, 15);
-            this.textBox1.TabIndex = 11;
+            this.textBoxProductName.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxProductName.Location = new System.Drawing.Point(292, 97);
+            this.textBoxProductName.Name = "textBoxProductName";
+            this.textBoxProductName.Size = new System.Drawing.Size(281, 15);
+            this.textBoxProductName.TabIndex = 11;
             // 
             // textBox2
             // 
@@ -200,21 +200,21 @@
             this.textBox3.Size = new System.Drawing.Size(281, 15);
             this.textBox3.TabIndex = 13;
             // 
-            // textBox4
+            // textBoxQuantity
             // 
-            this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox4.Location = new System.Drawing.Point(292, 273);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(281, 15);
-            this.textBox4.TabIndex = 14;
+            this.textBoxQuantity.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxQuantity.Location = new System.Drawing.Point(292, 273);
+            this.textBoxQuantity.Name = "textBoxQuantity";
+            this.textBoxQuantity.Size = new System.Drawing.Size(281, 15);
+            this.textBoxQuantity.TabIndex = 14;
             // 
-            // textBox5
+            // textBoxPrice
             // 
-            this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox5.Location = new System.Drawing.Point(292, 306);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(281, 15);
-            this.textBox5.TabIndex = 15;
+            this.textBoxPrice.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxPrice.Location = new System.Drawing.Point(292, 306);
+            this.textBoxPrice.Name = "textBoxPrice";
+            this.textBoxPrice.Size = new System.Drawing.Size(281, 15);
+            this.textBoxPrice.TabIndex = 15;
             // 
             // textBox6
             // 
@@ -280,11 +280,11 @@
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.textBox6);
-            this.Controls.Add(this.textBox5);
-            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.textBoxPrice);
+            this.Controls.Add(this.textBoxQuantity);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBoxProductName);
             this.Controls.Add(this.buttonBack);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.label9);
@@ -316,11 +316,11 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonBack;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBoxProductName;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox textBoxQuantity;
+        private System.Windows.Forms.TextBox textBoxPrice;
         private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.ComboBox comboBox2;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
-using Warehouse_cosmetics_shope.Properties;
+using System.Linq;
+using Warehouse_cosmetics_shope.DataBaseClass;
 namespace Warehouse_cosmetics_shope
 {
     public partial class EditForm : Form
@@ -10,13 +11,17 @@ namespace Warehouse_cosmetics_shope
         public EditForm()
         {
             InitializeComponent();
+            productId = Guid.Empty;
         }
         public EditForm(Guid productId, Guid userId)
         {
             InitializeComponent();
             this.productId = productId;
             this.currentUserId = userId;
-            LoadProductData();
+            if (productId != Guid.Empty)
+            {
+                LoadProductData();
+            }
         }
         private void buttonSave_Click(object sender, EventArgs e)
         {
@@ -39,11 +44,39 @@ namespace Warehouse_cosmetics_shope
         }
         private void LoadProductData()
         {
-            // Загрузка данных товара (БД)
+            using (var db = new WarehouseContext())
+            {
+                var product = db.Items.Include("Category").FirstOrDefault(p => p.ProductID == productId);
+                if (product != null)
+                {
+                    textBoxProductName.Text = product.ProductName;
+                    textBoxPrice.Text = product.Price.ToString();
+                    textBoxQuantity.Text = product.Quantity.ToString();
+                    //ExpDate.Value = product.ExpDate;
+                    
+                }
+            }
         }
         private void SaveProduct()
         {
-            // Сохранение товара (БД)
+            using (var db = new WarehouseContext())
+            {
+                Item product;
+                if (productId == Guid.Empty)
+                {
+                    product = new Item { ProductID = Guid.NewGuid() };
+                    db.Items.Add(product);
+                }
+                else
+                {
+                    product = db.Items.Find(productId);
+                }
+                product.ProductName = textBoxProductName.Text;
+                product.Price = decimal.Parse(textBoxPrice.Text);
+                product.Quantity = int.Parse(textBoxQuantity.Text);
+                //product.ExpDate = ExpDate.Value;
+                db.SaveChanges();
+            }
         }
         private void LoadCategories()
         {
@@ -85,4 +118,9 @@ namespace Warehouse_cosmetics_shope
             
         }
     }
+
+
+
+
+
 }

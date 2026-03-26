@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Linq;
+using System.Data.Entity;
+using Warehouse_cosmetics_shope.DataBaseClass;
 namespace Warehouse_cosmetics_shope
 {
     public partial class CatalogFormKlad : Form
@@ -12,7 +15,20 @@ namespace Warehouse_cosmetics_shope
         }
         private void LoadCatalogData()
         {
-            //здесь будет код загрузки товаров из БД
+            using (var db = new WarehouseContext())
+            {
+                var products = db.Items.Include("Category").ToList();
+                dataGridViewProducts.DataSource = products.Select(p => new
+                {
+                    p.ProductID,
+                    p.ProductName,
+                    Категория = p.Category.CategoryName,
+                    p.Price,
+                    p.Quantity,
+                    p.Units,
+                    p.ExpDate
+                }).ToList();
+            }
         }
         private void buttonExit_Click(object sender, EventArgs e)
         {
@@ -32,5 +48,10 @@ namespace Warehouse_cosmetics_shope
             otgruzkaForm.Show();
             this.Hide();
         }
+        private void CatalogFormKlad_Load(object sender, EventArgs e)
+        {
+            LoadCatalogData();
+        }
     }
+
 }

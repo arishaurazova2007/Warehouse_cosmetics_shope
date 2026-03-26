@@ -43,7 +43,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.buttonExit = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridViewProducts = new System.Windows.Forms.DataGridView();
             this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colType = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -55,7 +55,7 @@
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProducts)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonHistory
@@ -212,7 +212,7 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.White;
-            this.panel3.Controls.Add(this.dataGridView1);
+            this.panel3.Controls.Add(this.dataGridViewProducts);
             this.panel3.Controls.Add(this.button4);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(0, 150);
@@ -220,13 +220,13 @@
             this.panel3.Size = new System.Drawing.Size(800, 300);
             this.panel3.TabIndex = 9;
             // 
-            // dataGridView1
+            // dataGridViewProducts
             // 
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
-            this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewProducts.BackgroundColor = System.Drawing.Color.White;
+            this.dataGridViewProducts.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dataGridViewProducts.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.dataGridViewProducts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewProducts.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colName,
             this.colCategory,
             this.colType,
@@ -242,17 +242,17 @@
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.EnableHeadersVisualStyles = false;
-            this.dataGridView1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
-            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(800, 300);
-            this.dataGridView1.TabIndex = 5;
+            this.dataGridViewProducts.DefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridViewProducts.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewProducts.EnableHeadersVisualStyles = false;
+            this.dataGridViewProducts.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
+            this.dataGridViewProducts.Location = new System.Drawing.Point(0, 0);
+            this.dataGridViewProducts.Name = "dataGridViewProducts";
+            this.dataGridViewProducts.RowHeadersVisible = false;
+            this.dataGridViewProducts.RowHeadersWidth = 51;
+            this.dataGridViewProducts.RowTemplate.Height = 24;
+            this.dataGridViewProducts.Size = new System.Drawing.Size(800, 300);
+            this.dataGridViewProducts.TabIndex = 5;
             // 
             // colName
             // 
@@ -310,7 +310,7 @@
             this.colStock.Name = "colStock";
             this.colStock.Width = 125;
             // 
-            // CatalogForm
+            // CatalogFormAdmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -318,14 +318,14 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
-            this.Name = "CatalogForm";
+            this.Name = "CatalogFormAdmin";
             this.Text = "Каталог администратора";
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProducts)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -339,7 +339,7 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridViewProducts;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button buttonExit;
         private System.Windows.Forms.Label label2;
