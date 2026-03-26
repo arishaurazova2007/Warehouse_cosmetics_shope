@@ -57,5 +57,22 @@ namespace Warehouse_cosmetics_shope
             LoadCategories(); //  БД
             LoadTypes();      //  БД
         }
+        private void Deletebutton_Click(object sender, EventArgs e)
+        {
+            DeleteProductFromCatalog();
+            LogDeletionToHistory();
+            var catalogForm = new CatalogFormAdmin(currentUserId);
+            catalogForm.Show();
+            this.Hide();
+        }
+        private void DeleteProductFromCatalog()
+        {
+            // удаление - установка флага IsDeleted = true
+        }
+        private void LogDeletionToHistory()
+        {
+            // Запись в историю изменений (удаление не удаляет историю)
+            
+        }
     }
 }

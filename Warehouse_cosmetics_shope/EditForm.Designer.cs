@@ -48,6 +48,7 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.buttonEditCategory = new System.Windows.Forms.Button();
+            this.Deletebutton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -256,12 +257,25 @@
             this.buttonEditCategory.UseVisualStyleBackColor = false;
             this.buttonEditCategory.Click += new System.EventHandler(this.buttonEditCategory_Click);
             // 
+            // Deletebutton
+            // 
+            this.Deletebutton.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.Deletebutton.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.Deletebutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Deletebutton.Location = new System.Drawing.Point(427, 332);
+            this.Deletebutton.Name = "Deletebutton";
+            this.Deletebutton.Size = new System.Drawing.Size(146, 24);
+            this.Deletebutton.TabIndex = 20;
+            this.Deletebutton.Text = "Удалить товар";
+            this.Deletebutton.UseVisualStyleBackColor = false;
+            // 
             // EditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.Deletebutton);
             this.Controls.Add(this.buttonEditCategory);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.comboBox1);
@@ -311,5 +325,6 @@
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.Button buttonEditCategory;
+        private System.Windows.Forms.Button Deletebutton;
     }
 }
