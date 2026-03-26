@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using Warehouse_cosmetics_shope.Properties;
 namespace Warehouse_cosmetics_shope
 {
     public partial class EditForm : Form
@@ -59,11 +60,20 @@ namespace Warehouse_cosmetics_shope
         }
         private void Deletebutton_Click(object sender, EventArgs e)
         {
-            DeleteProductFromCatalog();
-            LogDeletionToHistory();
-            var catalogForm = new CatalogFormAdmin(currentUserId);
-            catalogForm.Show();
-            this.Hide();
+            var confirmResult = MessageBox.Show(
+                Resources.ConfirmDelete,
+                Resources.ConfirmDeleteTitle,
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (confirmResult == DialogResult.Yes)
+            {
+                DeleteProductFromCatalog();
+                LogDeletionToHistory();
+                var catalogForm = new CatalogFormAdmin(currentUserId);
+                catalogForm.Show();
+                this.Hide();
+            }
         }
         private void DeleteProductFromCatalog()
         {

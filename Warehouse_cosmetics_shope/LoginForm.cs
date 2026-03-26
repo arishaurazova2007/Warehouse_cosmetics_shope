@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using Warehouse_cosmetics_shope.Properties;
 namespace Warehouse_cosmetics_shope
 {
     public partial class LoginForm : Form
@@ -41,7 +42,7 @@ namespace Warehouse_cosmetics_shope
                 }
                 else
                 {
-                    MessageBox.Show("Неверный ID или пароль", "Ошибка авторизации",
+                    MessageBox.Show(Resources.InvalidCredentials, Resources.LoginErrorTitle,
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     textBoxPassword.Clear();
                     textBoxPassword.Focus();
@@ -65,16 +66,16 @@ namespace Warehouse_cosmetics_shope
             // Проверка ID
             if (string.IsNullOrWhiteSpace(IdTextBox.Text))
             {
-                MessageBox.Show("Введите ID сотрудника", "Ошибка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(Resources.EnterEmployeeId, Resources.Error,
+                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 IdTextBox.Focus();
                 return false;
             }
             // Проверка пароля
             if (string.IsNullOrWhiteSpace(textBoxPassword.Text))
             {
-                MessageBox.Show("Введите пароль", "Ошибка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(Resources.EnterPassword, Resources.Error,
+                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textBoxPassword.Focus();
                 return false;
             }
