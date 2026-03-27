@@ -84,50 +84,33 @@ namespace Warehouse_cosmetics_shope
                 {
                     product = db.Items.Find(productId);
                 }
+
+                if (product == null) return;
+
                 product.ProductName = textBoxProductName.Text;
-                decimal price;
-                if (decimal.TryParse(textBoxPrice.Text, out price))
-                {
+
+                // Категория из ComboBox
+                if (comboBoxCategory.SelectedValue != null)
+                    product.CategoryID = (Guid)comboBoxCategory.SelectedValue;
+
+                // Парсинг цены
+                if (decimal.TryParse(textBoxPrice.Text, out decimal price))
                     product.Price = price;
-                }
-                else
-                {
-                    MessageBox.Show(Resources.InvalidPriceFormat, Resources.Error,
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
 
-                int quantity;
-                if (int.TryParse(textBoxPrice.Text, out quantity))
-                {
-                    product.Quantity = quantity;
-                }
-                else
-                {
-                    product.Quantity = 0;
-                }
+                // Парсинг количества (исправлено: берем из textBoxQuantity)
+                if (int.TryParse(textBoxUnits.Text, out int qty))
+                    product.Quantity = qty;
 
-                DateTime expDate;
-                if (DateTime.TryParse(textBoxExpDate.Text, out expDate))
-                {
-                    product.ExpDate = expDate;
-                }
-                else
-                {
-                    product.ExpDate = DateTime.Now.AddYears(3);
-                }
+                // Срок годности
+                if (DateTime.TryParse(textBoxExpDate.Text, out DateTime exp))
+                    product.ExpDate = exp;
 
-                MeasurementUnits units;
-                if (textBoxUnits != null && Enum.TryParse(textBoxUnits.Text, out units))
-                {
-                    product.Units = units;
-                }
-                else
-                {
-                    product.Units = MeasurementUnits.Шт;
-                }
+                // Единицы измерения (Enum)
+                if (comboBoxType.SelectedItem != null)
+                    product.Units = (MeasurementUnits)comboBoxType.SelectedItem;
 
                 db.SaveChanges();
+                MessageBox.Show("Данные успешно сохранены!");
             }
         }
         private void LoadCategories()

@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -43,12 +43,12 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.comboBoxName = new System.Windows.Forms.ComboBox();
+            this.textBoxArtikul = new System.Windows.Forms.TextBox();
+            this.textBoxUnits = new System.Windows.Forms.TextBox();
+            this.textBoxClient = new System.Windows.Forms.TextBox();
             this.buttonAddProduct = new System.Windows.Forms.Button();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.comboBoxType = new System.Windows.Forms.ComboBox();
             this.buttonGenerateList = new System.Windows.Forms.Button();
             this.buttonBack = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
@@ -72,14 +72,14 @@
             this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnName,
@@ -202,40 +202,40 @@
             this.label4.TabIndex = 12;
             this.label4.Text = "Клиент";
             // 
-            // comboBox1
+            // comboBoxName
             // 
-            this.comboBox1.BackColor = System.Drawing.Color.White;
-            this.comboBox1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.comboBox1.ForeColor = System.Drawing.Color.White;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(557, 99);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(197, 24);
-            this.comboBox1.TabIndex = 13;
+            this.comboBoxName.BackColor = System.Drawing.Color.White;
+            this.comboBoxName.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.comboBoxName.ForeColor = System.Drawing.Color.White;
+            this.comboBoxName.FormattingEnabled = true;
+            this.comboBoxName.Location = new System.Drawing.Point(557, 99);
+            this.comboBoxName.Name = "comboBoxName";
+            this.comboBoxName.Size = new System.Drawing.Size(197, 24);
+            this.comboBoxName.TabIndex = 13;
             // 
-            // textBox1
+            // textBoxArtikul
             // 
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Location = new System.Drawing.Point(557, 134);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(197, 15);
-            this.textBox1.TabIndex = 30;
+            this.textBoxArtikul.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxArtikul.Location = new System.Drawing.Point(557, 134);
+            this.textBoxArtikul.Name = "textBoxArtikul";
+            this.textBoxArtikul.Size = new System.Drawing.Size(197, 15);
+            this.textBoxArtikul.TabIndex = 30;
             // 
-            // textBox2
+            // textBoxUnits
             // 
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox2.Location = new System.Drawing.Point(557, 167);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(197, 15);
-            this.textBox2.TabIndex = 16;
+            this.textBoxUnits.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxUnits.Location = new System.Drawing.Point(557, 167);
+            this.textBoxUnits.Name = "textBoxUnits";
+            this.textBoxUnits.Size = new System.Drawing.Size(197, 15);
+            this.textBoxUnits.TabIndex = 16;
             // 
-            // textBox3
+            // textBoxClient
             // 
-            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox3.Location = new System.Drawing.Point(557, 238);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(197, 15);
-            this.textBox3.TabIndex = 17;
+            this.textBoxClient.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxClient.Location = new System.Drawing.Point(557, 238);
+            this.textBoxClient.Name = "textBoxClient";
+            this.textBoxClient.Size = new System.Drawing.Size(197, 15);
+            this.textBoxClient.TabIndex = 17;
             // 
             // buttonAddProduct
             // 
@@ -251,16 +251,16 @@
             this.buttonAddProduct.UseVisualStyleBackColor = false;
             this.buttonAddProduct.Click += new System.EventHandler(this.buttonAddProduct_Click);
             // 
-            // comboBox2
+            // comboBoxType
             // 
-            this.comboBox2.BackColor = System.Drawing.Color.White;
-            this.comboBox2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.comboBox2.ForeColor = System.Drawing.Color.White;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(557, 199);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(197, 24);
-            this.comboBox2.TabIndex = 19;
+            this.comboBoxType.BackColor = System.Drawing.Color.White;
+            this.comboBoxType.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.comboBoxType.ForeColor = System.Drawing.Color.White;
+            this.comboBoxType.FormattingEnabled = true;
+            this.comboBoxType.Location = new System.Drawing.Point(557, 199);
+            this.comboBoxType.Name = "comboBoxType";
+            this.comboBoxType.Size = new System.Drawing.Size(197, 24);
+            this.comboBoxType.TabIndex = 19;
             // 
             // buttonGenerateList
             // 
@@ -297,12 +297,12 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.buttonBack);
             this.Controls.Add(this.buttonGenerateList);
-            this.Controls.Add(this.comboBox2);
+            this.Controls.Add(this.comboBoxType);
             this.Controls.Add(this.buttonAddProduct);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.textBoxClient);
+            this.Controls.Add(this.textBoxUnits);
+            this.Controls.Add(this.textBoxArtikul);
+            this.Controls.Add(this.comboBoxName);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -335,12 +335,12 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.ComboBox comboBoxName;
+        private System.Windows.Forms.TextBox textBoxArtikul;
+        private System.Windows.Forms.TextBox textBoxUnits;
+        private System.Windows.Forms.TextBox textBoxClient;
         private System.Windows.Forms.Button buttonAddProduct;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox comboBoxType;
         private System.Windows.Forms.Button buttonGenerateList;
         private System.Windows.Forms.Button buttonBack;
     }

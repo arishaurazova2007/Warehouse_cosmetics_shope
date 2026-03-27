@@ -27,7 +27,7 @@ namespace Warehouse_cosmetics_shope
             mainForm.Show();
             this.Hide();
         }
-        private void RegisterUser()
+        public void RegisterUser()
         {
             using (var db = new WarehouseContext())
             {
@@ -45,7 +45,7 @@ namespace Warehouse_cosmetics_shope
                 db.SaveChanges();
             }
         }
-        private bool ValidateRegistrationData()
+        public bool ValidateRegistrationData()
         {
             // Проверка Фамилии
             if (string.IsNullOrWhiteSpace(surnameBox.Text))

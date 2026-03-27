@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using Warehouse_cosmetics_shope.DataBaseClass;
 namespace Warehouse_cosmetics_shope
 {
     public partial class OtgruzkaForm : Form
@@ -31,7 +32,48 @@ namespace Warehouse_cosmetics_shope
         }
         private void AddProductToOtgruzka()
         {
-            // Добавление товара в отгрузку
+            using (var db = new WarehouseContext())
+            {
+                try
+                {
+                    // 1. Получаем GUID из текста (вместо SelectedValue)
+                    Guid selectedProdId = Guid.Parse(textBoxArtikul.Text.Trim());
+
+                    // 2. Получаем количество из поля (у вас оно textBoxUnits)
+                    int quantityToShip = int.Parse(textBoxUnits.Text);
+
+                    // 3. Ищем товар в БД
+                    var product = db.Items.Find(selectedProdId);
+
+                    if (product != null)
+                    {
+                        // 4. Проверяем остаток
+                        if (product.Quantity >= quantityToShip)
+                        {
+                            product.Quantity -= quantityToShip;
+                            db.SaveChanges(); // Фиксируем изменения в БД
+
+                            MessageBox.Show("Успешно: товар списан со склада.");
+
+                            // Очищаем поля для удобства
+                            textBoxArtikul.Clear();
+                            textBoxUnits.Clear();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ошибка: Недостаточно товара на складе!");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка: Товар с таким артикулом не найден.");
+                    }
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Ошибка: Проверьте правильность ввода артикула и количества.");
+                }
+            }
         }
         private void GenerateShipmentList()
         {

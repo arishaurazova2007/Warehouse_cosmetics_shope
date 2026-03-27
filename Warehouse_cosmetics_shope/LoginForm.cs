@@ -48,7 +48,7 @@ namespace Warehouse_cosmetics_shope
                 }
             }
         }
-        private Guid AuthenticateUser()
+        public Guid AuthenticateUser()
         {
             using (var db = new WarehouseContext())
             {
@@ -63,7 +63,7 @@ namespace Warehouse_cosmetics_shope
                 return Guid.Empty;
             }
         }
-        private Roles GetUserRole(Guid userId)
+        public Roles GetUserRole(Guid userId)
         {
             using (var db = new WarehouseContext())
             {
@@ -76,7 +76,7 @@ namespace Warehouse_cosmetics_shope
             }
         }
         // Проверка данных перед авторизацией
-        private bool ValidateLoginData()
+        public bool ValidateLoginData()
         {
             // Проверка ID
             if (string.IsNullOrWhiteSpace(IdTextBox.Text))

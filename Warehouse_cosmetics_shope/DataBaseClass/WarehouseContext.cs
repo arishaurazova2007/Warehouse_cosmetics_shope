@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 namespace Warehouse_cosmetics_shope.DataBaseClass
 {
     /// <summary>
@@ -13,7 +14,7 @@ namespace Warehouse_cosmetics_shope.DataBaseClass
         /// </summary>
         public WarehouseContext() : base("WarehouseContext")
         {
-            Database.SetInitializer(new CreateDatabaseIfNotExists<WarehouseContext>());
+            Database.SetInitializer<WarehouseContext>(null);
         }
         /// <summary> 
         /// Таблица клиентов склада
