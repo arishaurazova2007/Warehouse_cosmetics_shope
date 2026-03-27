@@ -142,6 +142,15 @@ namespace Warehouse_cosmetics_shope {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Неверный формат цены.
+        /// </summary>
+        internal static string InvalidPriceFormat {
+            get {
+                return ResourceManager.GetString("InvalidPriceFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Ошибка авторизации.
         /// </summary>
         internal static string LoginErrorTitle {

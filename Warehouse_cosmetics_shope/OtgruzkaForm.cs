@@ -25,7 +25,7 @@ namespace Warehouse_cosmetics_shope
         }
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            var catalogForm = new CatalogFormKlad();
+            var catalogForm = new CatalogFormKlad(currentUserId);
             catalogForm.Show();
             this.Hide();
         }

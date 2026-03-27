@@ -144,6 +144,9 @@
   <data name="InvalidCredentials" xml:space="preserve">
     <value>Неверный ID или пароль</value>
   </data>
+  <data name="InvalidPriceFormat" xml:space="preserve">
+    <value>Неверный формат цены</value>
+  </data>
   <data name="LoginErrorTitle" xml:space="preserve">
     <value>Ошибка авторизации</value>
   </data>

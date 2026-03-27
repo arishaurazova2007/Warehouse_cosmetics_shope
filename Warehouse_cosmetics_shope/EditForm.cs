@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.Linq;
 using Warehouse_cosmetics_shope.DataBaseClass;
+using Warehouse_cosmetics_shope.Properties;
 namespace Warehouse_cosmetics_shope
 {
     public partial class EditForm : Form
@@ -91,7 +92,7 @@ namespace Warehouse_cosmetics_shope
                 }
                 else
                 {
-                    MessageBox.Show("Неверный формат цены", "Ошибка",
+                    MessageBox.Show(Resources.InvalidPriceFormat, Resources.Error,
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }

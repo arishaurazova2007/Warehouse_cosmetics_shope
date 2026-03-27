@@ -15,7 +15,6 @@ namespace Warehouse_cosmetics_shope
         private void buttonBack_Click(object sender, EventArgs e)
         {
             var mainForm = new MainForm();
-
             mainForm.Show();
             this.Hide();
         }
@@ -35,7 +34,7 @@ namespace Warehouse_cosmetics_shope
                     }
                     else if (userRole == Roles.Кладовщик)
                     {
-                        var catalogForm = new CatalogFormKlad();
+                        var catalogForm = new CatalogFormKlad(userId);
                         catalogForm.Show();
                         this.Hide();
                     }

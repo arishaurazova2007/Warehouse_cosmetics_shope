@@ -268,6 +268,7 @@
             this.Deletebutton.TabIndex = 20;
             this.Deletebutton.Text = "Удалить товар";
             this.Deletebutton.UseVisualStyleBackColor = false;
+            this.Deletebutton.Click += new System.EventHandler(this.Deletebutton_Click);
             // 
             // EditForm
             // 
