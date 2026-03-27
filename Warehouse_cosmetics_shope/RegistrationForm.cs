@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using Warehouse_cosmetics_shope.Properties;
+using Warehouse_cosmetics_shope.DataBaseClass;
 namespace Warehouse_cosmetics_shope
 {
     public partial class RegistrationForm : Form
@@ -29,7 +29,21 @@ namespace Warehouse_cosmetics_shope
         }
         private void RegisterUser()
         {
-            // Регистрация пользователя
+            using (var db = new WarehouseContext())
+            {
+                var newUser = new User
+                {
+                    UserID = Guid.NewGuid(),
+                    Surname = surnameBox.Text.Trim(),
+                    Name = nameBox.Text.Trim(),
+                    Patronymic = patronimicBox.Text.Trim(),
+                    Password = BCrypt.Net.BCrypt.HashPassword(passwordBox.Text),
+                    Role = Roles.Кладовщик 
+                };
+
+                db.Users.Add(newUser);
+                db.SaveChanges();
+            }
         }
         private bool ValidateRegistrationData()
         {
@@ -77,7 +91,7 @@ namespace Warehouse_cosmetics_shope
         }
         private void RegistrationForm_Load(object sender, EventArgs e)
         {
-            // Настроим поля при загрузке
+            passwordBox.PasswordChar = '*';
         }
     }
 }

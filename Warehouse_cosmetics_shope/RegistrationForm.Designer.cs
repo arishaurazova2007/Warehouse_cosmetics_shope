@@ -32,8 +32,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.buttonRegister = new System.Windows.Forms.Button();
+            this.buttonBack = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.passwordBox = new System.Windows.Forms.TextBox();
             this.patronimicBox = new System.Windows.Forms.TextBox();
@@ -81,26 +81,27 @@
             this.label6.TabIndex = 5;
             this.label6.Text = "Пароль";
             // 
-            // button1
+            // buttonRegister
             // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(3, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(199, 34);
-            this.button1.TabIndex = 11;
-            this.button1.Text = "Зарегистрироваться";
-            this.button1.UseVisualStyleBackColor = true;
+            this.buttonRegister.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonRegister.Location = new System.Drawing.Point(3, 3);
+            this.buttonRegister.Name = "buttonRegister";
+            this.buttonRegister.Size = new System.Drawing.Size(199, 34);
+            this.buttonRegister.TabIndex = 11;
+            this.buttonRegister.Text = "Зарегистрироваться";
+            this.buttonRegister.UseVisualStyleBackColor = true;
+            this.buttonRegister.Click += new System.EventHandler(this.buttonRegister_Click);
             // 
-            // button2
+            // buttonBack
             // 
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button2.Location = new System.Drawing.Point(332, 367);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(199, 34);
-            this.button2.TabIndex = 12;
-            this.button2.Text = "Назад";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.buttonBack_Click);
+            this.buttonBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonBack.Location = new System.Drawing.Point(332, 367);
+            this.buttonBack.Name = "buttonBack";
+            this.buttonBack.Size = new System.Drawing.Size(199, 34);
+            this.buttonBack.TabIndex = 12;
+            this.buttonBack.Text = "Назад";
+            this.buttonBack.UseVisualStyleBackColor = true;
+            this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
             // 
             // panel1
             // 
@@ -163,7 +164,7 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
-            this.panel2.Controls.Add(this.button1);
+            this.panel2.Controls.Add(this.buttonRegister);
             this.panel2.Location = new System.Drawing.Point(139, 209);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(207, 40);
@@ -189,7 +190,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.labelWarehouse);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.buttonBack);
             this.Name = "RegistrationForm";
             this.Text = "Регистрация";
             this.panel1.ResumeLayout(false);
@@ -205,8 +206,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button buttonRegister;
+        private System.Windows.Forms.Button buttonBack;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label labelWarehouse;
         private System.Windows.Forms.Panel panel2;

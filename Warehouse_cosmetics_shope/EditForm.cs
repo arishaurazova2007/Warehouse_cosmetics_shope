@@ -51,9 +51,21 @@ namespace Warehouse_cosmetics_shope
                 {
                     textBoxProductName.Text = product.ProductName;
                     textBoxPrice.Text = product.Price.ToString();
-                    textBoxQuantity.Text = product.Quantity.ToString();
-                    //ExpDate.Value = product.ExpDate;
-                    
+                    textBoxExpDate.Text = product.ExpDate.ToString();
+
+                    // Безопасная установка значений для ComboBox
+                    if (comboBoxCategory != null)
+                    {
+                        comboBoxCategory.SelectedValue = product.CategoryID;
+                    }
+                    if (comboBoxType != null)
+                    {
+                        comboBoxType.SelectedItem = product.Units;
+                    }
+                    if (textBoxUnits != null)
+                    {
+                        textBoxUnits.Text = product.Units.ToString();
+                    }
                 }
             }
         }
@@ -72,19 +84,72 @@ namespace Warehouse_cosmetics_shope
                     product = db.Items.Find(productId);
                 }
                 product.ProductName = textBoxProductName.Text;
-                product.Price = decimal.Parse(textBoxPrice.Text);
-                product.Quantity = int.Parse(textBoxQuantity.Text);
-                //product.ExpDate = ExpDate.Value;
+                decimal price;
+                if (decimal.TryParse(textBoxPrice.Text, out price))
+                {
+                    product.Price = price;
+                }
+                else
+                {
+                    MessageBox.Show("Неверный формат цены", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                int quantity;
+                if (int.TryParse(textBoxPrice.Text, out quantity))
+                {
+                    product.Quantity = quantity;
+                }
+                else
+                {
+                    product.Quantity = 0;
+                }
+
+                DateTime expDate;
+                if (DateTime.TryParse(textBoxExpDate.Text, out expDate))
+                {
+                    product.ExpDate = expDate;
+                }
+                else
+                {
+                    product.ExpDate = DateTime.Now.AddYears(3);
+                }
+
+                MeasurementUnits units;
+                if (textBoxUnits != null && Enum.TryParse(textBoxUnits.Text, out units))
+                {
+                    product.Units = units;
+                }
+                else
+                {
+                    product.Units = MeasurementUnits.Шт;
+                }
+
                 db.SaveChanges();
             }
         }
         private void LoadCategories()
         {
-            // Загрузка категорий в ComboBox (БД)
+            using (var db = new WarehouseContext())
+            {
+                var categories = db.Categories.Where(c => c.ParentID == null).ToList();
+                comboBoxCategory.DataSource = categories;
+                comboBoxCategory.DisplayMember = "CategoryName";
+                comboBoxCategory.ValueMember = "CategoryID";
+            }
         }
         private void LoadTypes()
         {
-            // Загрузка видов в ComboBox (БД)
+            if (comboBoxType != null)
+            {
+                var units = Enum.GetValues(typeof(MeasurementUnits)).Cast<MeasurementUnits>().ToList();
+                comboBoxType.DataSource = units;
+            }
+            if (textBoxUnits != null)
+            {
+                textBoxUnits.Text = MeasurementUnits.Шт.ToString(); // Значение по умолчанию
+            }
         }
         private void EditForm_Load(object sender, EventArgs e)
         {
@@ -110,17 +175,26 @@ namespace Warehouse_cosmetics_shope
         }
         private void DeleteProductFromCatalog()
         {
-            // удаление - установка флага IsDeleted = true
+            using (var db = new WarehouseContext())
+            {
+                var product = db.Items.Find(productId);
+                if (product != null)
+                {
+                    db.Items.Remove(product);
+                    db.SaveChanges();
+                }
+            }
         }
         private void LogDeletionToHistory()
         {
-            // Запись в историю изменений (удаление не удаляет историю)
-            
+            // TODO: Добавить запись в таблицу истории
+            // Пример:
+            // db.HistoryChanges.Add(new HistoryChange {
+            //     ProductId = productId,
+            //     UserId = currentUserId,
+            //     ActionType = "Delete",
+            //     ActionDate = DateTime.Now
+            // });
         }
     }
-
-
-
-
-
 }

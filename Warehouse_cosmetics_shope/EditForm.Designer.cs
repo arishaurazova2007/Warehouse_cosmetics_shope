@@ -40,13 +40,13 @@
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonBack = new System.Windows.Forms.Button();
             this.textBoxProductName = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBoxQuantity = new System.Windows.Forms.TextBox();
+            this.textBoxArtikul = new System.Windows.Forms.TextBox();
+            this.textBoxExpDate = new System.Windows.Forms.TextBox();
+            this.textBoxUnits = new System.Windows.Forms.TextBox();
             this.textBoxPrice = new System.Windows.Forms.TextBox();
             this.textBox6 = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.comboBoxCategory = new System.Windows.Forms.ComboBox();
+            this.comboBoxType = new System.Windows.Forms.ComboBox();
             this.buttonEditCategory = new System.Windows.Forms.Button();
             this.Deletebutton = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -184,29 +184,29 @@
             this.textBoxProductName.Size = new System.Drawing.Size(281, 15);
             this.textBoxProductName.TabIndex = 11;
             // 
-            // textBox2
+            // textBoxArtikul
             // 
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox2.Location = new System.Drawing.Point(292, 133);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(281, 15);
-            this.textBox2.TabIndex = 12;
+            this.textBoxArtikul.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxArtikul.Location = new System.Drawing.Point(292, 133);
+            this.textBoxArtikul.Name = "textBoxArtikul";
+            this.textBoxArtikul.Size = new System.Drawing.Size(281, 15);
+            this.textBoxArtikul.TabIndex = 12;
             // 
-            // textBox3
+            // textBoxExpDate
             // 
-            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox3.Location = new System.Drawing.Point(292, 240);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(281, 15);
-            this.textBox3.TabIndex = 13;
+            this.textBoxExpDate.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxExpDate.Location = new System.Drawing.Point(292, 240);
+            this.textBoxExpDate.Name = "textBoxExpDate";
+            this.textBoxExpDate.Size = new System.Drawing.Size(281, 15);
+            this.textBoxExpDate.TabIndex = 13;
             // 
-            // textBoxQuantity
+            // textBoxUnits
             // 
-            this.textBoxQuantity.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBoxQuantity.Location = new System.Drawing.Point(292, 273);
-            this.textBoxQuantity.Name = "textBoxQuantity";
-            this.textBoxQuantity.Size = new System.Drawing.Size(281, 15);
-            this.textBoxQuantity.TabIndex = 14;
+            this.textBoxUnits.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxUnits.Location = new System.Drawing.Point(292, 273);
+            this.textBoxUnits.Name = "textBoxUnits";
+            this.textBoxUnits.Size = new System.Drawing.Size(281, 15);
+            this.textBoxUnits.TabIndex = 14;
             // 
             // textBoxPrice
             // 
@@ -226,23 +226,23 @@
             this.textBox6.Size = new System.Drawing.Size(281, 15);
             this.textBox6.TabIndex = 16;
             // 
-            // comboBox1
+            // comboBoxCategory
             // 
-            this.comboBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(292, 166);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(281, 24);
-            this.comboBox1.TabIndex = 17;
+            this.comboBoxCategory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBoxCategory.FormattingEnabled = true;
+            this.comboBoxCategory.Location = new System.Drawing.Point(292, 166);
+            this.comboBoxCategory.Name = "comboBoxCategory";
+            this.comboBoxCategory.Size = new System.Drawing.Size(281, 24);
+            this.comboBoxCategory.TabIndex = 17;
             // 
-            // comboBox2
+            // comboBoxType
             // 
-            this.comboBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(292, 202);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(281, 24);
-            this.comboBox2.TabIndex = 18;
+            this.comboBoxType.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBoxType.FormattingEnabled = true;
+            this.comboBoxType.Location = new System.Drawing.Point(292, 202);
+            this.comboBoxType.Name = "comboBoxType";
+            this.comboBoxType.Size = new System.Drawing.Size(281, 24);
+            this.comboBoxType.TabIndex = 18;
             // 
             // buttonEditCategory
             // 
@@ -277,13 +277,13 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.Deletebutton);
             this.Controls.Add(this.buttonEditCategory);
-            this.Controls.Add(this.comboBox2);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.comboBoxType);
+            this.Controls.Add(this.comboBoxCategory);
             this.Controls.Add(this.textBox6);
             this.Controls.Add(this.textBoxPrice);
-            this.Controls.Add(this.textBoxQuantity);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.textBoxUnits);
+            this.Controls.Add(this.textBoxExpDate);
+            this.Controls.Add(this.textBoxArtikul);
             this.Controls.Add(this.textBoxProductName);
             this.Controls.Add(this.buttonBack);
             this.Controls.Add(this.buttonSave);
@@ -317,13 +317,13 @@
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonBack;
         private System.Windows.Forms.TextBox textBoxProductName;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBoxQuantity;
+        private System.Windows.Forms.TextBox textBoxArtikul;
+        private System.Windows.Forms.TextBox textBoxExpDate;
+        private System.Windows.Forms.TextBox textBoxUnits;
         private System.Windows.Forms.TextBox textBoxPrice;
         private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox comboBoxCategory;
+        private System.Windows.Forms.ComboBox comboBoxType;
         private System.Windows.Forms.Button buttonEditCategory;
         private System.Windows.Forms.Button Deletebutton;
     }

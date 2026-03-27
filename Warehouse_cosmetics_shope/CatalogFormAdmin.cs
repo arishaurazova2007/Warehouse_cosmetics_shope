@@ -15,7 +15,7 @@ namespace Warehouse_cosmetics_shope
         }
         private void buttonPlus_Click(object sender, EventArgs e)
         {
-            var editForm = new EditForm();
+            var editForm = new EditForm(Guid.Empty, currentUserId);
             editForm.Show();
             this.Hide();
         }
