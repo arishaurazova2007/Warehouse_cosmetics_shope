@@ -265,6 +265,7 @@
             this.buttonShow.TabIndex = 24;
             this.buttonShow.Text = "Показать";
             this.buttonShow.UseVisualStyleBackColor = false;
+            this.buttonShow.Click += new System.EventHandler(this.buttonShow_Click);
             // 
             // FiltrationForm
             // 

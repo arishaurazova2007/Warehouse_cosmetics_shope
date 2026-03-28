@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using Warehouse_cosmetics_shope.DataBaseClass;
+using Warehouse_cosmetics_shope.Properties;
 namespace Warehouse_cosmetics_shope
 {
     public partial class RegistrationForm : Form

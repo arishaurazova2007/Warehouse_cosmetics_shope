@@ -117,11 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CategoryAdded" xml:space="preserve">
+    <value>Категория успешно добавлена!</value>
+  </data>
+  <data name="CategoryAlreadyExists" xml:space="preserve">
+    <value>Категория с таким названием уже существует!</value>
+  </data>
   <data name="ConfirmDelete" xml:space="preserve">
     <value>Вы уверены, что хотите удалить этот товар?</value>
   </data>
   <data name="ConfirmDeleteTitle" xml:space="preserve">
     <value>Подтверждение удаления</value>
+  </data>
+  <data name="EnterCategoryName" xml:space="preserve">
+    <value>Введите название категории</value>
   </data>
   <data name="EnterEmployeeId" xml:space="preserve">
     <value>Введите ID сотрудника</value>
@@ -141,22 +150,73 @@
   <data name="Error" xml:space="preserve">
     <value>Ошибка</value>
   </data>
+  <data name="ErrorAddingCategory" xml:space="preserve">
+    <value>Ошибка при добавлении категории: {0}</value>
+  </data>
+  <data name="ErrorAddingProduct" xml:space="preserve">
+    <value>Ошибка при добавлении товара: {0}</value>
+  </data>
+  <data name="ErrorGeneratingShipment" xml:space="preserve">
+    <value>Ошибка при формировании отгрузки: {0}</value>
+  </data>
+  <data name="ErrorLoadingCategories" xml:space="preserve">
+    <value>Ошибка загрузки категорий: {0}</value>
+  </data>
+  <data name="ErrorLoadingHistory" xml:space="preserve">
+    <value>Ошибка загрузки истории: {0}</value>
+  </data>
+  <data name="InsufficientStock" xml:space="preserve">
+    <value>Недостаточно товара на складе! Доступно: {0} шт.</value>
+  </data>
   <data name="InvalidCredentials" xml:space="preserve">
     <value>Неверный ID или пароль</value>
   </data>
   <data name="InvalidPriceFormat" xml:space="preserve">
     <value>Неверный формат цены</value>
   </data>
+  <data name="InvalidQuantity" xml:space="preserve">
+    <value>Введите корректное количество (больше 0)</value>
+  </data>
   <data name="LoginErrorTitle" xml:space="preserve">
     <value>Ошибка авторизации</value>
   </data>
+  <data name="NoProductsInShipment" xml:space="preserve">
+    <value>В списке отгрузки нет товаров. Добавьте товары сначала.</value>
+  </data>
   <data name="PasswordTooShort" xml:space="preserve">
     <value>Пароль должен быть не менее 6 символов</value>
+  </data>
+  <data name="ProductAddedToShipment" xml:space="preserve">
+    <value>Товар успешно добавлен в отгрузку</value>
+  </data>
+  <data name="ProductNotFound" xml:space="preserve">
+    <value>Товар не найден в базе данных</value>
+  </data>
+  <data name="ProductSaved" xml:space="preserve">
+    <value>Данные успешно сохранены!</value>
   </data>
   <data name="Registration" xml:space="preserve">
     <value>Регистрация</value>
   </data>
   <data name="RegistrationSuccess" xml:space="preserve">
     <value>Регистрация прошла успешно!</value>
+  </data>
+  <data name="SelectClient" xml:space="preserve">
+    <value>Выберите клиента</value>
+  </data>
+  <data name="SelectProduct" xml:space="preserve">
+    <value>Выберите товар из списка</value>
+  </data>
+  <data name="ShipmentListGenerated" xml:space="preserve">
+    <value>Список отгрузки успешно сформирован!</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Успех</value>
+  </data>
+  <data name="UnknownUser" xml:space="preserve">
+    <value>Неизвестный пользователь</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Предупреждение</value>
   </data>
 </root>

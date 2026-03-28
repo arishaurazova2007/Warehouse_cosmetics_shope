@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Data.Entity;
+using Warehouse_cosmetics_shope.DataBaseClass;
 namespace Warehouse_cosmetics_shope
 {
     public partial class FiltrationForm : Form
@@ -45,12 +47,19 @@ namespace Warehouse_cosmetics_shope
         }
         private void ResetFilter()
         {
-            foreach (Control control in this.Controls)
-            {
-                if (control is CheckBox cb) cb.Checked = false;
-                if (control is TextBox tb) tb.Clear();
-            }
-            // Можно сразу отправить пустой фильтр, чтобы показать все товары
+            checkBoxPerfumeMen.Checked = false;
+            checkBoxPerfumeWomen.Checked = false;
+            checkBoxCosmetics.Checked = false;
+            checkBoxPerfume.Checked = false;
+            checkBoxPerfumeWater.Checked = false;
+            checkBoxToiletWater.Checked = false;
+            checkBoxCare.Checked = false;
+            checkBoxDecor.Checked = false;
+            checkBoxInStock.Checked = false;
+            checkBoxNotInStock.Checked = false;
+            textBoxPriceFrom.Clear();
+            textBoxPriceTo.Clear();
+            // Отправим пустой фильтр
             OnFilterApplied?.Invoke(new FilterCriteria());
         }
         private void LoadAllProducts()

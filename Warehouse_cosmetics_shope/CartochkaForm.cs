@@ -33,6 +33,9 @@ namespace Warehouse_cosmetics_shope
                         textBoxArtikul.Text = product.ProductID.ToString();
                         textBoxCategory.Text = product.Category?.CategoryName;
                         textBoxUnits.Text = product.Units.ToString();
+                        textBoxType.Text = product.Category?.CategoryName; 
+                        textBoxExpDate.Text = product.ExpDate.ToString("dd.MM.yyyy");  
+                        textBoxUnits.Text = product.Units.ToString();
                         textBoxPrise.Text = product.Price.ToString();
                         textBoxOstat.Text = product.Quantity.ToString();
                     }
@@ -52,7 +55,7 @@ namespace Warehouse_cosmetics_shope
         {
             CatalogFormKlad catalogForm = new CatalogFormKlad(currentUserId);
             catalogForm.Show();
-            this.Close();
+            this.Hide();
         }
     }
 }

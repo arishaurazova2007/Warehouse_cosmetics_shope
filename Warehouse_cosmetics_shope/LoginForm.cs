@@ -53,9 +53,15 @@ namespace Warehouse_cosmetics_shope
             using (var db = new WarehouseContext())
             {
                 var inputId = IdTextBox.Text.Trim();
-                var user = db.Users.FirstOrDefault(u =>
-                    (u.Surname + " " + u.Name + " " + u.Patronymic).Trim() == inputId ||
-                    u.UserID.ToString() == inputId);
+                // загружаю ВСЕХ пользователей
+                var users = db.Users.ToList();
+                // фильтрую в памяти
+                var user = users.FirstOrDefault(u =>
+                {
+                    var fullName = $"{u.Surname ?? ""} {u.Name ?? ""} {u.Patronymic ?? ""}".Trim();
+                    return fullName == inputId || u.UserID.ToString() == inputId;
+                });
+
                 if (user != null && BCrypt.Net.BCrypt.Verify(textBoxPassword.Text, user.Password))
                 {
                     return user.UserID;

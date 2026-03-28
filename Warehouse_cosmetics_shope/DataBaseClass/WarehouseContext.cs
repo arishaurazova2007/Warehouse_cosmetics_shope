@@ -40,5 +40,9 @@ namespace Warehouse_cosmetics_shope.DataBaseClass
         /// Детализированный состав каждой отгрузки
         /// </summary>
         public DbSet<ShipmentComposition> ShipmentCompositions { get; set; }
+        /// <summary>
+        /// Журнал истории изменений товаров
+        /// </summary>
+        public DbSet<HistoryChange> HistoryChanges { get; set; }
     }
 }

@@ -39,11 +39,10 @@ namespace Warehouse_cosmetics_shope
         }
         private void buttonEditCategory_Click(object sender, EventArgs e)
         {
-            var editCategoryForm = new EditCategoryForm();
+            var editCategoryForm = new EditCategoryForm(Guid.Empty, currentUserId);  // ✅ С параметрами!
             editCategoryForm.Show();
             this.Hide();
         }
-
         private void SaveProduct()
         {
             using (var db = new WarehouseContext())
@@ -62,29 +61,30 @@ namespace Warehouse_cosmetics_shope
                 if (product == null) return;
 
                 product.ProductName = textBoxProductName.Text;
-
-                // Категория из ComboBox
                 if (comboBoxCategory.SelectedValue != null)
                     product.CategoryID = (Guid)comboBoxCategory.SelectedValue;
-
-                // Парсинг цены
                 if (decimal.TryParse(textBoxPrice.Text, out decimal price))
                     product.Price = price;
-
-                // Парсинг количества (исправлено: берем из textBoxQuantity)
                 if (int.TryParse(textBoxUnits.Text, out int qty))
                     product.Quantity = qty;
-
-                // Срок годности
                 if (DateTime.TryParse(textBoxExpDate.Text, out DateTime exp))
                     product.ExpDate = exp;
-
-                // Единицы измерения (Enum)
                 if (comboBoxType.SelectedItem != null)
                     product.Units = (MeasurementUnits)comboBoxType.SelectedItem;
-
                 db.SaveChanges();
-                MessageBox.Show("Данные успешно сохранены!");
+                // Логирование создания/обновления
+                db.HistoryChanges.Add(new HistoryChange
+                {
+                    HistoryID = Guid.NewGuid(),
+                    ProductID = product.ProductID,
+                    UserID = currentUserId,
+                    ActionType = (productId == Guid.Empty) ? "Create" : "Update",
+                    Details = (productId == Guid.Empty) ? "Создан новый товар" : "Обновлены данные товара",
+                    ActionDate = DateTime.Now
+                });
+                db.SaveChanges();
+                MessageBox.Show(Resources.ProductSaved, Resources.Success,
+    MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
         private void LoadCategories()
@@ -156,9 +156,7 @@ namespace Warehouse_cosmetics_shope
                 {
                     textBoxProductName.Text = product.ProductName;
                     textBoxPrice.Text = product.Price.ToString();
-                    textBoxExpDate.Text = product.ExpDate.ToString();
-
-                    // Безопасная установка значений для ComboBox
+                    textBoxExpDate.Text = product.ExpDate.ToString("dd.MM.yyyy");
                     if (comboBoxCategory != null)
                     {
                         comboBoxCategory.SelectedValue = product.CategoryID;
@@ -176,14 +174,19 @@ namespace Warehouse_cosmetics_shope
         }
         private void LogDeletionToHistory()
         {
-            // TODO: Добавить запись в таблицу истории
-            // Пример:
-            // db.HistoryChanges.Add(new HistoryChange {
-            //     ProductId = productId,
-            //     UserId = currentUserId,
-            //     ActionType = "Delete",
-            //     ActionDate = DateTime.Now
-            // });
+            using (var db = new WarehouseContext())
+            {
+                db.HistoryChanges.Add(new HistoryChange
+                {
+                    HistoryID = Guid.NewGuid(),
+                    ProductID = productId,
+                    UserID = currentUserId,
+                    ActionType = "Delete",
+                    Details = "Товар удалён из каталога",
+                    ActionDate = DateTime.Now
+                });
+                db.SaveChanges();
+            }
         }
     }
 }

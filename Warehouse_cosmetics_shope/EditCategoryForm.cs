@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Forms;
 using Warehouse_cosmetics_shope.DataBaseClass;
+using System.Data.Entity;
 namespace Warehouse_cosmetics_shope
 {
     public partial class EditCategoryForm : Form
@@ -23,27 +24,27 @@ namespace Warehouse_cosmetics_shope
         private void buttonSave_Click(object sender, EventArgs e)
         {
             SaveCategory();
-            var editForm = new EditForm();
-            editForm.Show();
+            var catalogForm = new CatalogFormAdmin(currentUserId);  // ✅ ИСПРАВЛЕНО
+            catalogForm.Show();
             this.Hide();
         }
         private void buttonNewCategory_Click(object sender, EventArgs e)
         {
-            var newCategoryForm = new NewCategoryForm();
+            var newCategoryForm = new NewCategoryForm(currentUserId);  // ✅ С параметром!
             newCategoryForm.Show();
             this.Hide();
         }
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-            DeleteCategory(); // Метод для БД
-            var editForm = new EditForm();
-            editForm.Show();
+            DeleteCategory();
+            var catalogForm = new CatalogFormAdmin(currentUserId);  // ✅ ИСПРАВЛЕНО
+            catalogForm.Show();
             this.Hide();
         }
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            var editForm = new EditForm();
-            editForm.Show();
+            var catalogForm = new CatalogFormAdmin(currentUserId);  // ✅ ИСПРАВЛЕНО
+            catalogForm.Show();
             this.Hide();
         }
         private void LoadCategoryData()

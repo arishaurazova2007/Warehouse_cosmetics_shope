@@ -61,6 +61,24 @@ namespace Warehouse_cosmetics_shope {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Категория успешно добавлена!.
+        /// </summary>
+        internal static string CategoryAdded {
+            get {
+                return ResourceManager.GetString("CategoryAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Категория с таким названием уже существует!.
+        /// </summary>
+        internal static string CategoryAlreadyExists {
+            get {
+                return ResourceManager.GetString("CategoryAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Вы уверены, что хотите удалить этот товар?.
         /// </summary>
         internal static string ConfirmDelete {
@@ -75,6 +93,15 @@ namespace Warehouse_cosmetics_shope {
         internal static string ConfirmDeleteTitle {
             get {
                 return ResourceManager.GetString("ConfirmDeleteTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Введите название категории.
+        /// </summary>
+        internal static string EnterCategoryName {
+            get {
+                return ResourceManager.GetString("EnterCategoryName", resourceCulture);
             }
         }
         
@@ -133,6 +160,60 @@ namespace Warehouse_cosmetics_shope {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Ошибка при добавлении категории: {0}.
+        /// </summary>
+        internal static string ErrorAddingCategory {
+            get {
+                return ResourceManager.GetString("ErrorAddingCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Ошибка при добавлении товара: {0}.
+        /// </summary>
+        internal static string ErrorAddingProduct {
+            get {
+                return ResourceManager.GetString("ErrorAddingProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Ошибка при формировании отгрузки: {0}.
+        /// </summary>
+        internal static string ErrorGeneratingShipment {
+            get {
+                return ResourceManager.GetString("ErrorGeneratingShipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Ошибка загрузки категорий: {0}.
+        /// </summary>
+        internal static string ErrorLoadingCategories {
+            get {
+                return ResourceManager.GetString("ErrorLoadingCategories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Ошибка загрузки истории: {0}.
+        /// </summary>
+        internal static string ErrorLoadingHistory {
+            get {
+                return ResourceManager.GetString("ErrorLoadingHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Недостаточно товара на складе! Доступно: {0} шт..
+        /// </summary>
+        internal static string InsufficientStock {
+            get {
+                return ResourceManager.GetString("InsufficientStock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Неверный ID или пароль.
         /// </summary>
         internal static string InvalidCredentials {
@@ -151,6 +232,15 @@ namespace Warehouse_cosmetics_shope {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Введите корректное количество (больше 0).
+        /// </summary>
+        internal static string InvalidQuantity {
+            get {
+                return ResourceManager.GetString("InvalidQuantity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Ошибка авторизации.
         /// </summary>
         internal static string LoginErrorTitle {
@@ -160,11 +250,47 @@ namespace Warehouse_cosmetics_shope {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на В списке отгрузки нет товаров. Добавьте товары сначала..
+        /// </summary>
+        internal static string NoProductsInShipment {
+            get {
+                return ResourceManager.GetString("NoProductsInShipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Пароль должен быть не менее 6 символов.
         /// </summary>
         internal static string PasswordTooShort {
             get {
                 return ResourceManager.GetString("PasswordTooShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Товар успешно добавлен в отгрузку.
+        /// </summary>
+        internal static string ProductAddedToShipment {
+            get {
+                return ResourceManager.GetString("ProductAddedToShipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Товар не найден в базе данных.
+        /// </summary>
+        internal static string ProductNotFound {
+            get {
+                return ResourceManager.GetString("ProductNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Данные успешно сохранены!.
+        /// </summary>
+        internal static string ProductSaved {
+            get {
+                return ResourceManager.GetString("ProductSaved", resourceCulture);
             }
         }
         
@@ -183,6 +309,60 @@ namespace Warehouse_cosmetics_shope {
         internal static string RegistrationSuccess {
             get {
                 return ResourceManager.GetString("RegistrationSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Выберите клиента.
+        /// </summary>
+        internal static string SelectClient {
+            get {
+                return ResourceManager.GetString("SelectClient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Выберите товар из списка.
+        /// </summary>
+        internal static string SelectProduct {
+            get {
+                return ResourceManager.GetString("SelectProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Список отгрузки успешно сформирован!.
+        /// </summary>
+        internal static string ShipmentListGenerated {
+            get {
+                return ResourceManager.GetString("ShipmentListGenerated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Успех.
+        /// </summary>
+        internal static string Success {
+            get {
+                return ResourceManager.GetString("Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Неизвестный пользователь.
+        /// </summary>
+        internal static string UnknownUser {
+            get {
+                return ResourceManager.GetString("UnknownUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Предупреждение.
+        /// </summary>
+        internal static string Warning {
+            get {
+                return ResourceManager.GetString("Warning", resourceCulture);
             }
         }
     }

@@ -128,6 +128,7 @@
             this.Controls.Add(this.label1);
             this.Name = "NewCategoryForm";
             this.Text = "Новая категория";
+            this.Click += new System.EventHandler(this.buttonAdd_Click);
             this.ResumeLayout(false);
             this.PerformLayout();
 

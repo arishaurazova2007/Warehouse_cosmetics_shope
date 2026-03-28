@@ -11,7 +11,7 @@ namespace Warehouse_cosmetics_shope
         {
             InitializeComponent();
             currentUserId = userId;
-
+            this.Load += new System.EventHandler(this.HistoryChangeForm_Load);
             dataGridViewHistory.AutoGenerateColumns = true;
             dataGridViewHistory.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
@@ -37,7 +37,8 @@ namespace Warehouse_cosmetics_shope
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка: " + ex.Message);
+                MessageBox.Show(string.Format(Resources.ErrorLoadingHistory, ex.Message),
+                    Resources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void HistoryChangeForm_Load(object sender, EventArgs e)
