@@ -36,18 +36,13 @@ namespace Warehouse_cosmetics_shope
             {
                 try
                 {
-                    // 1. Получаем GUID из текста (вместо SelectedValue)
                     Guid selectedProdId = Guid.Parse(textBoxArtikul.Text.Trim());
-
-                    // 2. Получаем количество из поля (у вас оно textBoxUnits)
                     int quantityToShip = int.Parse(textBoxUnits.Text);
-
-                    // 3. Ищем товар в БД
                     var product = db.Items.Find(selectedProdId);
 
                     if (product != null)
                     {
-                        // 4. Проверяем остаток
+                        //Проверяем остаток
                         if (product.Quantity >= quantityToShip)
                         {
                             product.Quantity -= quantityToShip;

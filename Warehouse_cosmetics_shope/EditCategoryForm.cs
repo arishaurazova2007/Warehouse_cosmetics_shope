@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
+using Warehouse_cosmetics_shope.DataBaseClass;
 namespace Warehouse_cosmetics_shope
 {
     public partial class EditCategoryForm : Form
@@ -46,15 +48,53 @@ namespace Warehouse_cosmetics_shope
         }
         private void LoadCategoryData()
         {
-            // код для загрузки данных из БД
+            if (categoryId == Guid.Empty) return;
+
+            using (var db = new WarehouseContext())
+            {
+                var category = db.Categories.FirstOrDefault(c => c.CategoryID == categoryId);
+                if (category != null)
+                {
+                    textBoxCategoryName.Text = category.CategoryName;
+                }
+            }
         }
         private void SaveCategory()
         {
-            //код для сохранения в БД
+            string newName = textBoxCategoryName.Text.Trim();
+            if (string.IsNullOrEmpty(newName))
+            {
+                MessageBox.Show("Название не может быть пустым!");
+                return;
+            }
+
+            using (var db = new WarehouseContext())
+            {
+                var category = db.Categories.FirstOrDefault(c => c.CategoryID == categoryId);
+                if (category != null)
+                {
+                    category.CategoryName = newName;
+                    db.SaveChanges();
+                    MessageBox.Show("Категория обновлена!");
+                }
+            }
         }
         private void DeleteCategory()
         {
+            var result = MessageBox.Show("Вы уверены? Все товары этой категории останутся без привязки!", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
+            if (result == DialogResult.Yes)
+            {
+                using (var db = new WarehouseContext())
+                {
+                    var category = db.Categories.FirstOrDefault(c => c.CategoryID == categoryId);
+                    if (category != null)
+                    {
+                        db.Categories.Remove(category);
+                        db.SaveChanges();
+                    }
+                }
+            }
         }
         private void EditCategoryForm_Load(object sender, EventArgs e)
         {

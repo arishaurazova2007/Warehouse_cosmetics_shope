@@ -43,33 +43,7 @@ namespace Warehouse_cosmetics_shope
             editCategoryForm.Show();
             this.Hide();
         }
-        private void LoadProductData()
-        {
-            using (var db = new WarehouseContext())
-            {
-                var product = db.Items.Include("Category").FirstOrDefault(p => p.ProductID == productId);
-                if (product != null)
-                {
-                    textBoxProductName.Text = product.ProductName;
-                    textBoxPrice.Text = product.Price.ToString();
-                    textBoxExpDate.Text = product.ExpDate.ToString();
 
-                    // Безопасная установка значений для ComboBox
-                    if (comboBoxCategory != null)
-                    {
-                        comboBoxCategory.SelectedValue = product.CategoryID;
-                    }
-                    if (comboBoxType != null)
-                    {
-                        comboBoxType.SelectedItem = product.Units;
-                    }
-                    if (textBoxUnits != null)
-                    {
-                        textBoxUnits.Text = product.Units.ToString();
-                    }
-                }
-            }
-        }
         private void SaveProduct()
         {
             using (var db = new WarehouseContext())
@@ -139,6 +113,10 @@ namespace Warehouse_cosmetics_shope
         {
             LoadCategories(); //  БД
             LoadTypes();      //  БД
+            if (productId != Guid.Empty)
+            {
+                LoadProductData();
+            }
         }
         private void Deletebutton_Click(object sender, EventArgs e)
         {
@@ -166,6 +144,33 @@ namespace Warehouse_cosmetics_shope
                 {
                     db.Items.Remove(product);
                     db.SaveChanges();
+                }
+            }
+        }
+        private void LoadProductData()
+        {
+            using (var db = new WarehouseContext())
+            {
+                var product = db.Items.Include("Category").FirstOrDefault(p => p.ProductID == productId);
+                if (product != null)
+                {
+                    textBoxProductName.Text = product.ProductName;
+                    textBoxPrice.Text = product.Price.ToString();
+                    textBoxExpDate.Text = product.ExpDate.ToString();
+
+                    // Безопасная установка значений для ComboBox
+                    if (comboBoxCategory != null)
+                    {
+                        comboBoxCategory.SelectedValue = product.CategoryID;
+                    }
+                    if (comboBoxType != null)
+                    {
+                        comboBoxType.SelectedItem = product.Units;
+                    }
+                    if (textBoxUnits != null)
+                    {
+                        textBoxUnits.Text = product.Units.ToString();
+                    }
                 }
             }
         }

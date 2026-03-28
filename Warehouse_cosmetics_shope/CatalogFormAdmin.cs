@@ -37,6 +37,7 @@ namespace Warehouse_cosmetics_shope
             using (var db = new WarehouseContext())
             {
                 var products = db.Items.Include("Category")
+
                     .Where(p => p.ProductName.Contains(searchText) ||
                                p.ProductID.ToString().Contains(searchText))
                     .ToList();
@@ -99,21 +100,44 @@ namespace Warehouse_cosmetics_shope
         }
         private void LoadCatalogData()
         {
-            using (var db = new WarehouseContext())
+            try
             {
-                var products = db.Items.Include("Category").ToList();
-                dataGridViewProducts.DataSource = products.Select(p => new
+                using (var db = new WarehouseContext())
                 {
-                    p.ProductID,
-                    p.ProductName,
-                    Категория = p.Category.CategoryName,
-                    p.Price,
-                    p.Quantity,
-                    p.Units,
-                    p.ExpDate
-                }).ToList();
+                    var products = db.Items.Include(p => p.Category).ToList();
+
+                    if (products.Count == 0)
+                    {
+                        MessageBox.Show("В каталоге пока нет товаров. Нажмите '+', чтобы добавить первый товар.");
+                        dataGridViewProducts.DataSource = null;
+                        return;
+                    }
+
+                    dataGridViewProducts.DataSource = products.Select(p => new
+                    {
+                        p.ProductID,               
+                        Название = p.ProductName,  
+                        Категория = p.Category,
+                        Вид = p.Units,             
+                        Цена = p.Price,            
+                        Остаток = p.Quantity,      
+                        Срок_годности = p.ExpDate 
+                    }).ToList();
+
+                    dataGridViewProducts.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Критическая ошибка при загрузке базы данных: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void CatalogFormAdmin_Load(object sender, EventArgs e)
+        {
+            LoadCatalogData();
+        }
+
         private void DataGridViewProducts_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)

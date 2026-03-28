@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
+using Warehouse_cosmetics_shope.DataBaseClass;
 namespace Warehouse_cosmetics_shope
 {
     public partial class NewCategoryForm : Form
@@ -29,10 +31,27 @@ namespace Warehouse_cosmetics_shope
         }
         private void AddCategory()
         {
+            
         }
         private void LoadParentCategories()
         {
-            // Загрузка родительских категорий в ComboBox
+            try
+            {
+                using (var db = new WarehouseContext())
+                {
+                    var categories = db.Categories.ToList();
+
+                    // Настройка ComboBox
+                    comboBoxParentCategory.DataSource = categories;
+                    comboBoxParentCategory.DisplayMember = "CategoryName"; // Что видит пользователь
+                    comboBoxParentCategory.ValueMember = "CategoryID";     // Что сохраняем в БД
+                    comboBoxParentCategory.SelectedIndex = -1;             // По умолчанию ничего не выбрано
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
         private void NewCategoryForm_Load(object sender, EventArgs e)
         {

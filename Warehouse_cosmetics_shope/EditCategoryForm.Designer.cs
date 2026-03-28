@@ -32,7 +32,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBoxCategoryName = new System.Windows.Forms.TextBox();
             this.buttonDelete = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonBack = new System.Windows.Forms.Button();
@@ -81,13 +81,13 @@
             this.comboBox1.Size = new System.Drawing.Size(281, 24);
             this.comboBox1.TabIndex = 18;
             // 
-            // textBox2
+            // textBoxCategoryName
             // 
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox2.Location = new System.Drawing.Point(275, 188);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(281, 15);
-            this.textBox2.TabIndex = 19;
+            this.textBoxCategoryName.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxCategoryName.Location = new System.Drawing.Point(275, 188);
+            this.textBoxCategoryName.Name = "textBoxCategoryName";
+            this.textBoxCategoryName.Size = new System.Drawing.Size(281, 15);
+            this.textBoxCategoryName.TabIndex = 19;
             // 
             // buttonDelete
             // 
@@ -150,7 +150,7 @@
             this.Controls.Add(this.buttonBack);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.buttonDelete);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.textBoxCategoryName);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -169,7 +169,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBoxCategoryName;
         private System.Windows.Forms.Button buttonDelete;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonBack;

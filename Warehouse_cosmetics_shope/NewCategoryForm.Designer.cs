@@ -31,8 +31,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.comboBoxParentCategory = new System.Windows.Forms.ComboBox();
+            this.textBoxCategoryName = new System.Windows.Forms.TextBox();
             this.buttonAdd = new System.Windows.Forms.Button();
             this.buttonBack = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -70,22 +70,22 @@
             this.label3.TabIndex = 3;
             this.label3.Text = "Название";
             // 
-            // comboBox1
+            // comboBoxParentCategory
             // 
-            this.comboBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(356, 148);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(281, 24);
-            this.comboBox1.TabIndex = 18;
+            this.comboBoxParentCategory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBoxParentCategory.FormattingEnabled = true;
+            this.comboBoxParentCategory.Location = new System.Drawing.Point(356, 148);
+            this.comboBoxParentCategory.Name = "comboBoxParentCategory";
+            this.comboBoxParentCategory.Size = new System.Drawing.Size(281, 24);
+            this.comboBoxParentCategory.TabIndex = 18;
             // 
-            // textBox3
+            // textBoxCategoryName
             // 
-            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox3.Location = new System.Drawing.Point(356, 194);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(281, 15);
-            this.textBox3.TabIndex = 19;
+            this.textBoxCategoryName.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxCategoryName.Location = new System.Drawing.Point(356, 194);
+            this.textBoxCategoryName.Name = "textBoxCategoryName";
+            this.textBoxCategoryName.Size = new System.Drawing.Size(281, 15);
+            this.textBoxCategoryName.TabIndex = 19;
             // 
             // buttonAdd
             // 
@@ -121,8 +121,8 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.buttonBack);
             this.Controls.Add(this.buttonAdd);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.textBoxCategoryName);
+            this.Controls.Add(this.comboBoxParentCategory);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -138,8 +138,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.ComboBox comboBoxParentCategory;
+        private System.Windows.Forms.TextBox textBoxCategoryName;
         private System.Windows.Forms.Button buttonAdd;
         private System.Windows.Forms.Button buttonBack;
     }

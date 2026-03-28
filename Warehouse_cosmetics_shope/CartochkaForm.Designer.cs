@@ -37,14 +37,14 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox7 = new System.Windows.Forms.TextBox();
-            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.textBoxName = new System.Windows.Forms.TextBox();
+            this.textBoxArtikul = new System.Windows.Forms.TextBox();
+            this.textBoxCategory = new System.Windows.Forms.TextBox();
+            this.textBoxType = new System.Windows.Forms.TextBox();
+            this.textBoxExpDate = new System.Windows.Forms.TextBox();
+            this.textBoxUnits = new System.Windows.Forms.TextBox();
+            this.textBoxPrise = new System.Windows.Forms.TextBox();
+            this.textBoxOstat = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -139,86 +139,86 @@
             this.label8.TabIndex = 14;
             this.label8.Text = "Остаток";
             // 
-            // textBox1
+            // textBoxName
             // 
-            this.textBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Location = new System.Drawing.Point(337, 81);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(191, 15);
-            this.textBox1.TabIndex = 15;
+            this.textBoxName.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.textBoxName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
+            this.textBoxName.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxName.Location = new System.Drawing.Point(337, 81);
+            this.textBoxName.Name = "textBoxName";
+            this.textBoxName.ReadOnly = true;
+            this.textBoxName.Size = new System.Drawing.Size(191, 15);
+            this.textBoxName.TabIndex = 15;
             // 
-            // textBox2
+            // textBoxArtikul
             // 
-            this.textBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox2.Location = new System.Drawing.Point(337, 114);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(191, 15);
-            this.textBox2.TabIndex = 16;
+            this.textBoxArtikul.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
+            this.textBoxArtikul.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxArtikul.Location = new System.Drawing.Point(337, 114);
+            this.textBoxArtikul.Name = "textBoxArtikul";
+            this.textBoxArtikul.ReadOnly = true;
+            this.textBoxArtikul.Size = new System.Drawing.Size(191, 15);
+            this.textBoxArtikul.TabIndex = 16;
             // 
-            // textBox3
+            // textBoxCategory
             // 
-            this.textBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
-            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox3.Location = new System.Drawing.Point(337, 152);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(191, 15);
-            this.textBox3.TabIndex = 17;
+            this.textBoxCategory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
+            this.textBoxCategory.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxCategory.Location = new System.Drawing.Point(337, 152);
+            this.textBoxCategory.Name = "textBoxCategory";
+            this.textBoxCategory.ReadOnly = true;
+            this.textBoxCategory.Size = new System.Drawing.Size(191, 15);
+            this.textBoxCategory.TabIndex = 17;
             // 
-            // textBox4
+            // textBoxType
             // 
-            this.textBox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
-            this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox4.Location = new System.Drawing.Point(337, 190);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.ReadOnly = true;
-            this.textBox4.Size = new System.Drawing.Size(191, 15);
-            this.textBox4.TabIndex = 18;
+            this.textBoxType.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
+            this.textBoxType.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxType.Location = new System.Drawing.Point(337, 190);
+            this.textBoxType.Name = "textBoxType";
+            this.textBoxType.ReadOnly = true;
+            this.textBoxType.Size = new System.Drawing.Size(191, 15);
+            this.textBoxType.TabIndex = 18;
             // 
-            // textBox5
+            // textBoxExpDate
             // 
-            this.textBox5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
-            this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox5.Location = new System.Drawing.Point(337, 228);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.ReadOnly = true;
-            this.textBox5.Size = new System.Drawing.Size(191, 15);
-            this.textBox5.TabIndex = 19;
+            this.textBoxExpDate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
+            this.textBoxExpDate.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxExpDate.Location = new System.Drawing.Point(337, 228);
+            this.textBoxExpDate.Name = "textBoxExpDate";
+            this.textBoxExpDate.ReadOnly = true;
+            this.textBoxExpDate.Size = new System.Drawing.Size(191, 15);
+            this.textBoxExpDate.TabIndex = 19;
             // 
-            // textBox6
+            // textBoxUnits
             // 
-            this.textBox6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
-            this.textBox6.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox6.Location = new System.Drawing.Point(337, 263);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.ReadOnly = true;
-            this.textBox6.Size = new System.Drawing.Size(191, 15);
-            this.textBox6.TabIndex = 20;
+            this.textBoxUnits.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
+            this.textBoxUnits.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxUnits.Location = new System.Drawing.Point(337, 263);
+            this.textBoxUnits.Name = "textBoxUnits";
+            this.textBoxUnits.ReadOnly = true;
+            this.textBoxUnits.Size = new System.Drawing.Size(191, 15);
+            this.textBoxUnits.TabIndex = 20;
             // 
-            // textBox7
+            // textBoxPrise
             // 
-            this.textBox7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
-            this.textBox7.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox7.Location = new System.Drawing.Point(337, 299);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.ReadOnly = true;
-            this.textBox7.Size = new System.Drawing.Size(191, 15);
-            this.textBox7.TabIndex = 21;
+            this.textBoxPrise.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
+            this.textBoxPrise.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxPrise.Location = new System.Drawing.Point(337, 299);
+            this.textBoxPrise.Name = "textBoxPrise";
+            this.textBoxPrise.ReadOnly = true;
+            this.textBoxPrise.Size = new System.Drawing.Size(191, 15);
+            this.textBoxPrise.TabIndex = 21;
             // 
-            // textBox8
+            // textBoxOstat
             // 
-            this.textBox8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
-            this.textBox8.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox8.Location = new System.Drawing.Point(337, 341);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.ReadOnly = true;
-            this.textBox8.Size = new System.Drawing.Size(191, 15);
-            this.textBox8.TabIndex = 22;
+            this.textBoxOstat.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
+            this.textBoxOstat.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxOstat.Location = new System.Drawing.Point(337, 341);
+            this.textBoxOstat.Name = "textBoxOstat";
+            this.textBoxOstat.ReadOnly = true;
+            this.textBoxOstat.Size = new System.Drawing.Size(191, 15);
+            this.textBoxOstat.TabIndex = 22;
             // 
             // button1
             // 
@@ -240,14 +240,14 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox8);
-            this.Controls.Add(this.textBox7);
-            this.Controls.Add(this.textBox6);
-            this.Controls.Add(this.textBox5);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBoxOstat);
+            this.Controls.Add(this.textBoxPrise);
+            this.Controls.Add(this.textBoxUnits);
+            this.Controls.Add(this.textBoxExpDate);
+            this.Controls.Add(this.textBoxType);
+            this.Controls.Add(this.textBoxCategory);
+            this.Controls.Add(this.textBoxArtikul);
+            this.Controls.Add(this.textBoxName);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
@@ -275,14 +275,14 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.TextBox textBox7;
-        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TextBox textBoxName;
+        private System.Windows.Forms.TextBox textBoxArtikul;
+        private System.Windows.Forms.TextBox textBoxCategory;
+        private System.Windows.Forms.TextBox textBoxType;
+        private System.Windows.Forms.TextBox textBoxExpDate;
+        private System.Windows.Forms.TextBox textBoxUnits;
+        private System.Windows.Forms.TextBox textBoxPrise;
+        private System.Windows.Forms.TextBox textBoxOstat;
         private System.Windows.Forms.Button button1;
     }
 }

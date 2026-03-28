@@ -5,10 +5,7 @@ namespace Warehouse_cosmetics_shope
     public partial class FiltrationForm : Form
     {
         private Guid currentUserId;
-        public FiltrationForm()
-        {
-            InitializeComponent();
-        }
+        public event Action<FilterCriteria> OnFilterApplied;
         public FiltrationForm(Guid userId)
         {
             InitializeComponent();
@@ -18,8 +15,8 @@ namespace Warehouse_cosmetics_shope
         {
 
             var criteria = GetFilterCriteria();
-            ApplyFilter(criteria);
-            this.Hide();
+            OnFilterApplied?.Invoke(criteria);
+            this.Close();
         }
         private FilterCriteria GetFilterCriteria()
         {
@@ -48,7 +45,13 @@ namespace Warehouse_cosmetics_shope
         }
         private void ResetFilter()
         {
-            // Сброс фильтра
+            foreach (Control control in this.Controls)
+            {
+                if (control is CheckBox cb) cb.Checked = false;
+                if (control is TextBox tb) tb.Clear();
+            }
+            // Можно сразу отправить пустой фильтр, чтобы показать все товары
+            OnFilterApplied?.Invoke(new FilterCriteria());
         }
         private void LoadAllProducts()
         {

@@ -38,21 +38,13 @@
             this.buttonPlus = new System.Windows.Forms.Button();
             this.buttonFilter = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.labelID = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.buttonExit = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.dataGridViewProducts = new System.Windows.Forms.DataGridView();
-            this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colArticul = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colUnit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colExpiration = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colStock = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.labelID = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -173,6 +165,14 @@
             this.panel1.Size = new System.Drawing.Size(810, 49);
             this.panel1.TabIndex = 7;
             // 
+            // labelID
+            // 
+            this.labelID.AutoSize = true;
+            this.labelID.Location = new System.Drawing.Point(692, 16);
+            this.labelID.Name = "labelID";
+            this.labelID.Size = new System.Drawing.Size(0, 16);
+            this.labelID.TabIndex = 9;
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -228,15 +228,6 @@
             this.dataGridViewProducts.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridViewProducts.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dataGridViewProducts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewProducts.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colName,
-            this.colCategory,
-            this.colType,
-            this.colArticul,
-            this.colUnit,
-            this.colExpiration,
-            this.colPrice,
-            this.colStock});
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -255,70 +246,6 @@
             this.dataGridViewProducts.RowTemplate.Height = 24;
             this.dataGridViewProducts.Size = new System.Drawing.Size(800, 300);
             this.dataGridViewProducts.TabIndex = 5;
-            // 
-            // colName
-            // 
-            this.colName.HeaderText = "Название";
-            this.colName.MinimumWidth = 6;
-            this.colName.Name = "colName";
-            this.colName.Width = 125;
-            // 
-            // colCategory
-            // 
-            this.colCategory.HeaderText = "Категория";
-            this.colCategory.MinimumWidth = 6;
-            this.colCategory.Name = "colCategory";
-            this.colCategory.Width = 120;
-            // 
-            // colType
-            // 
-            this.colType.HeaderText = "Вид";
-            this.colType.MinimumWidth = 6;
-            this.colType.Name = "colType";
-            this.colType.Width = 80;
-            // 
-            // colArticul
-            // 
-            this.colArticul.HeaderText = "Арт.";
-            this.colArticul.MinimumWidth = 6;
-            this.colArticul.Name = "colArticul";
-            this.colArticul.Width = 80;
-            // 
-            // colUnit
-            // 
-            this.colUnit.HeaderText = "Ед.изм-я.";
-            this.colUnit.MinimumWidth = 6;
-            this.colUnit.Name = "colUnit";
-            this.colUnit.Width = 73;
-            // 
-            // colExpiration
-            // 
-            this.colExpiration.HeaderText = "Срок годности";
-            this.colExpiration.MinimumWidth = 6;
-            this.colExpiration.Name = "colExpiration";
-            this.colExpiration.Width = 93;
-            // 
-            // colPrice
-            // 
-            this.colPrice.HeaderText = "Закупочная цена";
-            this.colPrice.MinimumWidth = 6;
-            this.colPrice.Name = "colPrice";
-            this.colPrice.Width = 103;
-            // 
-            // colStock
-            // 
-            this.colStock.HeaderText = "Остаток";
-            this.colStock.MinimumWidth = 6;
-            this.colStock.Name = "colStock";
-            this.colStock.Width = 125;
-            // 
-            // labelID
-            // 
-            this.labelID.AutoSize = true;
-            this.labelID.Location = new System.Drawing.Point(692, 16);
-            this.labelID.Name = "labelID";
-            this.labelID.Size = new System.Drawing.Size(0, 16);
-            this.labelID.TabIndex = 9;
             // 
             // CatalogFormAdmin
             // 
@@ -356,14 +283,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonFilter;
         private System.Windows.Forms.Button buttonPlus;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colCategory;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colArticul;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colUnit;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colExpiration;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colPrice;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colStock;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label labelID;
     }
