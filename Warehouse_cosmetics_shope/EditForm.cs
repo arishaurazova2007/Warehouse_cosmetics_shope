@@ -39,7 +39,7 @@ namespace Warehouse_cosmetics_shope
         }
         private void buttonEditCategory_Click(object sender, EventArgs e)
         {
-            var editCategoryForm = new EditCategoryForm(Guid.Empty, currentUserId);  // ✅ С параметрами!
+            var editCategoryForm = new EditCategoryForm(Guid.Empty, currentUserId);
             editCategoryForm.Show();
             this.Hide();
         }

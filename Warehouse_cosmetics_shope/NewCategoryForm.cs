@@ -24,14 +24,14 @@ namespace Warehouse_cosmetics_shope
         {
             if (AddCategory())  // ← ПРОВЕРКА: успешно ли сохранено
             {
-                var editCategoryForm = new EditCategoryForm(Guid.Empty, currentUserId);  // ← ИСПРАВЛЕНО
+                var editCategoryForm = new EditCategoryForm(Guid.Empty, currentUserId);
                 editCategoryForm.Show();
                 this.Hide();
             }
         }
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            var editCategoryForm = new EditCategoryForm(Guid.Empty, currentUserId);  // ← ИСПРАВЛЕНО
+            var editCategoryForm = new EditCategoryForm(Guid.Empty, currentUserId);
             editCategoryForm.Show();
             this.Hide();
         }

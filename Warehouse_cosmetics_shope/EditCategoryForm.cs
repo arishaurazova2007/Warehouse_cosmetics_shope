@@ -24,26 +24,26 @@ namespace Warehouse_cosmetics_shope
         private void buttonSave_Click(object sender, EventArgs e)
         {
             SaveCategory();
-            var catalogForm = new CatalogFormAdmin(currentUserId);  // ✅ ИСПРАВЛЕНО
+            var catalogForm = new CatalogFormAdmin(currentUserId);
             catalogForm.Show();
             this.Hide();
         }
         private void buttonNewCategory_Click(object sender, EventArgs e)
         {
-            var newCategoryForm = new NewCategoryForm(currentUserId);  // ✅ С параметром!
+            var newCategoryForm = new NewCategoryForm(currentUserId);
             newCategoryForm.Show();
             this.Hide();
         }
         private void buttonDelete_Click(object sender, EventArgs e)
         {
             DeleteCategory();
-            var catalogForm = new CatalogFormAdmin(currentUserId);  // ✅ ИСПРАВЛЕНО
+            var catalogForm = new CatalogFormAdmin(currentUserId);
             catalogForm.Show();
             this.Hide();
         }
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            var catalogForm = new CatalogFormAdmin(currentUserId);  // ✅ ИСПРАВЛЕНО
+            var catalogForm = new CatalogFormAdmin(currentUserId);
             catalogForm.Show();
             this.Hide();
         }

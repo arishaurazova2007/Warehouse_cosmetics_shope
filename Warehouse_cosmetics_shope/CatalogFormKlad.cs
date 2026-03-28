@@ -48,7 +48,7 @@ namespace Warehouse_cosmetics_shope
         private void buttonFilter_Click(object sender, EventArgs e)
         {
             var filterForm = new FiltrationForm(currentUserId);
-            filterForm.OnFilterApplied += ApplyFilterFromFiltrationForm;  // ← ДОБАВИТЬ
+            filterForm.OnFilterApplied += ApplyFilterFromFiltrationForm;
             filterForm.Show();
             this.Hide();
         }
