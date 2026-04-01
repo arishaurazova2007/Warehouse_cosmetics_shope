@@ -27,12 +27,12 @@
                         ProductName = c.String(),
                         CategoryID = c.Guid(nullable: false),
                         Units = c.Int(nullable: false),
-                        ExpDate = c.Int(nullable: false),
+                        ExpDate = c.DateTime(nullable: false),
                         Price = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Quantity = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.ProductID)
-                .ForeignKey("dbo.Categories", t => t.CategoryID, cascadeDelete: true)
+                .ForeignKey("dbo.Categories", t => t.CategoryID)
                 .Index(t => t.CategoryID);
             
             CreateTable(
@@ -60,8 +60,8 @@
                         Date = c.DateTime(nullable: false),
                     })
                 .PrimaryKey(t => t.ShipmentID)
-                .ForeignKey("dbo.Clients", t => t.ClientID, cascadeDelete: true)
-                .ForeignKey("dbo.Users", t => t.UserID, cascadeDelete: true)
+                .ForeignKey("dbo.Clients", t => t.ClientID)
+                .ForeignKey("dbo.Users", t => t.UserID)
                 .Index(t => t.ClientID)
                 .Index(t => t.UserID);
             
@@ -70,7 +70,7 @@
                 c => new
                     {
                         ClientID = c.Guid(nullable: false),
-                        ClientType = c.Int(nullable: false),
+                        CType = c.Int(nullable: false),
                         ClientName = c.String(),
                     })
                 .PrimaryKey(t => t.ClientID);

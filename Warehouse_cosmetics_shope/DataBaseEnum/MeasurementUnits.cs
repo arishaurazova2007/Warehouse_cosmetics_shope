@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations;
 namespace Warehouse_cosmetics_shope
 {
     /// <summary>
@@ -6,8 +6,13 @@ namespace Warehouse_cosmetics_shope
     /// </summary>
     public enum MeasurementUnits
     {
-        Шт = 1,
-        Мл = 2,
-        Гр = 3
+        [Display(Name = "шт")]
+        Piece = 1,
+
+        [Display(Name = "мл")]
+        Milliliter = 2,
+
+        [Display(Name = "г")]
+        Gram = 3
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations;
 namespace Warehouse_cosmetics_shope
 {
     /// <summary>
@@ -6,8 +6,13 @@ namespace Warehouse_cosmetics_shope
     /// </summary>
     public enum ClientTypes
     {
-        Юр_лицо = 1,
-        ИП = 2,
-        Физ_лицо = 3
+        [Display(Name = "Юридическое лицо")]
+        LegalEntity = 1,
+
+        [Display(Name = "Индивидуальный предприниматель")]
+        IndividualEntrepreneur = 2,
+
+        [Display(Name = "Физическое лицо")]
+        Individual = 3
     }
 }

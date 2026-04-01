@@ -19,7 +19,7 @@ namespace Warehouse_cosmetics_shope
         /// Категория клиента
         /// Определяется через перечисление ClientTypes
         /// </summary>
-        public ClientTypes ClientType { get; set; }
+        public ClientTypes CType { get; set; }
         /// <summary>
         /// Наименование организации или полное имя частного лица
         /// </summary>

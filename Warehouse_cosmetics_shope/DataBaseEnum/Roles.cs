@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations;
 namespace Warehouse_cosmetics_shope
 {
     /// <summary>
@@ -6,7 +6,10 @@ namespace Warehouse_cosmetics_shope
     /// </summary>
     public enum Roles
     {
-        Админ = 1,
-        Кладовщик = 2
+        [Display(Name = "Администратор")]
+        Admin = 1,
+
+        [Display(Name = "Кладовщик")]
+        Storekeeper = 2
     }
 }

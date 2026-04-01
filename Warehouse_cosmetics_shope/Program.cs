@@ -28,7 +28,7 @@ namespace Warehouse_cosmetics_shope
                         Name = "Татьяна",
                         Patronymic = "Константиновна",
                         Password = "16Kl7SDt!",
-                        Role = Roles.Админ
+                        Role = Roles.Admin
                     },
                     new User 
                     {
@@ -37,7 +37,7 @@ namespace Warehouse_cosmetics_shope
                         Name = "Антон",
                         Patronymic = "Юрьевич",
                         Password = "Hy56E2))L3",
-                        Role = Roles.Админ
+                        Role = Roles.Admin
                     },
                     new User
                     {
@@ -46,7 +46,7 @@ namespace Warehouse_cosmetics_shope
                         Name = "Андрей",
                         Patronymic = "Павлович",
                         Password = "8d2Tb%Q245",
-                        Role = Roles.Админ
+                        Role = Roles.Admin
                     }
                 });
 
@@ -80,7 +80,7 @@ namespace Warehouse_cosmetics_shope
                         CategoryID = catFemale.CategoryID, // Привязка к созданной категории
                         Price = 12100,
                         Quantity = 14,
-                        Units = MeasurementUnits.Шт,
+                        Units = MeasurementUnits.Piece,
                         ExpDate = new DateTime(2028, 09, 15)
                     },
                     new Item
@@ -90,7 +90,7 @@ namespace Warehouse_cosmetics_shope
                         CategoryID = catCare.CategoryID,
                         Price = 810,
                         Quantity = 145,
-                        Units = MeasurementUnits.Шт,
+                        Units = MeasurementUnits.Piece,
                         ExpDate = new DateTime(2028, 03, 16)
                     },
                     new Item
@@ -100,7 +100,7 @@ namespace Warehouse_cosmetics_shope
                         CategoryID = catDecor.CategoryID,
                         Price = 1050,
                         Quantity = 57,
-                        Units = MeasurementUnits.Шт, 
+                        Units = MeasurementUnits.Piece, 
                         ExpDate = new DateTime(2028, 05, 18)
                     }
                 });

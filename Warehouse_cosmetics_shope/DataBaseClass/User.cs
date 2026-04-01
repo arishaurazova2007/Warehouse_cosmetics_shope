@@ -39,6 +39,6 @@ namespace Warehouse_cosmetics_shope
         /// Коллекция отгрузок, оформленных данным пользователем
         /// Позволяет отслеживать историю операций конкретного сотрудника
         /// </summary>
-        public virtual ICollection<Shipment> Shipment { get; set; } = new List<Shipment>();
+        public virtual ICollection<Shipment> Shipments { get; set; } = new List<Shipment>();
     }
 }
