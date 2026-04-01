@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>Warehouse_cosmetics_shope</RootNamespace>
     <AssemblyName>Warehouse_cosmetics_shope</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -164,7 +164,6 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
-  
   <ItemGroup>
     <Compile Include="CartochkaForm.cs">
       <SubType>Form</SubType>
@@ -239,7 +238,6 @@
       <DependentUpon>RegistrationForm.cs</DependentUpon>
     </Compile>
   </ItemGroup>
- 
   <ItemGroup>
     <Compile Include="DataBaseClass\WarehouseContext.cs" />
     <Compile Include="DataBaseClass\ShipmentComposition.cs" />
@@ -252,7 +250,6 @@
     <Compile Include="DataBaseEnum\MeasurementUnits.cs" />
     <Compile Include="DataBaseEnum\Roles.cs" />
   </ItemGroup>
- 
   <ItemGroup>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\202603201423229_InitialCreate.cs" />
@@ -264,7 +261,6 @@
       <DependentUpon>202603221305082_FixIdTypeToString.cs</DependentUpon>
     </Compile>
   </ItemGroup>
- 
   <ItemGroup>
     <EmbeddedResource Include="CartochkaForm.resx">
       <DependentUpon>CartochkaForm.cs</DependentUpon>
@@ -303,7 +299,6 @@
       <DependentUpon>RegistrationForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
- 
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202603201423229_InitialCreate.resx">
       <DependentUpon>202603201423229_InitialCreate.cs</DependentUpon>
@@ -312,7 +307,6 @@
       <DependentUpon>202603221305082_FixIdTypeToString.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
- 
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -344,11 +338,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
-  
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
