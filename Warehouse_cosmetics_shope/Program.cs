@@ -8,38 +8,66 @@ namespace Warehouse_cosmetics_shope
 {
     public static class Program
     {
-        /// <summary>
-        /// Главная точка входа для приложения.
-        /// </summary>
         [STAThread]
         static void Main()
         {
-            Log.Logger = new LoggerConfiguration().WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day).CreateLogger();
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
+                .CreateLogger();
+
             try
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
                 Log.Information("Приложение запущено");
-                
-                using (WarehouseContext db = new WarehouseContext())
+
+                // Инициализация базы данных
+                InitializeDatabase();
+
+                Application.Run(new MainForm());
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Произошла ошибка!");
+                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
+        }
+
+        private static void InitializeDatabase()
+        {
+            using (var db = new WarehouseContext())
+            {
+                // Очищаем таблицы
+                db.Items.RemoveRange(db.Items);
+                db.Categories.RemoveRange(db.Categories);
+                db.Users.RemoveRange(db.Users);
+                db.SaveChanges();
+
+                // Добавляем пользователей
+                db.Users.AddRange(new List<User>
                 {
                     new User
-                    { 
+                    {
                         UserID = Guid.NewGuid(),
                         Surname = "Иванова",
                         Name = "Татьяна",
                         Patronymic = "Константиновна",
-                        Password = "16Kl7SDt!",
+                        Password = BCrypt.Net.BCrypt.HashPassword("16Kl7SDt!"),
                         Role = Roles.Admin
                     },
-                    new User 
+                    new User
                     {
                         UserID = Guid.NewGuid(),
                         Surname = "Кузнецов",
                         Name = "Антон",
                         Patronymic = "Юрьевич",
-                        Password = "Hy56E2))L3",
+                        Password = BCrypt.Net.BCrypt.HashPassword("Hy56E2))L3"),
                         Role = Roles.Admin
                     },
                     new User
@@ -48,11 +76,13 @@ namespace Warehouse_cosmetics_shope
                         Surname = "Смирнов",
                         Name = "Андрей",
                         Patronymic = "Павлович",
-                        Password = "8d2Tb%Q245",
+                        Password = BCrypt.Net.BCrypt.HashPassword("8d2Tb%Q245"),
                         Role = Roles.Admin
                     }
                 });
+                db.SaveChanges();
 
+                // Добавляем категории
                 var catPerfume = new Category { CategoryID = Guid.NewGuid(), CategoryName = "Парфюмерия" };
                 var catCosmetics = new Category { CategoryID = Guid.NewGuid(), CategoryName = "Косметика" };
                 db.Categories.AddRange(new List<Category> { catPerfume, catCosmetics });
@@ -70,17 +100,20 @@ namespace Warehouse_cosmetics_shope
                 var subCatWaterFemale = new Category { CategoryID = Guid.NewGuid(), CategoryName = "Туалетная вода женская", ParentID = catFemale.CategoryID };
                 var subCatWaterMale = new Category { CategoryID = Guid.NewGuid(), CategoryName = "Туалетная вода мужская", ParentID = catMale.CategoryID };
 
-                db.Categories.AddRange(new List<Category> { subCatDuhyFemale, subCatDuhyMale, subCatWaterFemale, subCatWaterMale });
-
+                db.Categories.AddRange(new List<Category> {
+                    subCatDuhyFemale, subCatDuhyMale, subCatWaterFemale, subCatWaterMale,
+                    subCatWaterPerfumFemale, subCatWaterPerfumMale
+                });
                 db.SaveChanges();
 
+                // Добавляем товары
                 db.Items.AddRange(new List<Item>
                 {
                     new Item
                     {
                         ProductID = Guid.NewGuid(),
                         ProductName = "Chanel №5 (50 мл)",
-                        CategoryID = catFemale.CategoryID, // Привязка к созданной категории
+                        CategoryID = catFemale.CategoryID,
                         Price = 12100,
                         Quantity = 14,
                         Units = MeasurementUnits.Piece,
@@ -103,14 +136,14 @@ namespace Warehouse_cosmetics_shope
                         CategoryID = catDecor.CategoryID,
                         Price = 1050,
                         Quantity = 57,
-                        Units = MeasurementUnits.Piece, 
+                        Units = MeasurementUnits.Piece,
                         ExpDate = new DateTime(2028, 05, 18)
                     }
                 });
 
                 db.SaveChanges();
-                Console.WriteLine("База данных успешно заполнена данными из таблицы!");
+                Log.Information("База данных успешно заполнена");
             }
         }
-    } 
+    }
 }
