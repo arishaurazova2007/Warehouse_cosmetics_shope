@@ -1,5 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
+using Serilog;
 using Warehouse_cosmetics_shope.DataBaseClass;
 
 namespace Warehouse_cosmetics_shope
@@ -12,14 +14,15 @@ namespace Warehouse_cosmetics_shope
         [STAThread]
         static void Main()
         {
-            using (WarehouseContext db = new WarehouseContext())
+            Log.Logger = new LoggerConfiguration().WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day).CreateLogger();
+            try
             {
-                db.Items.RemoveRange(db.Items);
-                db.Categories.RemoveRange(db.Categories);
-                db.Users.RemoveRange(db.Users);
-                db.SaveChanges();
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
 
-                db.Users.AddRange(new List<User>
+                Log.Information("Приложение запущено");
+                
+                using (WarehouseContext db = new WarehouseContext())
                 {
                     new User
                     { 
@@ -108,7 +111,6 @@ namespace Warehouse_cosmetics_shope
                 db.SaveChanges();
                 Console.WriteLine("База данных успешно заполнена данными из таблицы!");
             }
-            Console.ReadLine();
         }
     } 
 }
