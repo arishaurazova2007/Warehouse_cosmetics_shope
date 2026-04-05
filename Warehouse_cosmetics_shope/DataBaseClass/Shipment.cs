@@ -16,6 +16,9 @@ namespace Warehouse_cosmetics_shope.DataBaseClass
         [Key]
         public Guid ShipmentID { get; set; }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int ShipmentNumber { get; set; }
+
         /// <summary>
         /// Идентификатор клиента, получающего товар
         /// </summary>

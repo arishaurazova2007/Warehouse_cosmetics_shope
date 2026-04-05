@@ -28,34 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.buttonHistory = new System.Windows.Forms.Button();
             this.searchButton = new System.Windows.Forms.Button();
             this.searchBox = new System.Windows.Forms.TextBox();
             this.labelLogin = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.buttonPlus = new System.Windows.Forms.Button();
             this.buttonFilter = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.labelShowLogin = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelShowUserLogin = new System.Windows.Forms.Label();
             this.buttonExit = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colArticul = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colUnit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colExpiration = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colStock = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewCatalog = new System.Windows.Forms.DataGridView();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCatalog)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonHistory
@@ -78,9 +69,9 @@
             this.searchButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.searchButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.searchButton.ForeColor = System.Drawing.Color.White;
-            this.searchButton.Location = new System.Drawing.Point(689, 99);
+            this.searchButton.Location = new System.Drawing.Point(1018, 96);
             this.searchButton.Name = "searchButton";
-            this.searchButton.Size = new System.Drawing.Size(86, 22);
+            this.searchButton.Size = new System.Drawing.Size(140, 29);
             this.searchButton.TabIndex = 2;
             this.searchButton.Text = "Искать";
             this.searchButton.UseVisualStyleBackColor = false;
@@ -88,10 +79,10 @@
             // searchBox
             // 
             this.searchBox.ForeColor = System.Drawing.Color.Gray;
-            this.searchBox.Location = new System.Drawing.Point(456, 99);
+            this.searchBox.Location = new System.Drawing.Point(712, 99);
             this.searchBox.MaximumSize = new System.Drawing.Size(300, 50);
             this.searchBox.Name = "searchBox";
-            this.searchBox.Size = new System.Drawing.Size(237, 22);
+            this.searchBox.Size = new System.Drawing.Size(300, 22);
             this.searchBox.TabIndex = 3;
             this.searchBox.Text = "Поиск";
             // 
@@ -105,15 +96,6 @@
             this.labelLogin.TabIndex = 5;
             this.labelLogin.Text = "Каталог товаров";
             // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(268, 121);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(133, 48);
-            this.button4.TabIndex = 6;
-            this.button4.Text = "Выйти";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
@@ -126,7 +108,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(800, 150);
+            this.panel2.Size = new System.Drawing.Size(1265, 150);
             this.panel2.TabIndex = 8;
             // 
             // buttonPlus
@@ -135,7 +117,7 @@
             this.buttonPlus.FlatAppearance.BorderSize = 0;
             this.buttonPlus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonPlus.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonPlus.Location = new System.Drawing.Point(268, 89);
+            this.buttonPlus.Location = new System.Drawing.Point(282, 89);
             this.buttonPlus.Name = "buttonPlus";
             this.buttonPlus.Size = new System.Drawing.Size(34, 39);
             this.buttonPlus.TabIndex = 9;
@@ -150,9 +132,9 @@
             this.buttonFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonFilter.ForeColor = System.Drawing.Color.Black;
-            this.buttonFilter.Location = new System.Drawing.Point(320, 95);
+            this.buttonFilter.Location = new System.Drawing.Point(356, 93);
             this.buttonFilter.Name = "buttonFilter";
-            this.buttonFilter.Size = new System.Drawing.Size(108, 26);
+            this.buttonFilter.Size = new System.Drawing.Size(133, 33);
             this.buttonFilter.TabIndex = 8;
             this.buttonFilter.Text = "Фильтровать";
             this.buttonFilter.UseVisualStyleBackColor = false;
@@ -161,15 +143,25 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.labelShowLogin);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.labelShowUserLogin);
             this.panel1.Controls.Add(this.buttonExit);
             this.panel1.Controls.Add(this.buttonHistory);
             this.panel1.Location = new System.Drawing.Point(-7, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(810, 49);
+            this.panel1.Size = new System.Drawing.Size(1272, 49);
             this.panel1.TabIndex = 7;
+            // 
+            // labelShowLogin
+            // 
+            this.labelShowLogin.AutoSize = true;
+            this.labelShowLogin.Location = new System.Drawing.Point(965, 16);
+            this.labelShowLogin.Name = "labelShowLogin";
+            this.labelShowLogin.Size = new System.Drawing.Size(77, 16);
+            this.labelShowLogin.TabIndex = 9;
+            this.labelShowLogin.Text = "Ваш логин:";
             // 
             // label3
             // 
@@ -187,14 +179,13 @@
             this.label2.Size = new System.Drawing.Size(0, 16);
             this.label2.TabIndex = 8;
             // 
-            // label1
+            // labelShowUserLogin
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(663, 16);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(23, 16);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "ID:";
+            this.labelShowUserLogin.AutoSize = true;
+            this.labelShowUserLogin.Location = new System.Drawing.Point(663, 16);
+            this.labelShowUserLogin.Name = "labelShowUserLogin";
+            this.labelShowUserLogin.Size = new System.Drawing.Size(0, 16);
+            this.labelShowUserLogin.TabIndex = 2;
             // 
             // buttonExit
             // 
@@ -212,120 +203,40 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.White;
-            this.panel3.Controls.Add(this.dataGridView1);
-            this.panel3.Controls.Add(this.button4);
+            this.panel3.Controls.Add(this.dataGridViewCatalog);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(0, 150);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(800, 300);
+            this.panel3.Size = new System.Drawing.Size(1265, 624);
             this.panel3.TabIndex = 9;
             // 
-            // dataGridView1
+            // dataGridViewCatalog
             // 
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
-            this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colName,
-            this.colCategory,
-            this.colType,
-            this.colArticul,
-            this.colUnit,
-            this.colExpiration,
-            this.colPrice,
-            this.colStock});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.EnableHeadersVisualStyles = false;
-            this.dataGridView1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
-            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(800, 300);
-            this.dataGridView1.TabIndex = 5;
+            this.dataGridViewCatalog.AllowUserToOrderColumns = true;
+            this.dataGridViewCatalog.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewCatalog.Location = new System.Drawing.Point(0, 0);
+            this.dataGridViewCatalog.Name = "dataGridViewCatalog";
+            this.dataGridViewCatalog.RowHeadersWidth = 51;
+            this.dataGridViewCatalog.RowTemplate.Height = 24;
+            this.dataGridViewCatalog.Size = new System.Drawing.Size(1265, 624);
+            this.dataGridViewCatalog.TabIndex = 0;
             // 
-            // colName
-            // 
-            this.colName.HeaderText = "Название";
-            this.colName.MinimumWidth = 6;
-            this.colName.Name = "colName";
-            this.colName.Width = 125;
-            // 
-            // colCategory
-            // 
-            this.colCategory.HeaderText = "Категория";
-            this.colCategory.MinimumWidth = 6;
-            this.colCategory.Name = "colCategory";
-            this.colCategory.Width = 120;
-            // 
-            // colType
-            // 
-            this.colType.HeaderText = "Вид";
-            this.colType.MinimumWidth = 6;
-            this.colType.Name = "colType";
-            this.colType.Width = 80;
-            // 
-            // colArticul
-            // 
-            this.colArticul.HeaderText = "Арт.";
-            this.colArticul.MinimumWidth = 6;
-            this.colArticul.Name = "colArticul";
-            this.colArticul.Width = 80;
-            // 
-            // colUnit
-            // 
-            this.colUnit.HeaderText = "Ед.изм-я.";
-            this.colUnit.MinimumWidth = 6;
-            this.colUnit.Name = "colUnit";
-            this.colUnit.Width = 73;
-            // 
-            // colExpiration
-            // 
-            this.colExpiration.HeaderText = "Срок годности";
-            this.colExpiration.MinimumWidth = 6;
-            this.colExpiration.Name = "colExpiration";
-            this.colExpiration.Width = 93;
-            // 
-            // colPrice
-            // 
-            this.colPrice.HeaderText = "Закупочная цена";
-            this.colPrice.MinimumWidth = 6;
-            this.colPrice.Name = "colPrice";
-            this.colPrice.Width = 103;
-            // 
-            // colStock
-            // 
-            this.colStock.HeaderText = "Остаток";
-            this.colStock.MinimumWidth = 6;
-            this.colStock.Name = "colStock";
-            this.colStock.Width = 125;
-            // 
-            // CatalogForm
+            // CatalogFormAdmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1265, 774);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
-            this.Name = "CatalogForm";
+            this.Name = "CatalogFormAdmin";
             this.Text = "Каталог администратора";
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCatalog)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -336,24 +247,16 @@
         private System.Windows.Forms.Button searchButton;
         private System.Windows.Forms.TextBox searchBox;
         private System.Windows.Forms.Label labelLogin;
-        private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button buttonExit;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelShowUserLogin;
         private System.Windows.Forms.Button buttonFilter;
         private System.Windows.Forms.Button buttonPlus;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colCategory;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colArticul;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colUnit;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colExpiration;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colPrice;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colStock;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.DataGridView dataGridViewCatalog;
+        private System.Windows.Forms.Label labelShowLogin;
     }
 }

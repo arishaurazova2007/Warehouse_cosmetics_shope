@@ -21,7 +21,7 @@ namespace Warehouse_cosmetics_shope
         private void buttonSave_Click(object sender, EventArgs e)
         {
             SaveCategory();
-            var editForm = new EditForm();
+            var editForm = new ItemForm();
             editForm.Show();
             this.Hide();
         }
@@ -34,13 +34,13 @@ namespace Warehouse_cosmetics_shope
         private void buttonDelete_Click(object sender, EventArgs e)
         {
             DeleteCategory(); // Метод для БД
-            var editForm = new EditForm();
+            var editForm = new ItemForm();
             editForm.Show();
             this.Hide();
         }
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            var editForm = new EditForm();
+            var editForm = new ItemForm();
             editForm.Show();
             this.Hide();
         }

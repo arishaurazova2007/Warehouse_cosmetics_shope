@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
-using Warehouse_cosmetics_shope.Properties;
+using Warehouse_cosmetics_shope.DataBaseClass;
+
 namespace Warehouse_cosmetics_shope
 {
     public partial class LoginForm : Form
@@ -10,75 +12,105 @@ namespace Warehouse_cosmetics_shope
             InitializeComponent();
             textBoxPassword.PasswordChar = '*';
         }
+
         private void buttonBack_Click(object sender, EventArgs e)
         {
             var mainForm = new MainForm();
-
             mainForm.Show();
             this.Hide();
         }
+
         private void buttonLogin_Click(object sender, EventArgs e)
         {
             if (ValidateLoginData())
             {
-                var userId = AuthenticateUser(); // Метод для БД
-
-                if (userId != Guid.Empty)
+                if (AuthenticateUser(out Guid userId, out string userLogin))
                 {
-                    // Успешная авторизация
-                    var userRole = GetUserRole(userId); // Метод для БД
-                    if (userRole == "Admin")
+                    var userRole = GetUserRole(userId);
+
+                    if (userRole == Roles.Admin)
                     {
-                        var catalogForm = new CatalogFormAdmin(userId);
+                        var catalogForm = new CatalogFormAdmin(userId, userLogin);
                         catalogForm.Show();
                         this.Hide();
                     }
-                    else if (userRole == "Kladovshik")
+                    else if (userRole == Roles.Storekeeper)
                     {
-                        var catalogForm = new CatalogFormKlad();
+                        var catalogForm = new CatalogFormKlad(userId, userLogin);
                         catalogForm.Show();
                         this.Hide();
                     }
                 }
                 else
                 {
-                    MessageBox.Show(Resources.InvalidCredentials, Resources.LoginErrorTitle,
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                     textBoxPassword.Clear();
                     textBoxPassword.Focus();
                 }
             }
         }
-        private Guid AuthenticateUser()
+
+        private bool AuthenticateUser(out Guid userId, out string userLogin)
         {
-            //добавлю код для проверки ID/пароля в БД
-            // Верну ID пользователя при успехе, или Guid.Empty при ошибке
-            return Guid.Empty;
+            userId = Guid.Empty;
+            userLogin = null;
+
+            using (var db = new WarehouseContext())
+            {
+                string login = IdTextBox.Text.Trim();
+
+                if (string.IsNullOrWhiteSpace(login))
+                {
+                    MessageBox.Show("Введите логин", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+
+                var user = db.Users.FirstOrDefault(u => u.UserLogin == login);
+
+                if (user != null && BCrypt.Net.BCrypt.Verify(textBoxPassword.Text, user.Password))
+                {
+                    userId = user.UserID;
+                    userLogin = user.UserLogin;
+                    return true;
+                }
+
+                MessageBox.Show("Неверный логин или пароль", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
         }
-        private string GetUserRole(Guid userId)
+
+        private Roles GetUserRole(Guid userId)
         {
-            // Получение роли пользователя
-            return "Kladovshik";
+            using (var db = new WarehouseContext())
+            {
+                var user = db.Users.FirstOrDefault(u => u.UserID == userId);
+                if (user != null)
+                {
+                    return user.Role;
+                }
+                return Roles.Storekeeper;
+            }
         }
-        // Проверка данных перед авторизацией
+
         private bool ValidateLoginData()
         {
-            // Проверка ID
             if (string.IsNullOrWhiteSpace(IdTextBox.Text))
             {
-                MessageBox.Show(Resources.EnterEmployeeId, Resources.Error,
-                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Введите логин", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 IdTextBox.Focus();
                 return false;
             }
-            // Проверка пароля
+
             if (string.IsNullOrWhiteSpace(textBoxPassword.Text))
             {
-                MessageBox.Show(Resources.EnterPassword, Resources.Error,
-                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Введите пароль", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textBoxPassword.Focus();
                 return false;
             }
+
             return true;
         }
     }

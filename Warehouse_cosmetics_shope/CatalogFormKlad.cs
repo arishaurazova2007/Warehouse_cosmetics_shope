@@ -5,14 +5,25 @@ namespace Warehouse_cosmetics_shope
     public partial class CatalogFormKlad : Form
     {
         private Guid currentUserId;
-        public CatalogFormKlad()
+        private string currentUserLogin;
+        public CatalogFormKlad(Guid userId, string userLogin)
         {
             InitializeComponent();
+            currentUserId = userId;
+            currentUserLogin = userLogin;
             LoadCatalogData();
+            ShowUserLogin();
         }
         private void LoadCatalogData()
         {
             //здесь будет код загрузки товаров из БД
+        }
+        private void ShowUserLogin()
+        {
+            if (labelShowLogin != null)
+            {
+                labelShowLogin.Text = $"Ваш логин: {currentUserLogin}";
+            }
         }
         private void buttonExit_Click(object sender, EventArgs e)
         {

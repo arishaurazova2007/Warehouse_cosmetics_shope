@@ -1,7 +1,8 @@
+using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
-using Serilog;
 using Warehouse_cosmetics_shope.DataBaseClass;
 
 namespace Warehouse_cosmetics_shope
@@ -43,11 +44,14 @@ namespace Warehouse_cosmetics_shope
         {
             using (var db = new WarehouseContext())
             {
-                // Очищаем таблицы
-                db.Items.RemoveRange(db.Items);
-                db.Categories.RemoveRange(db.Categories);
-                db.Users.RemoveRange(db.Users);
-                db.SaveChanges();
+                // Проверяем, есть ли уже данные
+                if (db.Users.Any())
+                {
+                    Log.Information("База данных уже содержит данные, инициализация пропущена.");
+                    return;
+                }
+
+                Log.Information("Начинаем заполнение базы данных...");
 
                 // Добавляем пользователей
                 db.Users.AddRange(new List<User>
@@ -55,15 +59,17 @@ namespace Warehouse_cosmetics_shope
                     new User
                     {
                         UserID = Guid.NewGuid(),
-                        Surname = "Иванова",
-                        Name = "Татьяна",
-                        Patronymic = "Константиновна",
+                        UserLogin ="latDina001",
+                        Surname = "Латыпова",
+                        Name = "Дина",
+                        Patronymic = "Сергеевна",
                         Password = BCrypt.Net.BCrypt.HashPassword("16Kl7SDt!"),
                         Role = Roles.Admin
                     },
                     new User
                     {
                         UserID = Guid.NewGuid(),
+                        UserLogin ="kuznets008",
                         Surname = "Кузнецов",
                         Name = "Антон",
                         Patronymic = "Юрьевич",
@@ -73,10 +79,11 @@ namespace Warehouse_cosmetics_shope
                     new User
                     {
                         UserID = Guid.NewGuid(),
-                        Surname = "Смирнов",
-                        Name = "Андрей",
-                        Patronymic = "Павлович",
-                        Password = BCrypt.Net.BCrypt.HashPassword("8d2Tb%Q245"),
+                        UserLogin ="volkovaeliz06admin",
+                        Surname = "Волкова",
+                        Name = "Елизавета",
+                        Patronymic = "Александровна",
+                        Password = BCrypt.Net.BCrypt.HashPassword("QHTIr0841"),
                         Role = Roles.Admin
                     }
                 });
@@ -113,31 +120,49 @@ namespace Warehouse_cosmetics_shope
                     {
                         ProductID = Guid.NewGuid(),
                         ProductName = "Chanel №5 (50 мл)",
-                        CategoryID = catFemale.CategoryID,
-                        Price = 12100,
+                        CategoryID = subCatDuhyFemale.CategoryID,
+                        PurPrice = 12100,
+                        SellPrice = 13800,
                         Quantity = 14,
                         Units = MeasurementUnits.Piece,
-                        ExpDate = new DateTime(2028, 09, 15)
+                        ManufDate = new DateTime(2025,12,02),
+                        ExpDate = new DateTime(2028, 12, 02)
                     },
                     new Item
                     {
                         ProductID = Guid.NewGuid(),
                         ProductName = "Librederm Гиалуроновый крем, 50 мл",
                         CategoryID = catCare.CategoryID,
-                        Price = 810,
+                        PurPrice = 810,
+                        SellPrice = 890,
                         Quantity = 145,
                         Units = MeasurementUnits.Piece,
+                        ManufDate = new DateTime(2026,02,02),
                         ExpDate = new DateTime(2028, 03, 16)
                     },
                     new Item
                     {
                         ProductID = Guid.NewGuid(),
-                        ProductName = "KRYGINA Блеск для губ LIP MAXIMALIST",
+                        ProductName = "KRYGINA Блеск для губ LIP MAXIMALIST 09",
                         CategoryID = catDecor.CategoryID,
-                        Price = 1050,
+                        PurPrice = 1050,
+                        SellPrice = 1210,
                         Quantity = 57,
                         Units = MeasurementUnits.Piece,
-                        ExpDate = new DateTime(2028, 05, 18)
+                        ManufDate = new DateTime(2024,05,18),
+                        ExpDate = new DateTime(2026, 05, 18)
+                    },
+                    new Item
+                    {
+                        ProductID = Guid.NewGuid(),
+                        ProductName = "MAKE UP REVOLUTION Палетка теней для век ICON",
+                        CategoryID = catDecor.CategoryID,
+                        PurPrice = 1220,
+                        SellPrice = 1450,
+                        Quantity = 10,
+                        Units = MeasurementUnits.Piece,
+                        ManufDate = new DateTime(2023,06,09),
+                        ExpDate = new DateTime(2026, 06, 09)
                     }
                 });
 
