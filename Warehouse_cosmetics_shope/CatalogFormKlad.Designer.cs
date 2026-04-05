@@ -31,7 +31,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.buttonExit = new System.Windows.Forms.Button();
             this.buttonOtgruzka = new System.Windows.Forms.Button();
             this.labelLogin = new System.Windows.Forms.Label();
@@ -48,6 +47,7 @@
             this.buttonFilter = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
+            this.labelShowLogin = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -56,15 +56,14 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.labelShowLogin);
             this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.buttonExit);
             this.panel1.Controls.Add(this.buttonOtgruzka);
             this.panel1.Location = new System.Drawing.Point(1, 1);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(810, 49);
             this.panel1.TabIndex = 8;
-            
             // 
             // label2
             // 
@@ -73,15 +72,6 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(0, 16);
             this.label2.TabIndex = 8;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(663, 16);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(23, 16);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "ID:";
             // 
             // buttonExit
             // 
@@ -256,6 +246,15 @@
             this.button3.Text = "Искать";
             this.button3.UseVisualStyleBackColor = false;
             // 
+            // labelShowLogin
+            // 
+            this.labelShowLogin.AutoSize = true;
+            this.labelShowLogin.Location = new System.Drawing.Point(578, 16);
+            this.labelShowLogin.Name = "labelShowLogin";
+            this.labelShowLogin.Size = new System.Drawing.Size(77, 16);
+            this.labelShowLogin.TabIndex = 9;
+            this.labelShowLogin.Text = "Ваш логин:";
+            // 
             // CatalogFormKlad
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -283,7 +282,6 @@
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonExit;
         private System.Windows.Forms.Button buttonOtgruzka;
         private System.Windows.Forms.Label labelLogin;
@@ -300,5 +298,6 @@
         private System.Windows.Forms.Button buttonFilter;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Label labelShowLogin;
     }
 }

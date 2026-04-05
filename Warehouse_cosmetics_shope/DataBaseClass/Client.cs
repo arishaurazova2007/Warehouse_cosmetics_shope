@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Warehouse_cosmetics_shope.DataBaseClass;
 namespace Warehouse_cosmetics_shope
 {
@@ -15,6 +16,9 @@ namespace Warehouse_cosmetics_shope
         /// </summary>
         [Key]
         public Guid ClientID { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int ClientNumber { get; set; }
         /// <summary>
         /// Категория клиента
         /// Определяется через перечисление ClientTypes
