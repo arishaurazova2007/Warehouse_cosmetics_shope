@@ -96,8 +96,8 @@ namespace Warehouse_cosmetics_shope
 
                 var catFemale = new Category { CategoryID = Guid.NewGuid(), CategoryName = "Женская парфюмерия", ParentID = catPerfume.CategoryID };
                 var catMale = new Category { CategoryID = Guid.NewGuid(), CategoryName = "Мужская парфюмерия", ParentID = catPerfume.CategoryID };
-                var catDecor = new Category { CategoryID = Guid.NewGuid(), CategoryName = "Декоративная", ParentID = catCosmetics.CategoryID };
-                var catCare = new Category { CategoryID = Guid.NewGuid(), CategoryName = "Уходовая", ParentID = catCosmetics.CategoryID };
+                var catDecor = new Category { CategoryID = Guid.NewGuid(), CategoryName = "Декоративная косметика", ParentID = catCosmetics.CategoryID };
+                var catCare = new Category { CategoryID = Guid.NewGuid(), CategoryName = "Уходовая косметика", ParentID = catCosmetics.CategoryID };
                 db.Categories.AddRange(new List<Category> { catFemale, catMale, catDecor, catCare });
 
                 var subCatDuhyFemale = new Category { CategoryID = Guid.NewGuid(), CategoryName = "Духи женские", ParentID = catFemale.CategoryID };

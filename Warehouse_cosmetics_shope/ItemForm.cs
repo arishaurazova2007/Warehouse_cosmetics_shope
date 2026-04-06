@@ -309,7 +309,6 @@ namespace Warehouse_cosmetics_shope
         {
             var editCategoryForm = new EditCategoryForm();
             editCategoryForm.Show();
-            this.Hide();
         }
 
         private void Deletebutton_Click(object sender, EventArgs e)

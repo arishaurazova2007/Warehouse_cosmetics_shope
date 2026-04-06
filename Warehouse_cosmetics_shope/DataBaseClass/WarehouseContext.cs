@@ -12,7 +12,7 @@ namespace Warehouse_cosmetics_shope.DataBaseClass
         /// </summary>
         public WarehouseContext() : base("DBConnection")
         {
-            Database.SetInitializer(new CreateDatabaseIfNotExists<WarehouseContext>());
+            Database.SetInitializer<WarehouseContext>(null);
         }
 
         public DbSet<Client> Clients { get; set; }

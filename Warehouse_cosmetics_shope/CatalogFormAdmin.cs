@@ -2,7 +2,6 @@
 using System;
 using System.Data.Entity;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using Warehouse_cosmetics_shope.DataBaseClass;
 namespace Warehouse_cosmetics_shope
@@ -51,7 +50,8 @@ namespace Warehouse_cosmetics_shope
                 dataGridViewCatalog.Columns["ProductNumber"].HeaderText = "Артикул";
                 dataGridViewCatalog.Columns["ProductName"].HeaderText = "Название";
                 dataGridViewCatalog.Columns["ParentCategoryName"].HeaderText = "Категория";
-                dataGridViewCatalog.Columns["ChildCategoryName"].HeaderText = "Вид";
+                dataGridViewCatalog.Columns["ParentCategoryName"].Visible = false;
+                dataGridViewCatalog.Columns["ChildCategoryName"].HeaderText = "Категория";
                 dataGridViewCatalog.Columns["Units"].HeaderText = "Ед. изм.";
                 dataGridViewCatalog.Columns["ManufDate"].HeaderText = "Дата производства";
                 dataGridViewCatalog.Columns["ManufDate"].Visible = false;
@@ -158,7 +158,7 @@ namespace Warehouse_cosmetics_shope
 
             if (remainingPercent < 0.33)
             {
-                dataGridViewCatalog.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightGoldenrodYellow;
+                dataGridViewCatalog.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(255, 196, 150);
             }
 
             else

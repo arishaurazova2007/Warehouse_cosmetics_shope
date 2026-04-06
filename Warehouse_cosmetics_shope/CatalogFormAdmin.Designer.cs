@@ -69,7 +69,7 @@
             this.searchButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.searchButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.searchButton.ForeColor = System.Drawing.Color.White;
-            this.searchButton.Location = new System.Drawing.Point(1018, 96);
+            this.searchButton.Location = new System.Drawing.Point(930, 96);
             this.searchButton.Name = "searchButton";
             this.searchButton.Size = new System.Drawing.Size(140, 29);
             this.searchButton.TabIndex = 2;
@@ -79,7 +79,7 @@
             // searchBox
             // 
             this.searchBox.ForeColor = System.Drawing.Color.Gray;
-            this.searchBox.Location = new System.Drawing.Point(712, 99);
+            this.searchBox.Location = new System.Drawing.Point(624, 99);
             this.searchBox.MaximumSize = new System.Drawing.Size(300, 50);
             this.searchBox.Name = "searchBox";
             this.searchBox.Size = new System.Drawing.Size(300, 22);
@@ -108,7 +108,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1265, 150);
+            this.panel2.Size = new System.Drawing.Size(1132, 150);
             this.panel2.TabIndex = 8;
             // 
             // buttonPlus
@@ -157,7 +157,7 @@
             // labelShowLogin
             // 
             this.labelShowLogin.AutoSize = true;
-            this.labelShowLogin.Location = new System.Drawing.Point(965, 16);
+            this.labelShowLogin.Location = new System.Drawing.Point(877, 16);
             this.labelShowLogin.Name = "labelShowLogin";
             this.labelShowLogin.Size = new System.Drawing.Size(77, 16);
             this.labelShowLogin.TabIndex = 9;
@@ -207,7 +207,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(0, 150);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1265, 624);
+            this.panel3.Size = new System.Drawing.Size(1132, 478);
             this.panel3.TabIndex = 9;
             // 
             // dataGridViewCatalog
@@ -226,7 +226,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.ClientSize = new System.Drawing.Size(1265, 774);
+            this.ClientSize = new System.Drawing.Size(1132, 628);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Name = "CatalogFormAdmin";
