@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Windows.Forms;
 using Warehouse_cosmetics_shope.DataBaseClass;
-using Warehouse_cosmetics_shope.Helpers;
 
 namespace Warehouse_cosmetics_shope
 {
@@ -170,7 +169,7 @@ namespace Warehouse_cosmetics_shope
                     Surname = surnameBox.Text.Trim(),
                     Name = nameBox.Text.Trim(),
                     Patronymic = patronimicBox.Text.Trim(),
-                    Password = passwordBox.Text,
+                    Password = BCrypt.Net.BCrypt.HashPassword(passwordBox.Text),
                     Role = Roles.Storekeeper
                 };
 
