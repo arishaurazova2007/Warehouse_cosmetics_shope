@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Warehouse_cosmetics_shope.DataBaseClass;
-using static System.Data.Entity.Infrastructure.Design.Executor;
 namespace Warehouse_cosmetics_shope
 {
     public partial class CatalogFormAdmin : Form
