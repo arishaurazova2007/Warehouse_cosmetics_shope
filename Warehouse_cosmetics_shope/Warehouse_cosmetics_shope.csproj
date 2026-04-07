@@ -171,6 +171,9 @@
     <Compile Include="DataBaseClass\Client.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CartochkaForm.resx">
+      <DependentUpon>CartochkaForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CatalogFormAdmin.resx">
       <DependentUpon>CatalogFormAdmin.cs</DependentUpon>
     </EmbeddedResource>

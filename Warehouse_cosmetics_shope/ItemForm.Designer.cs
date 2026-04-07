@@ -46,77 +46,77 @@
             // itemFormTitleLabel
             // 
             this.itemFormTitleLabel.AutoSize = true;
-            this.itemFormTitleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.itemFormTitleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold);
             this.itemFormTitleLabel.ForeColor = System.Drawing.Color.Black;
             this.itemFormTitleLabel.Location = new System.Drawing.Point(390, 49);
             this.itemFormTitleLabel.Name = "itemFormTitleLabel";
-            this.itemFormTitleLabel.Size = new System.Drawing.Size(23, 32);
+            this.itemFormTitleLabel.Size = new System.Drawing.Size(23, 31);
             this.itemFormTitleLabel.TabIndex = 0;
             this.itemFormTitleLabel.Text = "/";
             // 
             // productNameLabel
             // 
             this.productNameLabel.AutoSize = true;
-            this.productNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.productNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold);
             this.productNameLabel.ForeColor = System.Drawing.Color.Black;
-            this.productNameLabel.Location = new System.Drawing.Point(284, 138);
+            this.productNameLabel.Location = new System.Drawing.Point(282, 137);
             this.productNameLabel.Name = "productNameLabel";
-            this.productNameLabel.Size = new System.Drawing.Size(99, 20);
+            this.productNameLabel.Size = new System.Drawing.Size(100, 22);
             this.productNameLabel.TabIndex = 1;
             this.productNameLabel.Text = "Название";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold);
             this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(274, 218);
+            this.label4.Location = new System.Drawing.Point(274, 219);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(107, 20);
+            this.label4.Size = new System.Drawing.Size(106, 22);
             this.label4.TabIndex = 3;
             this.label4.Text = "Категория";
             // 
             // manufDateLabel
             // 
             this.manufDateLabel.AutoSize = true;
-            this.manufDateLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.manufDateLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold);
             this.manufDateLabel.ForeColor = System.Drawing.Color.Black;
-            this.manufDateLabel.Location = new System.Drawing.Point(192, 310);
+            this.manufDateLabel.Location = new System.Drawing.Point(193, 309);
             this.manufDateLabel.Name = "manufDateLabel";
-            this.manufDateLabel.Size = new System.Drawing.Size(191, 20);
+            this.manufDateLabel.Size = new System.Drawing.Size(188, 22);
             this.manufDateLabel.TabIndex = 5;
             this.manufDateLabel.Text = "Дата изготовления";
             // 
             // expDateLabel
             // 
             this.expDateLabel.AutoSize = true;
-            this.expDateLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.expDateLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold);
             this.expDateLabel.ForeColor = System.Drawing.Color.Black;
-            this.expDateLabel.Location = new System.Drawing.Point(284, 355);
+            this.expDateLabel.Location = new System.Drawing.Point(286, 354);
             this.expDateLabel.Name = "expDateLabel";
-            this.expDateLabel.Size = new System.Drawing.Size(96, 20);
+            this.expDateLabel.Size = new System.Drawing.Size(95, 22);
             this.expDateLabel.TabIndex = 6;
             this.expDateLabel.Text = "Годен до";
             // 
             // purPriceLabel
             // 
             this.purPriceLabel.AutoSize = true;
-            this.purPriceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.purPriceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold);
             this.purPriceLabel.ForeColor = System.Drawing.Color.Black;
-            this.purPriceLabel.Location = new System.Drawing.Point(249, 452);
+            this.purPriceLabel.Location = new System.Drawing.Point(249, 451);
             this.purPriceLabel.Name = "purPriceLabel";
-            this.purPriceLabel.Size = new System.Drawing.Size(134, 20);
+            this.purPriceLabel.Size = new System.Drawing.Size(136, 22);
             this.purPriceLabel.TabIndex = 7;
             this.purPriceLabel.Text = "Цена закупки";
             // 
             // quantityLabel
             // 
             this.quantityLabel.AutoSize = true;
-            this.quantityLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.quantityLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold);
             this.quantityLabel.ForeColor = System.Drawing.Color.Black;
-            this.quantityLabel.Location = new System.Drawing.Point(291, 540);
+            this.quantityLabel.Location = new System.Drawing.Point(298, 538);
             this.quantityLabel.Name = "quantityLabel";
-            this.quantityLabel.Size = new System.Drawing.Size(87, 20);
+            this.quantityLabel.Size = new System.Drawing.Size(85, 22);
             this.quantityLabel.TabIndex = 8;
             this.quantityLabel.Text = "Остаток";
             // 
@@ -160,6 +160,7 @@
             this.buttonEditCategory.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonEditCategory.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.buttonEditCategory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonEditCategory.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonEditCategory.Location = new System.Drawing.Point(748, 259);
             this.buttonEditCategory.Name = "buttonEditCategory";
             this.buttonEditCategory.Size = new System.Drawing.Size(146, 31);
@@ -173,6 +174,7 @@
             this.Deletebutton.BackColor = System.Drawing.Color.PaleTurquoise;
             this.Deletebutton.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.Deletebutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Deletebutton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Deletebutton.Location = new System.Drawing.Point(748, 529);
             this.Deletebutton.Name = "Deletebutton";
             this.Deletebutton.Size = new System.Drawing.Size(146, 31);
@@ -208,22 +210,22 @@
             // sellPriceLabel
             // 
             this.sellPriceLabel.AutoSize = true;
-            this.sellPriceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.sellPriceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold);
             this.sellPriceLabel.ForeColor = System.Drawing.Color.Black;
-            this.sellPriceLabel.Location = new System.Drawing.Point(199, 497);
+            this.sellPriceLabel.Location = new System.Drawing.Point(199, 496);
             this.sellPriceLabel.Name = "sellPriceLabel";
-            this.sellPriceLabel.Size = new System.Drawing.Size(184, 20);
+            this.sellPriceLabel.Size = new System.Drawing.Size(185, 22);
             this.sellPriceLabel.TabIndex = 25;
             this.sellPriceLabel.Text = "Цена для продажи";
             // 
             // measUnitsLabel
             // 
             this.measUnitsLabel.AutoSize = true;
-            this.measUnitsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.measUnitsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold);
             this.measUnitsLabel.ForeColor = System.Drawing.Color.Black;
-            this.measUnitsLabel.Location = new System.Drawing.Point(236, 405);
+            this.measUnitsLabel.Location = new System.Drawing.Point(236, 404);
             this.measUnitsLabel.Name = "measUnitsLabel";
-            this.measUnitsLabel.Size = new System.Drawing.Size(146, 20);
+            this.measUnitsLabel.Size = new System.Drawing.Size(148, 22);
             this.measUnitsLabel.TabIndex = 27;
             this.measUnitsLabel.Text = "Ед. измерения";
             // 
@@ -282,11 +284,11 @@
             // itemNumberTitle
             // 
             this.itemNumberTitle.AutoSize = true;
-            this.itemNumberTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.itemNumberTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold);
             this.itemNumberTitle.ForeColor = System.Drawing.Color.Black;
-            this.itemNumberTitle.Location = new System.Drawing.Point(295, 176);
+            this.itemNumberTitle.Location = new System.Drawing.Point(295, 175);
             this.itemNumberTitle.Name = "itemNumberTitle";
-            this.itemNumberTitle.Size = new System.Drawing.Size(85, 20);
+            this.itemNumberTitle.Size = new System.Drawing.Size(85, 22);
             this.itemNumberTitle.TabIndex = 34;
             this.itemNumberTitle.Text = "Артикул";
             // 
@@ -320,7 +322,7 @@
             this.Controls.Add(this.productNameLabel);
             this.Controls.Add(this.itemFormTitleLabel);
             this.Name = "ItemForm";
-            this.Text = "Карточка товара (адм)";
+            this.Text = "Товар";
             ((System.ComponentModel.ISupportInitialize)(this.purPriceNumeric)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sellPriceNumeric)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.quantityPickOrShowNumeric)).EndInit();

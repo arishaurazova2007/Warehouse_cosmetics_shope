@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Drawing;
 using System.Windows.Forms;
 using Warehouse_cosmetics_shope.DataBaseClass;
+using System.Drawing.Text;
 namespace Warehouse_cosmetics_shope
 {
     public partial class CatalogFormAdmin : Form
@@ -164,6 +165,60 @@ namespace Warehouse_cosmetics_shope
             else
             {
                 dataGridViewCatalog.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;
+            }
+        }
+
+        private void searchBox_Enter(object sender, EventArgs e)
+        {
+            if (searchBox.Text == "Поиск")
+            {
+                searchBox.Text = String.Empty;
+                searchBox.ForeColor = Color.Black;
+            }
+        }
+        private void searchBox_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(searchBox.Text))
+            {
+                searchBox.Text = "Поиск";
+                searchBox.ForeColor = Color.Gray;
+            }
+        }
+        private void searchBox_TextChanged(object sender, EventArgs e)
+        {
+            // Игнорируем, если текст равен "Поиск" или пустой
+            if (searchBox.Text == "Поиск" || string.IsNullOrWhiteSpace(searchBox.Text))
+            {
+                // Если ничего не введено - показываем все товары
+                LoadCatalog();
+                return;
+            }
+
+            string searchText = searchBox.Text.Trim().ToLower();
+
+            using (var db = new WarehouseContext())
+            {
+                var filteredItems = db.Items
+                    .Where(i => i.ProductNumber.ToString().Contains(searchText) ||
+                                i.ProductName.ToLower().Contains(searchText))
+                    .ToList();
+
+                // Формируем данные для отображения
+                var displayList = filteredItems.Select(i => new
+                {
+                    i.ProductNumber,
+                    i.ProductName,
+                    ParentCategoryName = i.Category?.Parent?.CategoryName ?? String.Empty,
+                    ChildCategoryName = i.Category?.CategoryName ?? String.Empty,
+                    Units = GetUnitDisplayName(i.Units),
+                    i.ManufDate,
+                    i.ExpDate,
+                    i.PurPrice,
+                    i.SellPrice,
+                    i.Quantity
+                }).ToList();
+
+                dataGridViewCatalog.DataSource = displayList;
             }
         }
     }

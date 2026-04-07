@@ -278,7 +278,7 @@ namespace Warehouse_cosmetics_shope
             // Проверка срока годности (должен быть позже даты изготовления)
             if (expDatePicker.Value <= manufdatePicker.Value)
             {
-                MessageBox.Show("Срок годности должен быть позже даты изготовления", "Ошибка",
+                MessageBox.Show("Дата истечения срока годности должна быть позже даты изготовления", "Ошибка",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 expDatePicker.Focus();
                 return false;

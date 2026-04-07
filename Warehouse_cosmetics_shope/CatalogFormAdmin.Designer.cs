@@ -31,7 +31,7 @@
             this.buttonHistory = new System.Windows.Forms.Button();
             this.searchButton = new System.Windows.Forms.Button();
             this.searchBox = new System.Windows.Forms.TextBox();
-            this.labelLogin = new System.Windows.Forms.Label();
+            this.catalogLabel = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.buttonPlus = new System.Windows.Forms.Button();
             this.buttonFilter = new System.Windows.Forms.Button();
@@ -75,6 +75,7 @@
             this.searchButton.TabIndex = 2;
             this.searchButton.Text = "Искать";
             this.searchButton.UseVisualStyleBackColor = false;
+            this.searchButton.Click += new System.EventHandler(this.searchBox_TextChanged);
             // 
             // searchBox
             // 
@@ -85,16 +86,17 @@
             this.searchBox.Size = new System.Drawing.Size(300, 22);
             this.searchBox.TabIndex = 3;
             this.searchBox.Text = "Поиск";
+            this.searchBox.Enter += new System.EventHandler(this.searchBox_Enter);
             // 
-            // labelLogin
+            // catalogLabel
             // 
-            this.labelLogin.AutoSize = true;
-            this.labelLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelLogin.Location = new System.Drawing.Point(12, 89);
-            this.labelLogin.Name = "labelLogin";
-            this.labelLogin.Size = new System.Drawing.Size(250, 32);
-            this.labelLogin.TabIndex = 5;
-            this.labelLogin.Text = "Каталог товаров";
+            this.catalogLabel.AutoSize = true;
+            this.catalogLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.catalogLabel.Location = new System.Drawing.Point(33, 89);
+            this.catalogLabel.Name = "catalogLabel";
+            this.catalogLabel.Size = new System.Drawing.Size(250, 32);
+            this.catalogLabel.TabIndex = 5;
+            this.catalogLabel.Text = "Каталог товаров";
             // 
             // panel2
             // 
@@ -104,7 +106,7 @@
             this.panel2.Controls.Add(this.panel1);
             this.panel2.Controls.Add(this.searchBox);
             this.panel2.Controls.Add(this.searchButton);
-            this.panel2.Controls.Add(this.labelLogin);
+            this.panel2.Controls.Add(this.catalogLabel);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
@@ -114,12 +116,13 @@
             // buttonPlus
             // 
             this.buttonPlus.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
+            this.buttonPlus.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonPlus.FlatAppearance.BorderSize = 0;
             this.buttonPlus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonPlus.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonPlus.Location = new System.Drawing.Point(282, 89);
+            this.buttonPlus.Location = new System.Drawing.Point(297, 89);
             this.buttonPlus.Name = "buttonPlus";
-            this.buttonPlus.Size = new System.Drawing.Size(34, 39);
+            this.buttonPlus.Size = new System.Drawing.Size(34, 37);
             this.buttonPlus.TabIndex = 9;
             this.buttonPlus.Text = "+";
             this.buttonPlus.UseVisualStyleBackColor = false;
@@ -132,7 +135,7 @@
             this.buttonFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonFilter.ForeColor = System.Drawing.Color.Black;
-            this.buttonFilter.Location = new System.Drawing.Point(356, 93);
+            this.buttonFilter.Location = new System.Drawing.Point(377, 93);
             this.buttonFilter.Name = "buttonFilter";
             this.buttonFilter.Size = new System.Drawing.Size(133, 33);
             this.buttonFilter.TabIndex = 8;
@@ -213,12 +216,13 @@
             // dataGridViewCatalog
             // 
             this.dataGridViewCatalog.AllowUserToOrderColumns = true;
+            this.dataGridViewCatalog.BackgroundColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.dataGridViewCatalog.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewCatalog.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewCatalog.Name = "dataGridViewCatalog";
             this.dataGridViewCatalog.RowHeadersWidth = 51;
             this.dataGridViewCatalog.RowTemplate.Height = 24;
-            this.dataGridViewCatalog.Size = new System.Drawing.Size(1265, 624);
+            this.dataGridViewCatalog.Size = new System.Drawing.Size(1132, 624);
             this.dataGridViewCatalog.TabIndex = 0;
             // 
             // CatalogFormAdmin
@@ -246,7 +250,7 @@
         private System.Windows.Forms.Button buttonHistory;
         private System.Windows.Forms.Button searchButton;
         private System.Windows.Forms.TextBox searchBox;
-        private System.Windows.Forms.Label labelLogin;
+        private System.Windows.Forms.Label catalogLabel;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel1;

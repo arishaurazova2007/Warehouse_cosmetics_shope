@@ -21,5 +21,10 @@ namespace Warehouse_cosmetics_shope
             catalogForm.Show();
             this.Hide();
         }
+
+        private void labelLogin_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
