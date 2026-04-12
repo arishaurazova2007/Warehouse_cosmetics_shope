@@ -26,7 +26,6 @@ namespace Warehouse_cosmetics_shope
             var criteria = new FilterCriteria();
             // Категория
             criteria.CategoryPerfumeMen = checkBoxPerfumeMen.Checked;
-            criteria.CategoryPerfumeWomen = checkBoxPerfumeWomen.Checked;
             criteria.CategoryCosmetics = checkBoxCosmetics.Checked;
             // Вид
             criteria.TypePerfume = checkBoxPerfume.Checked;
@@ -55,6 +54,11 @@ namespace Warehouse_cosmetics_shope
             // Загрузка всех товаров (без фильтра)
         }
         private void FiltrationForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBoxPerfumeMen_CheckedChanged(object sender, EventArgs e)
         {
 
         }

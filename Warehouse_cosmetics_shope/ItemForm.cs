@@ -51,8 +51,6 @@ namespace Warehouse_cosmetics_shope
             using (var db = new WarehouseContext())
             {
                 var allCategories = db.Categories.ToList();
-
-                // Формируем полный путь для каждой категории
                 var displayList = allCategories.Select(cat => new CategoryPath
                 {
                     CategoryID = cat.CategoryID,
@@ -63,7 +61,6 @@ namespace Warehouse_cosmetics_shope
                 categoryComboBox.DisplayMember = "FullPath";
                 categoryComboBox.ValueMember = "CategoryID";
 
-                // Включаем автодополнение и поиск
                 categoryComboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                 categoryComboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
             }

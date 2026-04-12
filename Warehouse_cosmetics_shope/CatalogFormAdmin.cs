@@ -159,7 +159,7 @@ namespace Warehouse_cosmetics_shope
 
             if (remainingPercent < 0.33)
             {
-                dataGridViewCatalog.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(255, 196, 150);
+                dataGridViewCatalog.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(255, 235, 157);
             }
 
             else
