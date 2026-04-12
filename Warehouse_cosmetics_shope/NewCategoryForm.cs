@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
+using Warehouse_cosmetics_shope.DataBaseClass;
 namespace Warehouse_cosmetics_shope
 {
     public partial class NewCategoryForm : Form
@@ -8,35 +10,101 @@ namespace Warehouse_cosmetics_shope
         public NewCategoryForm()
         {
             InitializeComponent();
+            LoadParentCategories();
         }
         public NewCategoryForm(Guid userId)
         {
             InitializeComponent();
             this.currentUserId = userId;
+            LoadParentCategories();
         }
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            AddCategory(); // Сохранение в БД
-            var editCategoryForm = new EditCategoryForm();
-            editCategoryForm.Show();
+            AddCategory();
             this.Hide();
         }
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            var editCategoryForm = new EditCategoryForm();
-            editCategoryForm.Show();
             this.Hide();
         }
         private void AddCategory()
         {
+            if (string.IsNullOrWhiteSpace(categoryNameInput.Text))
+            {
+                MessageBox.Show("Введите название категории", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                categoryNameInput.Focus();
+                return;
+            }
+            Guid? parentId = null;
+            string parentName = "Корневая категория";
+            string newCategoryName = categoryNameInput.Text.Trim();
+
+            if (parentCategoryComboBox.SelectedItem != null)
+            {
+                var selected = (CategoryPath)parentCategoryComboBox.SelectedItem;
+                parentId = selected.CategoryID;
+                parentName = selected.FullPath;
+            }
+            using (var db = new WarehouseContext())
+            {
+                var existingCategory = db.Categories.FirstOrDefault(c => c.CategoryName == newCategoryName);
+                if (existingCategory != null)
+                {
+                    MessageBox.Show($"Категория с названием \"{newCategoryName}\" уже существует!",
+                        "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    categoryNameInput.Focus();
+                    return;
+                }
+                else
+                {
+                    var newCategory = new Category
+                    {
+                        CategoryID = Guid.NewGuid(),
+                        CategoryName = newCategoryName,
+                        ParentID = parentId
+                    };
+
+                    db.Categories.Add(newCategory);
+                    db.SaveChanges();
+
+                    MessageBox.Show($"Категория \"{newCategoryName}\" успешно добавлена в {parentName}!",
+                        "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Hide();
+                }
+            }
         }
         private void LoadParentCategories()
         {
-            // Загрузка родительских категорий в ComboBox
+            using (var db = new WarehouseContext())
+            {
+                var allCategories = db.Categories.ToList();
+                var displayList = allCategories.Select(cat => new CategoryPath
+                {
+                    CategoryID = cat.CategoryID,
+                    FullPath = GetCategoryPath(cat.CategoryID, allCategories)
+                }).OrderBy(c => c.FullPath).ToList();
+
+                parentCategoryComboBox.DataSource = displayList;
+                parentCategoryComboBox.DisplayMember = "FullPath";
+                parentCategoryComboBox.ValueMember = "CategoryID";
+
+                parentCategoryComboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                parentCategoryComboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
+            }
         }
-        private void NewCategoryForm_Load(object sender, EventArgs e)
+        private string GetCategoryPath(Guid categoryId, System.Collections.Generic.List<Category> allCategories)
         {
-            LoadParentCategories();
+            var path = new System.Collections.Generic.List<string>();
+            var current = allCategories.FirstOrDefault(c => c.CategoryID == categoryId);
+
+            while (current != null)
+            {
+                path.Insert(0, current.CategoryName);
+                current = allCategories.FirstOrDefault(c => c.CategoryID == current.ParentID);
+            }
+
+            return string.Join(" → ", path);
         }
     }
 }

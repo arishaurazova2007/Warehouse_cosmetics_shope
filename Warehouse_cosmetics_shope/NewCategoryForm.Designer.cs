@@ -31,7 +31,7 @@
             this.newCategoryFormLabel = new System.Windows.Forms.Label();
             this.parentCategoryLabel = new System.Windows.Forms.Label();
             this.nameLabel = new System.Windows.Forms.Label();
-            this.categoryListBox = new System.Windows.Forms.ComboBox();
+            this.parentCategoryComboBox = new System.Windows.Forms.ComboBox();
             this.categoryNameInput = new System.Windows.Forms.TextBox();
             this.buttonAdd = new System.Windows.Forms.Button();
             this.buttonBack = new System.Windows.Forms.Button();
@@ -70,14 +70,14 @@
             this.nameLabel.TabIndex = 3;
             this.nameLabel.Text = "Название";
             // 
-            // categoryListBox
+            // parentCategoryComboBox
             // 
-            this.categoryListBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.categoryListBox.FormattingEnabled = true;
-            this.categoryListBox.Location = new System.Drawing.Point(356, 148);
-            this.categoryListBox.Name = "categoryListBox";
-            this.categoryListBox.Size = new System.Drawing.Size(281, 24);
-            this.categoryListBox.TabIndex = 18;
+            this.parentCategoryComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.parentCategoryComboBox.FormattingEnabled = true;
+            this.parentCategoryComboBox.Location = new System.Drawing.Point(356, 148);
+            this.parentCategoryComboBox.Name = "parentCategoryComboBox";
+            this.parentCategoryComboBox.Size = new System.Drawing.Size(281, 24);
+            this.parentCategoryComboBox.TabIndex = 18;
             // 
             // categoryNameInput
             // 
@@ -122,7 +122,7 @@
             this.Controls.Add(this.buttonBack);
             this.Controls.Add(this.buttonAdd);
             this.Controls.Add(this.categoryNameInput);
-            this.Controls.Add(this.categoryListBox);
+            this.Controls.Add(this.parentCategoryComboBox);
             this.Controls.Add(this.nameLabel);
             this.Controls.Add(this.parentCategoryLabel);
             this.Controls.Add(this.newCategoryFormLabel);
@@ -138,7 +138,7 @@
         private System.Windows.Forms.Label newCategoryFormLabel;
         private System.Windows.Forms.Label parentCategoryLabel;
         private System.Windows.Forms.Label nameLabel;
-        private System.Windows.Forms.ComboBox categoryListBox;
+        private System.Windows.Forms.ComboBox parentCategoryComboBox;
         private System.Windows.Forms.TextBox categoryNameInput;
         private System.Windows.Forms.Button buttonAdd;
         private System.Windows.Forms.Button buttonBack;
