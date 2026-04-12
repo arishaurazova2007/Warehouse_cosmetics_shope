@@ -28,31 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Туал.вода");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Женская", new System.Windows.Forms.TreeNode[] {
-            treeNode1});
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Мужская");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Парфюмерия", new System.Windows.Forms.TreeNode[] {
-            treeNode2,
-            treeNode3});
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Уходовая");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Декоративная");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Косметика", new System.Windows.Forms.TreeNode[] {
-            treeNode5,
-            treeNode6});
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Категория", new System.Windows.Forms.TreeNode[] {
-            treeNode4,
-            treeNode7});
             this.label1 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.checkBoxPerfumeMen = new System.Windows.Forms.CheckBox();
-            this.checkBoxCosmetics = new System.Windows.Forms.CheckBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.checkBoxPerfume = new System.Windows.Forms.CheckBox();
-            this.checkBoxPerfumeWater = new System.Windows.Forms.CheckBox();
-            this.checkBoxToiletWater = new System.Windows.Forms.CheckBox();
-            this.checkBoxCare = new System.Windows.Forms.CheckBox();
-            this.checkBoxDecor = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.textBoxPriceFrom = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -62,7 +38,7 @@
             this.checkBoxInStock = new System.Windows.Forms.CheckBox();
             this.checkBoxNotInStock = new System.Windows.Forms.CheckBox();
             this.buttonShow = new System.Windows.Forms.Button();
-            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.categoriesCheckedListBox = new System.Windows.Forms.CheckedListBox();
             this.SuspendLayout();
             // 
             // label1
@@ -75,106 +51,6 @@
             this.label1.Size = new System.Drawing.Size(151, 25);
             this.label1.TabIndex = 2;
             this.label1.Text = "Фильтровать";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label6.ForeColor = System.Drawing.Color.Black;
-            this.label6.Location = new System.Drawing.Point(214, 56);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(107, 20);
-            this.label6.TabIndex = 6;
-            this.label6.Text = "Категория";
-            // 
-            // checkBoxPerfumeMen
-            // 
-            this.checkBoxPerfumeMen.AutoSize = true;
-            this.checkBoxPerfumeMen.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.checkBoxPerfumeMen.Location = new System.Drawing.Point(216, 89);
-            this.checkBoxPerfumeMen.Name = "checkBoxPerfumeMen";
-            this.checkBoxPerfumeMen.Size = new System.Drawing.Size(124, 22);
-            this.checkBoxPerfumeMen.TabIndex = 7;
-            this.checkBoxPerfumeMen.Text = "Парфюмерия";
-            this.checkBoxPerfumeMen.UseVisualStyleBackColor = true;
-            this.checkBoxPerfumeMen.CheckedChanged += new System.EventHandler(this.checkBoxPerfumeMen_CheckedChanged);
-            // 
-            // checkBoxCosmetics
-            // 
-            this.checkBoxCosmetics.AutoSize = true;
-            this.checkBoxCosmetics.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.checkBoxCosmetics.Location = new System.Drawing.Point(402, 89);
-            this.checkBoxCosmetics.Name = "checkBoxCosmetics";
-            this.checkBoxCosmetics.Size = new System.Drawing.Size(107, 22);
-            this.checkBoxCosmetics.TabIndex = 9;
-            this.checkBoxCosmetics.Text = "Косметика";
-            this.checkBoxCosmetics.UseVisualStyleBackColor = true;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(212, 156);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(46, 20);
-            this.label2.TabIndex = 10;
-            this.label2.Text = "Вид";
-            // 
-            // checkBoxPerfume
-            // 
-            this.checkBoxPerfume.AutoSize = true;
-            this.checkBoxPerfume.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.checkBoxPerfume.Location = new System.Drawing.Point(218, 191);
-            this.checkBoxPerfume.Name = "checkBoxPerfume";
-            this.checkBoxPerfume.Size = new System.Drawing.Size(64, 22);
-            this.checkBoxPerfume.TabIndex = 11;
-            this.checkBoxPerfume.Text = "Духи";
-            this.checkBoxPerfume.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxPerfumeWater
-            // 
-            this.checkBoxPerfumeWater.AutoSize = true;
-            this.checkBoxPerfumeWater.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.checkBoxPerfumeWater.Location = new System.Drawing.Point(218, 219);
-            this.checkBoxPerfumeWater.Name = "checkBoxPerfumeWater";
-            this.checkBoxPerfumeWater.Size = new System.Drawing.Size(134, 22);
-            this.checkBoxPerfumeWater.TabIndex = 12;
-            this.checkBoxPerfumeWater.Text = "Парфюм. вода";
-            this.checkBoxPerfumeWater.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxToiletWater
-            // 
-            this.checkBoxToiletWater.AutoSize = true;
-            this.checkBoxToiletWater.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.checkBoxToiletWater.Location = new System.Drawing.Point(218, 247);
-            this.checkBoxToiletWater.Name = "checkBoxToiletWater";
-            this.checkBoxToiletWater.Size = new System.Drawing.Size(140, 22);
-            this.checkBoxToiletWater.TabIndex = 13;
-            this.checkBoxToiletWater.Text = "Туалетная вода";
-            this.checkBoxToiletWater.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxCare
-            // 
-            this.checkBoxCare.AutoSize = true;
-            this.checkBoxCare.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.checkBoxCare.Location = new System.Drawing.Point(402, 191);
-            this.checkBoxCare.Name = "checkBoxCare";
-            this.checkBoxCare.Size = new System.Drawing.Size(98, 22);
-            this.checkBoxCare.TabIndex = 14;
-            this.checkBoxCare.Text = "Уходовая";
-            this.checkBoxCare.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxDecor
-            // 
-            this.checkBoxDecor.AutoSize = true;
-            this.checkBoxDecor.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.checkBoxDecor.Location = new System.Drawing.Point(402, 219);
-            this.checkBoxDecor.Name = "checkBoxDecor";
-            this.checkBoxDecor.Size = new System.Drawing.Size(79, 22);
-            this.checkBoxDecor.TabIndex = 15;
-            this.checkBoxDecor.Text = "Декор.";
-            this.checkBoxDecor.UseVisualStyleBackColor = true;
             // 
             // label3
             // 
@@ -270,31 +146,15 @@
             this.buttonShow.TabIndex = 24;
             this.buttonShow.Text = "Показать";
             this.buttonShow.UseVisualStyleBackColor = false;
+            this.buttonShow.Click += new System.EventHandler(buttonShow_Click);
             // 
-            // treeView1
+            // categoriesCheckedListBox
             // 
-            this.treeView1.Location = new System.Drawing.Point(524, 89);
-            this.treeView1.Name = "treeView1";
-            treeNode1.Name = "Узел4";
-            treeNode1.Text = "Туал.вода";
-            treeNode2.Name = "Узел2";
-            treeNode2.Text = "Женская";
-            treeNode3.Name = "Узел3";
-            treeNode3.Text = "Мужская";
-            treeNode4.Name = "Узел1";
-            treeNode4.Text = "Парфюмерия";
-            treeNode5.Name = "Узел6";
-            treeNode5.Text = "Уходовая";
-            treeNode6.Name = "Узел8";
-            treeNode6.Text = "Декоративная";
-            treeNode7.Name = "Узел5";
-            treeNode7.Text = "Косметика";
-            treeNode8.Name = "CategoryKor";
-            treeNode8.Text = "Категория";
-            this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode8});
-            this.treeView1.Size = new System.Drawing.Size(223, 142);
-            this.treeView1.TabIndex = 25;
+            this.categoriesCheckedListBox.FormattingEnabled = true;
+            this.categoriesCheckedListBox.Location = new System.Drawing.Point(177, 49);
+            this.categoriesCheckedListBox.Name = "categoriesCheckedListBox";
+            this.categoriesCheckedListBox.Size = new System.Drawing.Size(474, 225);
+            this.categoriesCheckedListBox.TabIndex = 26;
             // 
             // FiltrationForm
             // 
@@ -302,7 +162,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.treeView1);
+            this.Controls.Add(this.categoriesCheckedListBox);
             this.Controls.Add(this.buttonShow);
             this.Controls.Add(this.checkBoxNotInStock);
             this.Controls.Add(this.checkBoxInStock);
@@ -312,15 +172,6 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.textBoxPriceFrom);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.checkBoxDecor);
-            this.Controls.Add(this.checkBoxCare);
-            this.Controls.Add(this.checkBoxToiletWater);
-            this.Controls.Add(this.checkBoxPerfumeWater);
-            this.Controls.Add(this.checkBoxPerfume);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.checkBoxCosmetics);
-            this.Controls.Add(this.checkBoxPerfumeMen);
-            this.Controls.Add(this.label6);
             this.Controls.Add(this.label1);
             this.Name = "FiltrationForm";
             this.Text = "Фильтрация";
@@ -332,15 +183,6 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.CheckBox checkBoxPerfumeMen;
-        private System.Windows.Forms.CheckBox checkBoxCosmetics;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.CheckBox checkBoxPerfume;
-        private System.Windows.Forms.CheckBox checkBoxPerfumeWater;
-        private System.Windows.Forms.CheckBox checkBoxToiletWater;
-        private System.Windows.Forms.CheckBox checkBoxCare;
-        private System.Windows.Forms.CheckBox checkBoxDecor;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBoxPriceFrom;
         private System.Windows.Forms.Label label4;
@@ -350,6 +192,6 @@
         private System.Windows.Forms.CheckBox checkBoxInStock;
         private System.Windows.Forms.CheckBox checkBoxNotInStock;
         private System.Windows.Forms.Button buttonShow;
-        private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.CheckedListBox categoriesCheckedListBox;
     }
 }

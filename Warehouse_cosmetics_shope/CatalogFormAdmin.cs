@@ -1,16 +1,18 @@
-﻿using System.Linq;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Drawing;
+using System.Drawing.Text;
+using System.Linq;
 using System.Windows.Forms;
 using Warehouse_cosmetics_shope.DataBaseClass;
-using System.Drawing.Text;
 namespace Warehouse_cosmetics_shope
 {
     public partial class CatalogFormAdmin : Form
     {
         private string currentUserLogin;
         private Guid currentUserId;
+        private List<Guid> currentFilterCategoryIds = null;
         public CatalogFormAdmin(Guid userId, string userLogin)
         {
             InitializeComponent();
@@ -26,10 +28,18 @@ namespace Warehouse_cosmetics_shope
         {
             using (var db = new WarehouseContext())
             {
-                var items = db.Items
+                var query = db.Items
                     .Include(i => i.Category)
                     .Include(i => i.Category.Parent)
-                    .ToList();
+                    .AsQueryable();
+
+                //применение фильтра
+                if (currentFilterCategoryIds != null && currentFilterCategoryIds.Any())
+                {
+                    query = query.Where(i => currentFilterCategoryIds.Contains(i.CategoryID));
+                }
+
+                var items = query.ToList();
 
                 var displayList = items.Select(i => new
                 {
@@ -93,8 +103,15 @@ namespace Warehouse_cosmetics_shope
         }
         private void buttonFilter_Click(object sender, EventArgs e)
         {
-            var filterForm = new FiltrationForm();  
-            filterForm.Show();
+            var filterForm = new FiltrationForm();
+
+            filterForm.FilterApplied += (selectedCategoryIds) =>
+            {
+                currentFilterCategoryIds = selectedCategoryIds;
+                LoadCatalog();
+            };
+
+            filterForm.ShowDialog();
         }
 
         private void buttonHistory_Click(object sender, EventArgs e)
@@ -113,7 +130,6 @@ namespace Warehouse_cosmetics_shope
         {
             if (e.RowIndex >= 0)
             {
-                // Получаем выбранный товар
                 var selectedRow = dataGridViewCatalog.Rows[e.RowIndex];
                 int productNumber = (int)selectedRow.Cells["ProductNumber"].Value;
 
@@ -131,10 +147,10 @@ namespace Warehouse_cosmetics_shope
         }
         private void dataGridViewCatalog_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            // Проверяем, что это строка с данными (не заголовок)
+            //проверяем, что это строка с данными (не заголовок)
             if (e.RowIndex < 0) return;
 
-            // Получаем дату истечения срока годности из нужной колонки
+            //получаем дату истечения срока годности из нужной колонки
             var expDateCell = dataGridViewCatalog.Rows[e.RowIndex].Cells["ExpDate"];
             var manufDateCell = dataGridViewCatalog.Rows[e.RowIndex].Cells["ManufDate"];
             
@@ -186,10 +202,8 @@ namespace Warehouse_cosmetics_shope
         }
         private void searchBox_TextChanged(object sender, EventArgs e)
         {
-            // Игнорируем, если текст равен "Поиск" или пустой
             if (searchBox.Text == "Поиск" || string.IsNullOrWhiteSpace(searchBox.Text))
             {
-                // Если ничего не введено - показываем все товары
                 LoadCatalog();
                 return;
             }
@@ -198,18 +212,27 @@ namespace Warehouse_cosmetics_shope
 
             using (var db = new WarehouseContext())
             {
-                var filteredItems = db.Items
-                    .Where(i => i.ProductNumber.ToString().Contains(searchText) ||
-                                i.ProductName.ToLower().Contains(searchText))
-                    .ToList();
+                var query = db.Items
+                    .Include(i => i.Category)
+                    .Include(i => i.Category.Parent)
+                    .AsQueryable();
 
-                // Формируем данные для отображения
+                query = query.Where(i => i.ProductNumber.ToString().Contains(searchText) ||
+                                         i.ProductName.ToLower().Contains(searchText));
+
+                if (currentFilterCategoryIds != null && currentFilterCategoryIds.Any())
+                {
+                    query = query.Where(i => currentFilterCategoryIds.Contains(i.CategoryID));
+                }
+
+                var filteredItems = query.ToList();
+
                 var displayList = filteredItems.Select(i => new
                 {
                     i.ProductNumber,
                     i.ProductName,
-                    ParentCategoryName = i.Category?.Parent?.CategoryName ?? String.Empty,
-                    ChildCategoryName = i.Category?.CategoryName ?? String.Empty,
+                    ParentCategoryName = i.Category?.Parent?.CategoryName ?? string.Empty,
+                    ChildCategoryName = i.Category?.CategoryName ?? string.Empty,
                     Units = GetUnitDisplayName(i.Units),
                     i.ManufDate,
                     i.ExpDate,

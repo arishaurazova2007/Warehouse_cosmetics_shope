@@ -98,6 +98,7 @@
     <Compile Include="EditCategoryForm.Designer.cs">
       <DependentUpon>EditCategoryForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CategoryInfo.cs" />
     <Compile Include="ItemForm.cs">
       <SubType>Form</SubType>
     </Compile>
