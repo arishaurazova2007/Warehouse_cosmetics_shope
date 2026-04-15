@@ -50,9 +50,9 @@
             this.itemFormTitleLabel.ForeColor = System.Drawing.Color.Black;
             this.itemFormTitleLabel.Location = new System.Drawing.Point(390, 49);
             this.itemFormTitleLabel.Name = "itemFormTitleLabel";
-            this.itemFormTitleLabel.Size = new System.Drawing.Size(23, 31);
+            this.itemFormTitleLabel.Size = new System.Drawing.Size(337, 31);
             this.itemFormTitleLabel.TabIndex = 0;
-            this.itemFormTitleLabel.Text = "/";
+            this.itemFormTitleLabel.Text = "Редактирование товара";
             // 
             // productNameLabel
             // 

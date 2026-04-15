@@ -224,6 +224,8 @@
             this.dataGridViewCatalog.RowTemplate.Height = 24;
             this.dataGridViewCatalog.Size = new System.Drawing.Size(1132, 624);
             this.dataGridViewCatalog.TabIndex = 0;
+            dataGridViewCatalog.CellClick += dataGridViewCatalog_CellClick;
+            dataGridViewCatalog.CellFormatting += dataGridViewCatalog_CellFormatting;
             // 
             // CatalogFormAdmin
             // 

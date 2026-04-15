@@ -20,24 +20,6 @@ namespace Warehouse_cosmetics_shope
         public ItemForm(Guid productId, Guid userId, string userLogin)
         {
             InitializeComponent();
-            this.productId = productId;
-            this.currentUserId = userId;
-            this.currentUserLogin = userLogin;
-
-            if (productId == Guid.Empty)
-            {
-                itemFormTitleLabel.Text = "Добавление нового товара";
-                quantityPickOrShowNumeric.Enabled = true;
-                quantityPickOrShowNumeric.BackColor = Color.White;
-                showProductNumberLabel.Text = "Будет задан после добавления товара";
-            }
-            else
-            {
-                itemFormTitleLabel.Text = "Редактирование товара";
-                quantityPickOrShowNumeric.Enabled = false;
-                quantityPickOrShowNumeric.BackColor = Color.White;
-            }
-
             LoadCategories();
             LoadUnits();
             LoadProductData();
@@ -138,35 +120,10 @@ namespace Warehouse_cosmetics_shope
         /// <summary>
         /// Сохранение товара
         /// </summary>
-        private void SaveProduct()
+        private void EditProduct()
         {
             using (var db = new WarehouseContext())
             {
-                if (productId == Guid.Empty)
-                {
-                    // Новый товар
-                    var newProduct = new Item
-                    {
-                        ProductID = Guid.NewGuid(),
-                        ProductName = productNameInput.Text.Trim(),
-                        CategoryID = (Guid)categoryComboBox.SelectedValue,
-                        PurPrice = purPriceNumeric.Value,
-                        SellPrice = sellPriceNumeric.Value,
-                        Quantity = (int)quantityPickOrShowNumeric.Value,
-                        Units = (MeasurementUnits)measUnitsComboBox.SelectedValue,
-                        ExpDate = expDatePicker.Value,
-                        ManufDate = manufdatePicker.Value
-                    };
-                    db.Items.Add(newProduct);
-                    db.SaveChanges();
-
-                    // После сохранения показываем сгенерированный артикул
-                    MessageBox.Show($"Товар добавлен!\nАртикул: {newProduct.ProductNumber}",
-                        "Оповещение", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    // Редактирование
                     var product = db.Items.FirstOrDefault(i => i.ProductID == productId);
                     if (product != null)
                     {
@@ -182,8 +139,9 @@ namespace Warehouse_cosmetics_shope
                         MessageBox.Show("Товар успешно обновлён!", "Оповещение",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                }
+             
             }
+           
         }
 
         /// <summary>
@@ -209,7 +167,7 @@ namespace Warehouse_cosmetics_shope
         /// </summary>
         private bool ValidateForm()
         {
-            // Проверка наименования товара
+            //проверка наименования товара
             if (string.IsNullOrWhiteSpace(productNameInput.Text))
             {
                 MessageBox.Show("Введите наименование товара", "Ошибка",
@@ -218,7 +176,7 @@ namespace Warehouse_cosmetics_shope
                 return false;
             }
 
-            // Проверка выбора категории
+            //проверка выбора категории
             if (categoryComboBox.SelectedItem == null)
             {
                 MessageBox.Show("Выберите категорию товара", "Ошибка",
@@ -227,7 +185,7 @@ namespace Warehouse_cosmetics_shope
                 return false;
             }
 
-            // Проверка выбора единиц измерения
+            //проверка выбора единиц измерения
             if (measUnitsComboBox.SelectedItem == null)
             {
                 MessageBox.Show("Выберите единицу измерения", "Ошибка",
@@ -236,30 +194,12 @@ namespace Warehouse_cosmetics_shope
                 return false;
             }
 
-            // Проверка цены закупки
-            if (purPriceNumeric.Value <= 0)
-            {
-                MessageBox.Show("Цена закупки должна быть больше 0", "Ошибка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                purPriceNumeric.Focus();
-                return false;
-            }
-
-            // Проверка цены продажи
+            //проверка цены продажи
             if (sellPriceNumeric.Value <= 0)
             {
                 MessageBox.Show("Цена продажи должна быть больше 0", "Ошибка",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 sellPriceNumeric.Focus();
-                return false;
-            }
-
-            // Проверка остатка (только для нового товара)
-            if (productId == Guid.Empty && quantityPickOrShowNumeric.Value < 0)
-            {
-                MessageBox.Show("Количество не может быть отрицательным", "Ошибка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                quantityPickOrShowNumeric.Focus();
                 return false;
             }
 
@@ -272,7 +212,7 @@ namespace Warehouse_cosmetics_shope
                 return false;
             }
 
-            // Проверка срока годности (должен быть позже даты изготовления)
+            //проверка срока годности (должен быть позже даты изготовления)
             if (expDatePicker.Value <= manufdatePicker.Value)
             {
                 MessageBox.Show("Дата истечения срока годности должна быть позже даты изготовления", "Ошибка",
@@ -288,7 +228,7 @@ namespace Warehouse_cosmetics_shope
         {
             if (ValidateForm())
             {
-                SaveProduct();
+                EditProduct();
                 var catalogForm = new CatalogFormAdmin(currentUserId, currentUserLogin);
                 catalogForm.Show();
                 this.Hide();

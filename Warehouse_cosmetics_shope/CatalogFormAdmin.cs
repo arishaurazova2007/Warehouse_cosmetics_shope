@@ -21,8 +21,6 @@ namespace Warehouse_cosmetics_shope
 
             LoadCatalog();
             ShowUserLogin();
-            dataGridViewCatalog.CellClick += dataGridViewCatalog_CellClick;
-            dataGridViewCatalog.CellFormatting += dataGridViewCatalog_CellFormatting;
         }
         private void LoadCatalog()
         {
@@ -31,6 +29,7 @@ namespace Warehouse_cosmetics_shope
                 var query = db.Items
                     .Include(i => i.Category)
                     .Include(i => i.Category.Parent)
+                    .Where(i => i.Quantity > 0)
                     .AsQueryable();
 
                 //применение фильтра
@@ -97,8 +96,8 @@ namespace Warehouse_cosmetics_shope
         }
         private void buttonPlus_Click(object sender, EventArgs e)
         {
-            var itemForm = new ItemForm(Guid.Empty, currentUserId, currentUserLogin);
-            itemForm.Show();
+            var newItemForm = new NewItemForm(Guid.Empty, currentUserLogin);
+            newItemForm.Show();
             this.Hide();
         }
         private void buttonFilter_Click(object sender, EventArgs e)
