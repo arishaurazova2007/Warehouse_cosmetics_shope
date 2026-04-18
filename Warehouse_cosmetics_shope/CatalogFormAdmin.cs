@@ -175,6 +175,12 @@ namespace Warehouse_cosmetics_shope
             if (remainingPercent < 0.33)
             {
                 dataGridViewCatalog.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(255, 235, 157);
+
+                if (dataGridViewCatalog.Columns[e.ColumnIndex].Name == "SellPrice")
+                {
+                    decimal originalPrice = (decimal)dataGridViewCatalog.Rows[e.RowIndex].Cells["SellPrice"].Value;
+                    e.Value = originalPrice * 0.7m;
+                }
             }
 
             else
@@ -242,6 +248,13 @@ namespace Warehouse_cosmetics_shope
 
                 dataGridViewCatalog.DataSource = displayList;
             }
+        }
+
+        private void deliveryFromCatalogButton_Click(object sender, EventArgs e)
+        {
+            var deliveryForm = new DeliveryForm();
+            deliveryForm.Show();
+            this.Hide();
         }
     }
 }

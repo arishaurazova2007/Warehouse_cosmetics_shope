@@ -39,6 +39,9 @@
             this.checkBoxNotInStock = new System.Windows.Forms.CheckBox();
             this.buttonShow = new System.Windows.Forms.Button();
             this.categoriesCheckedListBox = new System.Windows.Forms.CheckedListBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -140,13 +143,13 @@
             this.buttonShow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonShow.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonShow.ForeColor = System.Drawing.Color.Black;
-            this.buttonShow.Location = new System.Drawing.Point(603, 404);
+            this.buttonShow.Location = new System.Drawing.Point(603, 490);
             this.buttonShow.Name = "buttonShow";
             this.buttonShow.Size = new System.Drawing.Size(156, 34);
             this.buttonShow.TabIndex = 24;
             this.buttonShow.Text = "Показать";
             this.buttonShow.UseVisualStyleBackColor = false;
-            this.buttonShow.Click += new System.EventHandler(buttonShow_Click);
+            this.buttonShow.Click += new System.EventHandler(this.buttonShow_Click);
             // 
             // categoriesCheckedListBox
             // 
@@ -156,12 +159,48 @@
             this.categoriesCheckedListBox.Size = new System.Drawing.Size(474, 225);
             this.categoriesCheckedListBox.TabIndex = 26;
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.checkBox1.Location = new System.Drawing.Point(402, 451);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(109, 22);
+            this.checkBox1.TabIndex = 29;
+            this.checkBox1.Text = "Без скидки";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.checkBox2.Location = new System.Drawing.Point(215, 451);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(112, 22);
+            this.checkBox2.TabIndex = 28;
+            this.checkBox2.Text = "Со скидкой";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label2.ForeColor = System.Drawing.Color.Black;
+            this.label2.Location = new System.Drawing.Point(214, 425);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(77, 20);
+            this.label2.TabIndex = 27;
+            this.label2.Text = "Скидка";
+            // 
             // FiltrationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 545);
+            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.checkBox2);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.categoriesCheckedListBox);
             this.Controls.Add(this.buttonShow);
             this.Controls.Add(this.checkBoxNotInStock);
@@ -193,5 +232,8 @@
         private System.Windows.Forms.CheckBox checkBoxNotInStock;
         private System.Windows.Forms.Button buttonShow;
         private System.Windows.Forms.CheckedListBox categoriesCheckedListBox;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.Label label2;
     }
 }

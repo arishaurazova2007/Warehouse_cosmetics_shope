@@ -36,6 +36,8 @@
             this.buttonPlus = new System.Windows.Forms.Button();
             this.buttonFilter = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lossFromCatalogButton = new System.Windows.Forms.Button();
+            this.deliveryFromCatalogButton = new System.Windows.Forms.Button();
             this.labelShowLogin = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -54,7 +56,7 @@
             this.buttonHistory.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
             this.buttonHistory.FlatAppearance.BorderSize = 2;
             this.buttonHistory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonHistory.Location = new System.Drawing.Point(7, 0);
+            this.buttonHistory.Location = new System.Drawing.Point(125, 0);
             this.buttonHistory.Name = "buttonHistory";
             this.buttonHistory.Size = new System.Drawing.Size(120, 49);
             this.buttonHistory.TabIndex = 0;
@@ -146,6 +148,8 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.lossFromCatalogButton);
+            this.panel1.Controls.Add(this.deliveryFromCatalogButton);
             this.panel1.Controls.Add(this.labelShowLogin);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
@@ -156,6 +160,31 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1272, 49);
             this.panel1.TabIndex = 7;
+            // 
+            // lossFromCatalogButton
+            // 
+            this.lossFromCatalogButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
+            this.lossFromCatalogButton.FlatAppearance.BorderSize = 2;
+            this.lossFromCatalogButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lossFromCatalogButton.Location = new System.Drawing.Point(361, 0);
+            this.lossFromCatalogButton.Name = "lossFromCatalogButton";
+            this.lossFromCatalogButton.Size = new System.Drawing.Size(120, 49);
+            this.lossFromCatalogButton.TabIndex = 11;
+            this.lossFromCatalogButton.Text = "Убыток";
+            this.lossFromCatalogButton.UseVisualStyleBackColor = true;
+            // 
+            // deliveryFromCatalogButton
+            // 
+            this.deliveryFromCatalogButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
+            this.deliveryFromCatalogButton.FlatAppearance.BorderSize = 2;
+            this.deliveryFromCatalogButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.deliveryFromCatalogButton.Location = new System.Drawing.Point(243, 0);
+            this.deliveryFromCatalogButton.Name = "deliveryFromCatalogButton";
+            this.deliveryFromCatalogButton.Size = new System.Drawing.Size(120, 49);
+            this.deliveryFromCatalogButton.TabIndex = 10;
+            this.deliveryFromCatalogButton.Text = "Поставка";
+            this.deliveryFromCatalogButton.UseVisualStyleBackColor = true;
+            this.deliveryFromCatalogButton.Click += new System.EventHandler(this.deliveryFromCatalogButton_Click);
             // 
             // labelShowLogin
             // 
@@ -195,7 +224,7 @@
             this.buttonExit.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
             this.buttonExit.FlatAppearance.BorderSize = 2;
             this.buttonExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonExit.Location = new System.Drawing.Point(124, 0);
+            this.buttonExit.Location = new System.Drawing.Point(7, 0);
             this.buttonExit.Name = "buttonExit";
             this.buttonExit.Size = new System.Drawing.Size(120, 49);
             this.buttonExit.TabIndex = 1;
@@ -224,8 +253,6 @@
             this.dataGridViewCatalog.RowTemplate.Height = 24;
             this.dataGridViewCatalog.Size = new System.Drawing.Size(1132, 624);
             this.dataGridViewCatalog.TabIndex = 0;
-            dataGridViewCatalog.CellClick += dataGridViewCatalog_CellClick;
-            dataGridViewCatalog.CellFormatting += dataGridViewCatalog_CellFormatting;
             // 
             // CatalogFormAdmin
             // 
@@ -264,5 +291,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DataGridView dataGridViewCatalog;
         private System.Windows.Forms.Label labelShowLogin;
+        private System.Windows.Forms.Button lossFromCatalogButton;
+        private System.Windows.Forms.Button deliveryFromCatalogButton;
     }
 }
