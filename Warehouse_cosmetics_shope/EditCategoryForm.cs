@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Forms;
 using Warehouse_cosmetics_shope.DataBaseClass;
+using Warehouse_cosmetics_shope.Helpers;
 namespace Warehouse_cosmetics_shope
 {
     public partial class EditCategoryForm : Form

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Drawing;
-using System.Drawing.Text;
 using System.Linq;
 using System.Windows.Forms;
 using Warehouse_cosmetics_shope.DataBaseClass;
@@ -26,10 +25,12 @@ namespace Warehouse_cosmetics_shope
         {
             using (var db = new WarehouseContext())
             {
+                var today = DateTime.Now.Date;
+
                 var query = db.Items
                     .Include(i => i.Category)
                     .Include(i => i.Category.Parent)
-                    .Where(i => i.Quantity > 0)
+                    .Where(i => i.Quantity > 0 && i.ExpDate > today)
                     .AsQueryable();
 
                 //применение фильтра
@@ -225,6 +226,7 @@ namespace Warehouse_cosmetics_shope
                 var query = db.Items
                     .Include(i => i.Category)
                     .Include(i => i.Category.Parent)
+                    .Where(i => i.Quantity > 0 && i.ExpDate > DateTime.Now.Date)
                     .AsQueryable();
 
                 query = query.Where(i => i.ProductNumber.ToString().Contains(searchText) ||
@@ -259,6 +261,13 @@ namespace Warehouse_cosmetics_shope
         {
             var deliveryForm = new DeliveryForm(currentUserId, currentUserLogin);
             deliveryForm.Show();
+            this.Hide();
+        }
+
+        private void LossFromCatalogButton_Click(Object sender, EventArgs e)
+        {
+            var lossForm = new LossForm(currentUserId, currentUserLogin);
+            lossForm.Show();
             this.Hide();
         }
     }
