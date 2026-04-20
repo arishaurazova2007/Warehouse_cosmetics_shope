@@ -39,8 +39,6 @@ namespace Warehouse_cosmetics_shope
         }
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            var editForm = new ItemForm();
-            editForm.Show();
             this.Hide();
         }
         private void LoadCategories()
@@ -133,7 +131,7 @@ namespace Warehouse_cosmetics_shope
                 }
                 Guid selectedCategoryId = (Guid)categoryComboBox.SelectedValue;
                 var checkResult = MessageBox.Show($"Вы уверены, что хотите удалить данную категорию?",
-        "Подтверждение удаления", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    "Подтверждение удаления", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 
                 if (checkResult != DialogResult.Yes) return;
                 

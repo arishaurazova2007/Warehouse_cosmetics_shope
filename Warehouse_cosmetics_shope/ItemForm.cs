@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Drawing;
+using Warehouse_cosmetics_shope.Helpers;
 using System.Linq;
 using System.Windows.Forms;
 using Warehouse_cosmetics_shope.DataBaseClass;
@@ -20,6 +20,9 @@ namespace Warehouse_cosmetics_shope
         public ItemForm(Guid productId, Guid userId, string userLogin)
         {
             InitializeComponent();
+            this.productId = productId;
+            this.currentUserId = userId;
+            this.currentUserLogin = userLogin;
             LoadCategories();
             LoadUnits();
             LoadProductData();
@@ -242,12 +245,6 @@ namespace Warehouse_cosmetics_shope
             this.Hide();
         }
 
-        private void buttonEditCategory_Click(object sender, EventArgs e)
-        {
-            var editCategoryForm = new EditCategoryForm();
-            editCategoryForm.Show();
-        }
-
         private void Deletebutton_Click(object sender, EventArgs e)
         {
             var result = MessageBox.Show("Вы уверены, что хотите удалить этот товар?",
@@ -261,14 +258,6 @@ namespace Warehouse_cosmetics_shope
                 this.Hide();
             }
         }
-    }
 
-    /// <summary>
-    /// Вспомогательный класс для отображения категории с полным путём
-    /// </summary>
-    public class CategoryPath
-    {
-        public Guid CategoryID { get; set; }
-        public string FullPath { get; set; }
     }
 }

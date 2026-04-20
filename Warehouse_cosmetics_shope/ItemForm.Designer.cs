@@ -25,7 +25,6 @@
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonBack = new System.Windows.Forms.Button();
             this.productNameInput = new System.Windows.Forms.TextBox();
-            this.buttonEditCategory = new System.Windows.Forms.Button();
             this.Deletebutton = new System.Windows.Forms.Button();
             this.showProductNumberLabel = new System.Windows.Forms.Label();
             this.manufdatePicker = new System.Windows.Forms.DateTimePicker();
@@ -81,7 +80,7 @@
             this.manufDateLabel.AutoSize = true;
             this.manufDateLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold);
             this.manufDateLabel.ForeColor = System.Drawing.Color.Black;
-            this.manufDateLabel.Location = new System.Drawing.Point(193, 309);
+            this.manufDateLabel.Location = new System.Drawing.Point(193, 267);
             this.manufDateLabel.Name = "manufDateLabel";
             this.manufDateLabel.Size = new System.Drawing.Size(188, 22);
             this.manufDateLabel.TabIndex = 5;
@@ -92,7 +91,7 @@
             this.expDateLabel.AutoSize = true;
             this.expDateLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold);
             this.expDateLabel.ForeColor = System.Drawing.Color.Black;
-            this.expDateLabel.Location = new System.Drawing.Point(286, 354);
+            this.expDateLabel.Location = new System.Drawing.Point(286, 312);
             this.expDateLabel.Name = "expDateLabel";
             this.expDateLabel.Size = new System.Drawing.Size(95, 22);
             this.expDateLabel.TabIndex = 6;
@@ -103,7 +102,7 @@
             this.purPriceLabel.AutoSize = true;
             this.purPriceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold);
             this.purPriceLabel.ForeColor = System.Drawing.Color.Black;
-            this.purPriceLabel.Location = new System.Drawing.Point(249, 451);
+            this.purPriceLabel.Location = new System.Drawing.Point(249, 409);
             this.purPriceLabel.Name = "purPriceLabel";
             this.purPriceLabel.Size = new System.Drawing.Size(136, 22);
             this.purPriceLabel.TabIndex = 7;
@@ -114,7 +113,7 @@
             this.quantityLabel.AutoSize = true;
             this.quantityLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold);
             this.quantityLabel.ForeColor = System.Drawing.Color.Black;
-            this.quantityLabel.Location = new System.Drawing.Point(298, 538);
+            this.quantityLabel.Location = new System.Drawing.Point(298, 496);
             this.quantityLabel.Name = "quantityLabel";
             this.quantityLabel.Size = new System.Drawing.Size(85, 22);
             this.quantityLabel.TabIndex = 8;
@@ -125,7 +124,7 @@
             this.buttonSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
             this.buttonSave.FlatAppearance.BorderSize = 0;
             this.buttonSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonSave.Location = new System.Drawing.Point(409, 652);
+            this.buttonSave.Location = new System.Drawing.Point(409, 594);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(140, 39);
             this.buttonSave.TabIndex = 9;
@@ -138,7 +137,7 @@
             this.buttonBack.BackColor = System.Drawing.Color.PaleTurquoise;
             this.buttonBack.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
             this.buttonBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonBack.Location = new System.Drawing.Point(573, 652);
+            this.buttonBack.Location = new System.Drawing.Point(573, 594);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(140, 39);
             this.buttonBack.TabIndex = 10;
@@ -154,28 +153,13 @@
             this.productNameInput.Size = new System.Drawing.Size(489, 15);
             this.productNameInput.TabIndex = 11;
             // 
-            // buttonEditCategory
-            // 
-            this.buttonEditCategory.BackColor = System.Drawing.Color.PaleTurquoise;
-            this.buttonEditCategory.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonEditCategory.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.buttonEditCategory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonEditCategory.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonEditCategory.Location = new System.Drawing.Point(748, 259);
-            this.buttonEditCategory.Name = "buttonEditCategory";
-            this.buttonEditCategory.Size = new System.Drawing.Size(146, 31);
-            this.buttonEditCategory.TabIndex = 19;
-            this.buttonEditCategory.Text = "Редактировать";
-            this.buttonEditCategory.UseVisualStyleBackColor = false;
-            this.buttonEditCategory.Click += new System.EventHandler(this.buttonEditCategory_Click);
-            // 
             // Deletebutton
             // 
             this.Deletebutton.BackColor = System.Drawing.Color.PaleTurquoise;
             this.Deletebutton.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.Deletebutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Deletebutton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Deletebutton.Location = new System.Drawing.Point(748, 529);
+            this.Deletebutton.Location = new System.Drawing.Point(748, 487);
             this.Deletebutton.Name = "Deletebutton";
             this.Deletebutton.Size = new System.Drawing.Size(146, 31);
             this.Deletebutton.TabIndex = 20;
@@ -194,7 +178,7 @@
             // 
             // manufdatePicker
             // 
-            this.manufdatePicker.Location = new System.Drawing.Point(405, 308);
+            this.manufdatePicker.Location = new System.Drawing.Point(405, 266);
             this.manufdatePicker.Name = "manufdatePicker";
             this.manufdatePicker.Size = new System.Drawing.Size(281, 22);
             this.manufdatePicker.TabIndex = 23;
@@ -202,7 +186,7 @@
             // 
             // expDatePicker
             // 
-            this.expDatePicker.Location = new System.Drawing.Point(405, 355);
+            this.expDatePicker.Location = new System.Drawing.Point(405, 313);
             this.expDatePicker.Name = "expDatePicker";
             this.expDatePicker.Size = new System.Drawing.Size(281, 22);
             this.expDatePicker.TabIndex = 24;
@@ -212,7 +196,7 @@
             this.sellPriceLabel.AutoSize = true;
             this.sellPriceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold);
             this.sellPriceLabel.ForeColor = System.Drawing.Color.Black;
-            this.sellPriceLabel.Location = new System.Drawing.Point(199, 496);
+            this.sellPriceLabel.Location = new System.Drawing.Point(199, 454);
             this.sellPriceLabel.Name = "sellPriceLabel";
             this.sellPriceLabel.Size = new System.Drawing.Size(185, 22);
             this.sellPriceLabel.TabIndex = 25;
@@ -223,7 +207,7 @@
             this.measUnitsLabel.AutoSize = true;
             this.measUnitsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold);
             this.measUnitsLabel.ForeColor = System.Drawing.Color.Black;
-            this.measUnitsLabel.Location = new System.Drawing.Point(236, 404);
+            this.measUnitsLabel.Location = new System.Drawing.Point(236, 362);
             this.measUnitsLabel.Name = "measUnitsLabel";
             this.measUnitsLabel.Size = new System.Drawing.Size(148, 22);
             this.measUnitsLabel.TabIndex = 27;
@@ -232,7 +216,7 @@
             // measUnitsComboBox
             // 
             this.measUnitsComboBox.FormattingEnabled = true;
-            this.measUnitsComboBox.Location = new System.Drawing.Point(405, 402);
+            this.measUnitsComboBox.Location = new System.Drawing.Point(405, 360);
             this.measUnitsComboBox.Name = "measUnitsComboBox";
             this.measUnitsComboBox.Size = new System.Drawing.Size(281, 24);
             this.measUnitsComboBox.TabIndex = 28;
@@ -247,19 +231,20 @@
             // 
             // purPriceNumeric
             // 
-            this.purPriceNumeric.Location = new System.Drawing.Point(405, 451);
+            this.purPriceNumeric.Location = new System.Drawing.Point(405, 409);
             this.purPriceNumeric.Maximum = new decimal(new int[] {
             1410065408,
             2,
             0,
             0});
             this.purPriceNumeric.Name = "purPriceNumeric";
+            this.purPriceNumeric.ReadOnly = true;
             this.purPriceNumeric.Size = new System.Drawing.Size(281, 22);
             this.purPriceNumeric.TabIndex = 31;
             // 
             // sellPriceNumeric
             // 
-            this.sellPriceNumeric.Location = new System.Drawing.Point(405, 496);
+            this.sellPriceNumeric.Location = new System.Drawing.Point(405, 454);
             this.sellPriceNumeric.Maximum = new decimal(new int[] {
             1410065408,
             2,
@@ -271,13 +256,14 @@
             // 
             // quantityPickOrShowNumeric
             // 
-            this.quantityPickOrShowNumeric.Location = new System.Drawing.Point(405, 538);
+            this.quantityPickOrShowNumeric.Location = new System.Drawing.Point(405, 496);
             this.quantityPickOrShowNumeric.Maximum = new decimal(new int[] {
             1410065408,
             2,
             0,
             0});
             this.quantityPickOrShowNumeric.Name = "quantityPickOrShowNumeric";
+            this.quantityPickOrShowNumeric.ReadOnly = true;
             this.quantityPickOrShowNumeric.Size = new System.Drawing.Size(281, 22);
             this.quantityPickOrShowNumeric.TabIndex = 33;
             // 
@@ -297,7 +283,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
-            this.ClientSize = new System.Drawing.Size(1122, 743);
+            this.ClientSize = new System.Drawing.Size(1122, 686);
             this.Controls.Add(this.itemNumberTitle);
             this.Controls.Add(this.quantityPickOrShowNumeric);
             this.Controls.Add(this.sellPriceNumeric);
@@ -310,7 +296,6 @@
             this.Controls.Add(this.manufdatePicker);
             this.Controls.Add(this.showProductNumberLabel);
             this.Controls.Add(this.Deletebutton);
-            this.Controls.Add(this.buttonEditCategory);
             this.Controls.Add(this.productNameInput);
             this.Controls.Add(this.buttonBack);
             this.Controls.Add(this.buttonSave);
@@ -341,7 +326,6 @@
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonBack;
         private System.Windows.Forms.TextBox productNameInput;
-        private System.Windows.Forms.Button buttonEditCategory;
         private System.Windows.Forms.Button Deletebutton;
         private System.Windows.Forms.Label showProductNumberLabel;
         private System.Windows.Forms.DateTimePicker manufdatePicker;

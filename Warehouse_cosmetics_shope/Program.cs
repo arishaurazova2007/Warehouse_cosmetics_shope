@@ -22,8 +22,6 @@ namespace Warehouse_cosmetics_shope
                 Application.SetCompatibleTextRenderingDefault(false);
 
                 Log.Information("Приложение запущено");
-
-                // Инициализация базы данных
                 InitializeDatabase();
 
                 Application.Run(new MainForm());

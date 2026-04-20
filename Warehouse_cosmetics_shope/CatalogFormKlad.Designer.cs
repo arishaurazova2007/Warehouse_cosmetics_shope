@@ -34,12 +34,12 @@
             this.buttonExit = new System.Windows.Forms.Button();
             this.buttonOtgruzka = new System.Windows.Forms.Button();
             this.catalogLabel = new System.Windows.Forms.Label();
-            this.catalogGrid = new System.Windows.Forms.DataGridView();
+            this.kladCatalogGrid = new System.Windows.Forms.DataGridView();
             this.searchBox = new System.Windows.Forms.TextBox();
             this.searchButton = new System.Windows.Forms.Button();
             this.buttonFilter = new System.Windows.Forms.Button();
             this.topPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.catalogGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kladCatalogGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // topPanel
@@ -76,7 +76,7 @@
             this.buttonExit.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
             this.buttonExit.FlatAppearance.BorderSize = 2;
             this.buttonExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonExit.Location = new System.Drawing.Point(117, 0);
+            this.buttonExit.Location = new System.Drawing.Point(1, 0);
             this.buttonExit.Name = "buttonExit";
             this.buttonExit.Size = new System.Drawing.Size(120, 49);
             this.buttonExit.TabIndex = 1;
@@ -89,7 +89,7 @@
             this.buttonOtgruzka.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
             this.buttonOtgruzka.FlatAppearance.BorderSize = 2;
             this.buttonOtgruzka.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonOtgruzka.Location = new System.Drawing.Point(0, 0);
+            this.buttonOtgruzka.Location = new System.Drawing.Point(119, 0);
             this.buttonOtgruzka.Name = "buttonOtgruzka";
             this.buttonOtgruzka.Size = new System.Drawing.Size(120, 49);
             this.buttonOtgruzka.TabIndex = 0;
@@ -107,16 +107,16 @@
             this.catalogLabel.TabIndex = 9;
             this.catalogLabel.Text = "Каталог товаров";
             // 
-            // catalogGrid
+            // kladCatalogGrid
             // 
-            this.catalogGrid.BackgroundColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.catalogGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.catalogGrid.Location = new System.Drawing.Point(1, 151);
-            this.catalogGrid.Name = "catalogGrid";
-            this.catalogGrid.RowHeadersWidth = 51;
-            this.catalogGrid.RowTemplate.Height = 24;
-            this.catalogGrid.Size = new System.Drawing.Size(1132, 477);
-            this.catalogGrid.TabIndex = 13;
+            this.kladCatalogGrid.BackgroundColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.kladCatalogGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.kladCatalogGrid.Location = new System.Drawing.Point(1, 151);
+            this.kladCatalogGrid.Name = "kladCatalogGrid";
+            this.kladCatalogGrid.RowHeadersWidth = 51;
+            this.kladCatalogGrid.RowTemplate.Height = 24;
+            this.kladCatalogGrid.Size = new System.Drawing.Size(1132, 477);
+            this.kladCatalogGrid.TabIndex = 13;
             // 
             // searchBox
             // 
@@ -165,14 +165,14 @@
             this.Controls.Add(this.buttonFilter);
             this.Controls.Add(this.searchBox);
             this.Controls.Add(this.searchButton);
-            this.Controls.Add(this.catalogGrid);
+            this.Controls.Add(this.kladCatalogGrid);
             this.Controls.Add(this.catalogLabel);
             this.Controls.Add(this.topPanel);
             this.Name = "CatalogFormKlad";
             this.Text = "Каталог кладовщика";
             this.topPanel.ResumeLayout(false);
             this.topPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.catalogGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kladCatalogGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -186,7 +186,7 @@
         private System.Windows.Forms.Button buttonOtgruzka;
         private System.Windows.Forms.Label catalogLabel;
         private System.Windows.Forms.Label labelShowLogin;
-        private System.Windows.Forms.DataGridView catalogGrid;
+        private System.Windows.Forms.DataGridView kladCatalogGrid;
         private System.Windows.Forms.TextBox searchBox;
         private System.Windows.Forms.Button searchButton;
         private System.Windows.Forms.Button buttonFilter;

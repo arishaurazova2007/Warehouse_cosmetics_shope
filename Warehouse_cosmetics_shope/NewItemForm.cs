@@ -148,12 +148,5 @@ namespace Warehouse_cosmetics_shope
             catalogForm.Show();
             this.Hide();
         }
-
-        private void buttonEditCategory_Click(object sender, EventArgs e)
-        {
-            var editCategoryForm = new EditCategoryForm();
-            editCategoryForm.Show();
-            this.Hide();
-        }
     }
 }

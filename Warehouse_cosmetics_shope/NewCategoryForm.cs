@@ -106,5 +106,10 @@ namespace Warehouse_cosmetics_shope
 
             return string.Join(" → ", path);
         }
+
+        private void newCategoryFormLabel_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
