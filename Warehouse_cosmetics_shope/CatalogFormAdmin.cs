@@ -125,6 +125,11 @@ namespace Warehouse_cosmetics_shope
             mainForm.Show();
             this.Hide();
         }
+        private void buttonEditCategory_Click(object sender, EventArgs e)
+        {
+            var editCategoryForm = new EditCategoryForm();
+            editCategoryForm.Show();
+        }
         private void dataGridViewCatalog_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -252,7 +257,7 @@ namespace Warehouse_cosmetics_shope
 
         private void deliveryFromCatalogButton_Click(object sender, EventArgs e)
         {
-            var deliveryForm = new DeliveryForm();
+            var deliveryForm = new DeliveryForm(currentUserId, currentUserLogin);
             deliveryForm.Show();
             this.Hide();
         }

@@ -45,6 +45,7 @@
             this.buttonExit = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.dataGridViewCatalog = new System.Windows.Forms.DataGridView();
+            this.buttonEditCategory = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -148,6 +149,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.buttonEditCategory);
             this.panel1.Controls.Add(this.lossFromCatalogButton);
             this.panel1.Controls.Add(this.deliveryFromCatalogButton);
             this.panel1.Controls.Add(this.labelShowLogin);
@@ -253,6 +255,21 @@
             this.dataGridViewCatalog.RowTemplate.Height = 24;
             this.dataGridViewCatalog.Size = new System.Drawing.Size(1132, 624);
             this.dataGridViewCatalog.TabIndex = 0;
+            this.dataGridViewCatalog.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewCatalog_CellClick);
+            this.dataGridViewCatalog.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridViewCatalog_CellFormatting);
+            // 
+            // buttonEditCategory
+            // 
+            this.buttonEditCategory.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
+            this.buttonEditCategory.FlatAppearance.BorderSize = 2;
+            this.buttonEditCategory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonEditCategory.Location = new System.Drawing.Point(479, 0);
+            this.buttonEditCategory.Name = "buttonEditCategory";
+            this.buttonEditCategory.Size = new System.Drawing.Size(139, 49);
+            this.buttonEditCategory.TabIndex = 12;
+            this.buttonEditCategory.Text = "Редактирование категорий";
+            this.buttonEditCategory.UseVisualStyleBackColor = true;
+            this.buttonEditCategory.Click += new System.EventHandler(this.buttonEditCategory_Click);
             // 
             // CatalogFormAdmin
             // 
@@ -293,5 +310,6 @@
         private System.Windows.Forms.Label labelShowLogin;
         private System.Windows.Forms.Button lossFromCatalogButton;
         private System.Windows.Forms.Button deliveryFromCatalogButton;
+        private System.Windows.Forms.Button buttonEditCategory;
     }
 }
