@@ -38,6 +38,7 @@
             this.searchBox = new System.Windows.Forms.TextBox();
             this.searchButton = new System.Windows.Forms.Button();
             this.buttonFilter = new System.Windows.Forms.Button();
+            this.deliveryFromCatalogButton = new System.Windows.Forms.Button();
             this.topPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kladCatalogGrid)).BeginInit();
             this.SuspendLayout();
@@ -45,6 +46,7 @@
             // topPanel
             // 
             this.topPanel.BackColor = System.Drawing.Color.White;
+            this.topPanel.Controls.Add(this.deliveryFromCatalogButton);
             this.topPanel.Controls.Add(this.labelShowLogin);
             this.topPanel.Controls.Add(this.label2);
             this.topPanel.Controls.Add(this.buttonExit);
@@ -117,6 +119,9 @@
             this.kladCatalogGrid.RowTemplate.Height = 24;
             this.kladCatalogGrid.Size = new System.Drawing.Size(1132, 477);
             this.kladCatalogGrid.TabIndex = 13;
+            kladCatalogGrid.CellClick += KladCatalogGrid_CellClick;
+            kladCatalogGrid.CellFormatting += KladCatalogGrid_CellFormatting;
+
             // 
             // searchBox
             // 
@@ -127,6 +132,8 @@
             this.searchBox.Size = new System.Drawing.Size(300, 22);
             this.searchBox.TabIndex = 15;
             this.searchBox.Text = "Поиск";
+            searchBox.Enter += searchBox_Enter;
+            searchBox.Leave += searchBox_Leave;
             // 
             // searchButton
             // 
@@ -141,6 +148,7 @@
             this.searchButton.TabIndex = 14;
             this.searchButton.Text = "Искать";
             this.searchButton.UseVisualStyleBackColor = false;
+            searchButton.Click += SearchButton_Click;
             // 
             // buttonFilter
             // 
@@ -155,6 +163,19 @@
             this.buttonFilter.TabIndex = 16;
             this.buttonFilter.Text = "Фильтровать";
             this.buttonFilter.UseVisualStyleBackColor = false;
+            buttonFilter.Click += buttonFilter_Click;
+            // 
+            // deliveryFromCatalogButton
+            // 
+            this.deliveryFromCatalogButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
+            this.deliveryFromCatalogButton.FlatAppearance.BorderSize = 2;
+            this.deliveryFromCatalogButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.deliveryFromCatalogButton.Location = new System.Drawing.Point(237, 0);
+            this.deliveryFromCatalogButton.Name = "deliveryFromCatalogButton";
+            this.deliveryFromCatalogButton.Size = new System.Drawing.Size(120, 49);
+            this.deliveryFromCatalogButton.TabIndex = 11;
+            this.deliveryFromCatalogButton.Text = "Поставка";
+            this.deliveryFromCatalogButton.UseVisualStyleBackColor = true;
             // 
             // CatalogFormKlad
             // 
@@ -190,5 +211,6 @@
         private System.Windows.Forms.TextBox searchBox;
         private System.Windows.Forms.Button searchButton;
         private System.Windows.Forms.Button buttonFilter;
+        private System.Windows.Forms.Button deliveryFromCatalogButton;
     }
 }

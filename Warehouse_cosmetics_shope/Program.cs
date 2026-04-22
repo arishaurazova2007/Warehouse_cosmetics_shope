@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using Warehouse_cosmetics_shope.DataBaseClass;
+using Warehouse_cosmetics_shope.Enum;
 
 namespace Warehouse_cosmetics_shope
 {

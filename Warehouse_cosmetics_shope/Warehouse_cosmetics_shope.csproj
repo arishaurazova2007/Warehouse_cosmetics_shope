@@ -137,6 +137,9 @@
       <DependentUpon>DeliveryForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\CategoryPath.cs" />
+    <Compile Include="Helpers\ExportShipmentItem.cs" />
+    <Compile Include="Helpers\ShipmentHistoryItem.cs" />
+    <Compile Include="Helpers\ShipmentItem.cs" />
     <Compile Include="Helpers\DeliveryItem.cs" />
     <Compile Include="Helpers\ImportItem.cs" />
     <Compile Include="LossForm.cs">
@@ -165,11 +168,11 @@
       <DependentUpon>FiltrationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\NumberGenerator.cs" />
-    <Compile Include="HistoryChangeForm.cs">
+    <Compile Include="ShipmentHistoryForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="HistoryChangeForm.Designer.cs">
-      <DependentUpon>HistoryChangeForm.cs</DependentUpon>
+    <Compile Include="ShipmentHistoryForm.Designer.cs">
+      <DependentUpon>ShipmentHistoryForm.cs</DependentUpon>
     </Compile>
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
@@ -202,11 +205,11 @@
     <Compile Include="NewCategoryForm.Designer.cs">
       <DependentUpon>NewCategoryForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="OtgruzkaForm.cs">
+    <Compile Include="ShipmentForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OtgruzkaForm.Designer.cs">
-      <DependentUpon>OtgruzkaForm.cs</DependentUpon>
+    <Compile Include="ShipmentForm.Designer.cs">
+      <DependentUpon>ShipmentForm.cs</DependentUpon>
     </Compile>
     <Compile Include="RegistrationForm.cs">
       <SubType>Form</SubType>
@@ -252,8 +255,8 @@
     <EmbeddedResource Include="FiltrationForm.resx">
       <DependentUpon>FiltrationForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="HistoryChangeForm.resx">
-      <DependentUpon>HistoryChangeForm.cs</DependentUpon>
+    <EmbeddedResource Include="ShipmentHistoryForm.resx">
+      <DependentUpon>ShipmentHistoryForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
@@ -273,8 +276,8 @@
     <EmbeddedResource Include="NewCategoryForm.resx">
       <DependentUpon>NewCategoryForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OtgruzkaForm.resx">
-      <DependentUpon>OtgruzkaForm.cs</DependentUpon>
+    <EmbeddedResource Include="ShipmentForm.resx">
+      <DependentUpon>ShipmentForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RegistrationForm.resx">
       <DependentUpon>RegistrationForm.cs</DependentUpon>

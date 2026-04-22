@@ -28,92 +28,78 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.textBoxPriceFrom = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.textBoxPriceTo = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
+            this.filterFormLabel = new System.Windows.Forms.Label();
+            this.priceLabel = new System.Windows.Forms.Label();
+            this.fromLabel = new System.Windows.Forms.Label();
+            this.toLabel = new System.Windows.Forms.Label();
+            this.availabilityLabel = new System.Windows.Forms.Label();
             this.checkBoxInStock = new System.Windows.Forms.CheckBox();
             this.checkBoxNotInStock = new System.Windows.Forms.CheckBox();
             this.buttonShow = new System.Windows.Forms.Button();
             this.categoriesCheckedListBox = new System.Windows.Forms.CheckedListBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.withoutDiscCheckBox = new System.Windows.Forms.CheckBox();
+            this.withDiscCheckBox = new System.Windows.Forms.CheckBox();
+            this.discountLabel = new System.Windows.Forms.Label();
+            this.priceFromNumeric = new System.Windows.Forms.NumericUpDown();
+            this.priceToNumeric = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.priceFromNumeric)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.priceToNumeric)).BeginInit();
             this.SuspendLayout();
             // 
-            // label1
+            // filterFormLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(213, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(151, 25);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Фильтровать";
+            this.filterFormLabel.AutoSize = true;
+            this.filterFormLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.filterFormLabel.ForeColor = System.Drawing.Color.Black;
+            this.filterFormLabel.Location = new System.Drawing.Point(213, 9);
+            this.filterFormLabel.Name = "filterFormLabel";
+            this.filterFormLabel.Size = new System.Drawing.Size(151, 25);
+            this.filterFormLabel.TabIndex = 2;
+            this.filterFormLabel.Text = "Фильтровать";
             // 
-            // label3
+            // priceLabel
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(214, 290);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(56, 20);
-            this.label3.TabIndex = 16;
-            this.label3.Text = "Цена";
+            this.priceLabel.AutoSize = true;
+            this.priceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.priceLabel.ForeColor = System.Drawing.Color.Black;
+            this.priceLabel.Location = new System.Drawing.Point(214, 290);
+            this.priceLabel.Name = "priceLabel";
+            this.priceLabel.Size = new System.Drawing.Size(56, 20);
+            this.priceLabel.TabIndex = 16;
+            this.priceLabel.Text = "Цена";
             // 
-            // textBoxPriceFrom
+            // fromLabel
             // 
-            this.textBoxPriceFrom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxPriceFrom.Location = new System.Drawing.Point(248, 323);
-            this.textBoxPriceFrom.Name = "textBoxPriceFrom";
-            this.textBoxPriceFrom.Size = new System.Drawing.Size(143, 22);
-            this.textBoxPriceFrom.TabIndex = 17;
+            this.fromLabel.AutoSize = true;
+            this.fromLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.fromLabel.ForeColor = System.Drawing.Color.Black;
+            this.fromLabel.Location = new System.Drawing.Point(213, 323);
+            this.fromLabel.Name = "fromLabel";
+            this.fromLabel.Size = new System.Drawing.Size(27, 18);
+            this.fromLabel.TabIndex = 18;
+            this.fromLabel.Text = "От";
             // 
-            // label4
+            // toLabel
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(213, 323);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(27, 18);
-            this.label4.TabIndex = 18;
-            this.label4.Text = "От";
+            this.toLabel.AutoSize = true;
+            this.toLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.toLabel.ForeColor = System.Drawing.Color.Black;
+            this.toLabel.Location = new System.Drawing.Point(441, 323);
+            this.toLabel.Name = "toLabel";
+            this.toLabel.Size = new System.Drawing.Size(29, 18);
+            this.toLabel.TabIndex = 19;
+            this.toLabel.Text = "До";
             // 
-            // label5
+            // availabilityLabel
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.ForeColor = System.Drawing.Color.Black;
-            this.label5.Location = new System.Drawing.Point(441, 323);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(29, 18);
-            this.label5.TabIndex = 19;
-            this.label5.Text = "До";
-            // 
-            // textBoxPriceTo
-            // 
-            this.textBoxPriceTo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxPriceTo.Location = new System.Drawing.Point(476, 323);
-            this.textBoxPriceTo.Name = "textBoxPriceTo";
-            this.textBoxPriceTo.Size = new System.Drawing.Size(143, 22);
-            this.textBoxPriceTo.TabIndex = 20;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label7.ForeColor = System.Drawing.Color.Black;
-            this.label7.Location = new System.Drawing.Point(214, 361);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(89, 20);
-            this.label7.TabIndex = 21;
-            this.label7.Text = "Наличие";
+            this.availabilityLabel.AutoSize = true;
+            this.availabilityLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.availabilityLabel.ForeColor = System.Drawing.Color.Black;
+            this.availabilityLabel.Location = new System.Drawing.Point(214, 361);
+            this.availabilityLabel.Name = "availabilityLabel";
+            this.availabilityLabel.Size = new System.Drawing.Size(89, 20);
+            this.availabilityLabel.TabIndex = 21;
+            this.availabilityLabel.Text = "Наличие";
             // 
             // checkBoxInStock
             // 
@@ -159,38 +145,62 @@
             this.categoriesCheckedListBox.Size = new System.Drawing.Size(474, 225);
             this.categoriesCheckedListBox.TabIndex = 26;
             // 
-            // checkBox1
+            // withoutDiscCheckBox
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.checkBox1.Location = new System.Drawing.Point(402, 451);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(109, 22);
-            this.checkBox1.TabIndex = 29;
-            this.checkBox1.Text = "Без скидки";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.withoutDiscCheckBox.AutoSize = true;
+            this.withoutDiscCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.withoutDiscCheckBox.Location = new System.Drawing.Point(402, 451);
+            this.withoutDiscCheckBox.Name = "withoutDiscCheckBox";
+            this.withoutDiscCheckBox.Size = new System.Drawing.Size(109, 22);
+            this.withoutDiscCheckBox.TabIndex = 29;
+            this.withoutDiscCheckBox.Text = "Без скидки";
+            this.withoutDiscCheckBox.UseVisualStyleBackColor = true;
             // 
-            // checkBox2
+            // withDiscCheckBox
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.checkBox2.Location = new System.Drawing.Point(215, 451);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(112, 22);
-            this.checkBox2.TabIndex = 28;
-            this.checkBox2.Text = "Со скидкой";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.withDiscCheckBox.AutoSize = true;
+            this.withDiscCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.withDiscCheckBox.Location = new System.Drawing.Point(215, 451);
+            this.withDiscCheckBox.Name = "withDiscCheckBox";
+            this.withDiscCheckBox.Size = new System.Drawing.Size(112, 22);
+            this.withDiscCheckBox.TabIndex = 28;
+            this.withDiscCheckBox.Text = "Со скидкой";
+            this.withDiscCheckBox.UseVisualStyleBackColor = true;
             // 
-            // label2
+            // discountLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(214, 425);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(77, 20);
-            this.label2.TabIndex = 27;
-            this.label2.Text = "Скидка";
+            this.discountLabel.AutoSize = true;
+            this.discountLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.discountLabel.ForeColor = System.Drawing.Color.Black;
+            this.discountLabel.Location = new System.Drawing.Point(214, 425);
+            this.discountLabel.Name = "discountLabel";
+            this.discountLabel.Size = new System.Drawing.Size(77, 20);
+            this.discountLabel.TabIndex = 27;
+            this.discountLabel.Text = "Скидка";
+            // 
+            // priceFromNumeric
+            // 
+            this.priceFromNumeric.Location = new System.Drawing.Point(246, 323);
+            this.priceFromNumeric.Maximum = new decimal(new int[] {
+            1410065408,
+            2,
+            0,
+            0});
+            this.priceFromNumeric.Name = "priceFromNumeric";
+            this.priceFromNumeric.Size = new System.Drawing.Size(138, 22);
+            this.priceFromNumeric.TabIndex = 30;
+            // 
+            // priceToNumeric
+            // 
+            this.priceToNumeric.Location = new System.Drawing.Point(476, 322);
+            this.priceToNumeric.Maximum = new decimal(new int[] {
+            1410065408,
+            2,
+            0,
+            0});
+            this.priceToNumeric.Name = "priceToNumeric";
+            this.priceToNumeric.Size = new System.Drawing.Size(138, 22);
+            this.priceToNumeric.TabIndex = 31;
             // 
             // FiltrationForm
             // 
@@ -198,22 +208,24 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(800, 545);
-            this.Controls.Add(this.checkBox1);
-            this.Controls.Add(this.checkBox2);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.priceToNumeric);
+            this.Controls.Add(this.priceFromNumeric);
+            this.Controls.Add(this.withoutDiscCheckBox);
+            this.Controls.Add(this.withDiscCheckBox);
+            this.Controls.Add(this.discountLabel);
             this.Controls.Add(this.categoriesCheckedListBox);
             this.Controls.Add(this.buttonShow);
             this.Controls.Add(this.checkBoxNotInStock);
             this.Controls.Add(this.checkBoxInStock);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.textBoxPriceTo);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.textBoxPriceFrom);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.availabilityLabel);
+            this.Controls.Add(this.toLabel);
+            this.Controls.Add(this.fromLabel);
+            this.Controls.Add(this.priceLabel);
+            this.Controls.Add(this.filterFormLabel);
             this.Name = "FiltrationForm";
             this.Text = "Фильтрация";
+            ((System.ComponentModel.ISupportInitialize)(this.priceFromNumeric)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.priceToNumeric)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -221,19 +233,19 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBoxPriceFrom;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBoxPriceTo;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label filterFormLabel;
+        private System.Windows.Forms.Label priceLabel;
+        private System.Windows.Forms.Label fromLabel;
+        private System.Windows.Forms.Label toLabel;
+        private System.Windows.Forms.Label availabilityLabel;
         private System.Windows.Forms.CheckBox checkBoxInStock;
         private System.Windows.Forms.CheckBox checkBoxNotInStock;
         private System.Windows.Forms.Button buttonShow;
         private System.Windows.Forms.CheckedListBox categoriesCheckedListBox;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox withoutDiscCheckBox;
+        private System.Windows.Forms.CheckBox withDiscCheckBox;
+        private System.Windows.Forms.Label discountLabel;
+        private System.Windows.Forms.NumericUpDown priceFromNumeric;
+        private System.Windows.Forms.NumericUpDown priceToNumeric;
     }
 }

@@ -228,11 +228,11 @@ namespace Warehouse_cosmetics_shope
             this.fileImportButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
             this.fileImportButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.fileImportButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.fileImportButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.fileImportButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.fileImportButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.fileImportButton.Location = new System.Drawing.Point(940, 448);
+            this.fileImportButton.Location = new System.Drawing.Point(924, 445);
             this.fileImportButton.Name = "fileImportButton";
-            this.fileImportButton.Size = new System.Drawing.Size(202, 49);
+            this.fileImportButton.Size = new System.Drawing.Size(277, 70);
             this.fileImportButton.TabIndex = 40;
             this.fileImportButton.Text = "Импорт файла";
             this.fileImportButton.UseVisualStyleBackColor = false;
@@ -243,10 +243,11 @@ namespace Warehouse_cosmetics_shope
             this.addItemButton.BackColor = System.Drawing.Color.PaleTurquoise;
             this.addItemButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.addItemButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.addItemButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.addItemButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.addItemButton.Location = new System.Drawing.Point(940, 520);
+            this.addItemButton.Location = new System.Drawing.Point(924, 531);
             this.addItemButton.Name = "addItemButton";
-            this.addItemButton.Size = new System.Drawing.Size(202, 47);
+            this.addItemButton.Size = new System.Drawing.Size(277, 68);
             this.addItemButton.TabIndex = 42;
             this.addItemButton.Text = "Добавить в список";
             this.addItemButton.UseVisualStyleBackColor = false;
@@ -254,9 +255,10 @@ namespace Warehouse_cosmetics_shope
             // 
             // addFuulDeliveryButton
             // 
-            this.addFuulDeliveryButton.Location = new System.Drawing.Point(845, 608);
+            this.addFuulDeliveryButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.addFuulDeliveryButton.Location = new System.Drawing.Point(837, 628);
             this.addFuulDeliveryButton.Name = "addFuulDeliveryButton";
-            this.addFuulDeliveryButton.Size = new System.Drawing.Size(183, 50);
+            this.addFuulDeliveryButton.Size = new System.Drawing.Size(215, 51);
             this.addFuulDeliveryButton.TabIndex = 43;
             this.addFuulDeliveryButton.Text = "Подтвердить";
             this.addFuulDeliveryButton.UseVisualStyleBackColor = true;
@@ -264,9 +266,10 @@ namespace Warehouse_cosmetics_shope
             // 
             // cancelDeliveryButton
             // 
-            this.cancelDeliveryButton.Location = new System.Drawing.Point(1049, 608);
+            this.cancelDeliveryButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cancelDeliveryButton.Location = new System.Drawing.Point(1066, 628);
             this.cancelDeliveryButton.Name = "cancelDeliveryButton";
-            this.cancelDeliveryButton.Size = new System.Drawing.Size(183, 50);
+            this.cancelDeliveryButton.Size = new System.Drawing.Size(215, 51);
             this.cancelDeliveryButton.TabIndex = 44;
             this.cancelDeliveryButton.Text = "Отменить";
             this.cancelDeliveryButton.UseVisualStyleBackColor = true;
@@ -278,9 +281,10 @@ namespace Warehouse_cosmetics_shope
             this.buttonBack.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonBack.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
             this.buttonBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonBack.Location = new System.Drawing.Point(969, 680);
+            this.buttonBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonBack.Location = new System.Drawing.Point(958, 729);
             this.buttonBack.Name = "buttonBack";
-            this.buttonBack.Size = new System.Drawing.Size(140, 39);
+            this.buttonBack.Size = new System.Drawing.Size(215, 51);
             this.buttonBack.TabIndex = 45;
             this.buttonBack.Text = "Назад";
             this.buttonBack.UseVisualStyleBackColor = false;
@@ -291,15 +295,15 @@ namespace Warehouse_cosmetics_shope
             this.catalogInDeliveryGridView.BackgroundColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.catalogInDeliveryGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.catalogInDeliveryGridView.Location = new System.Drawing.Point(33, 72);
+            this.catalogInDeliveryGridView.MultiSelect = false;
             this.catalogInDeliveryGridView.Name = "catalogInDeliveryGridView";
             this.catalogInDeliveryGridView.RowHeadersWidth = 51;
             this.catalogInDeliveryGridView.RowTemplate.Height = 24;
+            this.catalogInDeliveryGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.catalogInDeliveryGridView.Size = new System.Drawing.Size(721, 293);
             this.catalogInDeliveryGridView.TabIndex = 46;
-            catalogInDeliveryGridView.AutoGenerateColumns = true;
-            catalogInDeliveryGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            catalogInDeliveryGridView.MultiSelect = false;
-            this.catalogInDeliveryGridView.CellClick += CatalogInDeliveryGridView_CellClick;
+            catalogInDeliveryGridView.CellClick += CatalogInDeliveryGridView_CellClick;
+            // 
             // catalogInDelivryLabel
             // 
             this.catalogInDelivryLabel.AutoSize = true;

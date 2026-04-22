@@ -47,7 +47,6 @@
             this.newCategoryFormLabel.Size = new System.Drawing.Size(251, 32);
             this.newCategoryFormLabel.TabIndex = 1;
             this.newCategoryFormLabel.Text = "Новая категория";
-            this.newCategoryFormLabel.Click += new System.EventHandler(this.newCategoryFormLabel_Click);
             // 
             // parentCategoryLabel
             // 

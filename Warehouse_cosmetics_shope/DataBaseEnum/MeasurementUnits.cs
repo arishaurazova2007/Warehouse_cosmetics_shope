@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-namespace Warehouse_cosmetics_shope
+namespace Warehouse_cosmetics_shope.Enum
 {
     /// <summary>
     /// Единицы измерения для складского учета товаров

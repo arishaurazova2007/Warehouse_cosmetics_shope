@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-namespace Warehouse_cosmetics_shope
+namespace Warehouse_cosmetics_shope.Enum
 {
     /// <summary>
     /// Категории клиентов для ведения документооборота и учета отгрузок

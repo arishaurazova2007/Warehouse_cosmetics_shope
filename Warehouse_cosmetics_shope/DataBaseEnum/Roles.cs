@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-namespace Warehouse_cosmetics_shope
+namespace Warehouse_cosmetics_shope.Enum
 {
+
     /// <summary>
     /// Уровни доступа пользователей к функциям системы управления складом
     /// </summary>

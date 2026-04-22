@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Windows.Forms;
 using Warehouse_cosmetics_shope.DataBaseClass;
+using Warehouse_cosmetics_shope.Enum;
+using Serilog;
 
 namespace Warehouse_cosmetics_shope
 {
@@ -10,33 +12,60 @@ namespace Warehouse_cosmetics_shope
         private Guid currentUserId;
         private string currentUserLogin;
 
+        /// <summary>
+        /// Конструктор формы создания новой карточки товара
+        /// </summary>
+        /// <param name="userId">Идентификатор текущего пользователя</param>
+        /// <param name="userLogin">Логин текущего пользователя</param>
         public NewItemForm(Guid userId, string userLogin)
         {
             InitializeComponent();
             currentUserId = userId;
             currentUserLogin = userLogin;
 
+            Log.Information("Пользователь {UserLogin} открыл форму создания нового товара", currentUserLogin);
+
             LoadCategories();
             LoadUnits();
         }
 
+        /// <summary>
+        /// Загружает категории товаров в выпадающий список
+        /// </summary>
         private void LoadCategories()
         {
-            using (var db = new WarehouseContext())
+            try
             {
-                var allCategories = db.Categories.ToList();
-                var displayList = allCategories.Select(cat => new
+                using (var db = new WarehouseContext())
                 {
-                    CategoryID = cat.CategoryID,
-                    FullPath = GetCategoryPath(cat.CategoryID, allCategories)
-                }).OrderBy(c => c.FullPath).ToList();
+                    var allCategories = db.Categories.ToList();
+                    var displayList = allCategories.Select(cat => new
+                    {
+                        CategoryID = cat.CategoryID,
+                        FullPath = GetCategoryPath(cat.CategoryID, allCategories)
+                    }).OrderBy(c => c.FullPath).ToList();
 
-                categoryComboBox.DataSource = displayList;
-                categoryComboBox.DisplayMember = "FullPath";
-                categoryComboBox.ValueMember = "CategoryID";
+                    categoryComboBox.DataSource = displayList;
+                    categoryComboBox.DisplayMember = "FullPath";
+                    categoryComboBox.ValueMember = "CategoryID";
+
+                    Log.Debug("Загружено {CategoryCount} категорий", displayList.Count);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Ошибка при загрузке категорий");
+                MessageBox.Show("Ошибка при загрузке категорий", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        /// <summary>
+        /// Получение полного пути категории (рекурсивно)
+        /// </summary>
+        /// <param name="categoryId">Идентификатор категории</param>
+        /// <param name="allCategories">Список всех категорий</param>
+        /// <returns>Полный путь категории в формате "Родитель → Дочерняя"</returns>
         private string GetCategoryPath(Guid categoryId, System.Collections.Generic.List<Category> allCategories)
         {
             var path = new System.Collections.Generic.List<string>();
@@ -51,18 +80,37 @@ namespace Warehouse_cosmetics_shope
             return string.Join(" → ", path);
         }
 
+        /// <summary>
+        /// Загружает единицы измерения в выпадающий список
+        /// </summary>
         private void LoadUnits()
         {
-            var units = Enum.GetValues(typeof(MeasurementUnits))
-                .Cast<MeasurementUnits>()
-                .Select(u => new { Value = u, Display = GetUnitDisplayName(u) })
-                .ToList();
+            try
+            {
+                var units = System.Enum.GetValues(typeof(MeasurementUnits))
+                    .Cast<MeasurementUnits>()
+                    .Select(u => new { Value = u, Display = GetUnitDisplayName(u) })
+                    .ToList();
 
-            unitComboBox.DataSource = units;
-            unitComboBox.DisplayMember = "Display";
-            unitComboBox.ValueMember = "Value";
+                unitComboBox.DataSource = units;
+                unitComboBox.DisplayMember = "Display";
+                unitComboBox.ValueMember = "Value";
+
+                Log.Debug("Загружены единицы измерения");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Ошибка при загрузке единиц измерения");
+                MessageBox.Show("Ошибка при загрузке единиц измерения", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
+        /// <summary>
+        /// Возвращает русское название единицы измерения
+        /// </summary>
+        /// <param name="unit">Единица измерения</param>
+        /// <returns>Русское название единицы измерения</returns>
         private string GetUnitDisplayName(MeasurementUnits unit)
         {
             switch (unit)
@@ -74,10 +122,15 @@ namespace Warehouse_cosmetics_shope
             }
         }
 
+        /// <summary>
+        /// Проверяет корректность заполнения формы
+        /// </summary>
+        /// <returns>true - если данные валидны, false - если есть ошибки</returns>
         private bool ValidateForm()
         {
             if (string.IsNullOrWhiteSpace(productNameTextBox.Text))
             {
+                Log.Warning("Попытка создать товар без наименования");
                 MessageBox.Show("Введите наименование товара", "Ошибка",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 productNameTextBox.Focus();
@@ -86,6 +139,7 @@ namespace Warehouse_cosmetics_shope
 
             if (categoryComboBox.SelectedItem == null)
             {
+                Log.Warning("Попытка создать товар без выбора категории");
                 MessageBox.Show("Выберите категорию", "Ошибка",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 categoryComboBox.Focus();
@@ -94,6 +148,7 @@ namespace Warehouse_cosmetics_shope
 
             if (unitComboBox.SelectedItem == null)
             {
+                Log.Warning("Попытка создать товар без выбора единицы измерения");
                 MessageBox.Show("Выберите единицу измерения", "Ошибка",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 unitComboBox.Focus();
@@ -102,6 +157,7 @@ namespace Warehouse_cosmetics_shope
 
             if (sellPriceNumeric.Value <= 0)
             {
+                Log.Warning("Попытка создать товар с некорректной ценой продажи: {Price}", sellPriceNumeric.Value);
                 MessageBox.Show("Цена продажи должна быть больше 0", "Ошибка",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 sellPriceNumeric.Focus();
@@ -111,30 +167,46 @@ namespace Warehouse_cosmetics_shope
             return true;
         }
 
+        /// <summary>
+        /// Обработчик нажатия кнопки "Сохранить"
+        /// </summary>
         private void buttonSave_Click(object sender, EventArgs e)
         {
             if (!ValidateForm()) return;
 
-            using (var db = new WarehouseContext())
+            try
             {
-                var newProduct = new Item
+                using (var db = new WarehouseContext())
                 {
-                    ProductID = Guid.NewGuid(),
-                    ProductName = productNameTextBox.Text.Trim(),
-                    CategoryID = (Guid)categoryComboBox.SelectedValue,
-                    PurPrice = 0,  // пока не указана, заполнится в поставке
-                    SellPrice = sellPriceNumeric.Value,
-                    Quantity = 0,   // товара нет на складе
-                    Units = (MeasurementUnits)unitComboBox.SelectedValue,
-                    ExpDate = DateTime.Now.AddYears(3),
-                    ManufDate = DateTime.Now
-                };
+                    var newProduct = new Item
+                    {
+                        ProductID = Guid.NewGuid(),
+                        ProductName = productNameTextBox.Text.Trim(),
+                        CategoryID = (Guid)categoryComboBox.SelectedValue,
+                        PurPrice = 0,
+                        SellPrice = sellPriceNumeric.Value,
+                        Quantity = 0,
+                        Units = (MeasurementUnits)unitComboBox.SelectedValue,
+                        ExpDate = DateTime.Now.AddYears(3),
+                        ManufDate = DateTime.Now
+                    };
 
-                db.Items.Add(newProduct);
-                db.SaveChanges();
+                    db.Items.Add(newProduct);
+                    db.SaveChanges();
 
-                MessageBox.Show($"Карточка товара создана!\nАртикул: {newProduct.ProductNumber}\n\nДля добавления товара на склад оформите поставку.",
-                    "Оповещение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Log.Information("Создана карточка товара: {ProductName}, артикул: {ProductNumber}",
+                        newProduct.ProductName, newProduct.ProductNumber);
+
+                    MessageBox.Show($"Карточка товара создана!\nАртикул: {newProduct.ProductNumber}\n\nДля добавления товара на склад оформите поставку.",
+                        "Оповещение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Ошибка при создании карточки товара {ProductName}", productNameTextBox.Text);
+                MessageBox.Show("Ошибка при создании карточки товара", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
             var catalogForm = new CatalogFormAdmin(currentUserId, currentUserLogin);
@@ -142,8 +214,12 @@ namespace Warehouse_cosmetics_shope
             this.Hide();
         }
 
+        /// <summary>
+        /// Обработчик нажатия кнопки "Назад"
+        /// </summary>
         private void buttonBack_Click(object sender, EventArgs e)
         {
+            Log.Information("Пользователь {UserLogin} отменил создание товара", currentUserLogin);
             var catalogForm = new CatalogFormAdmin(currentUserId, currentUserLogin);
             catalogForm.Show();
             this.Hide();
