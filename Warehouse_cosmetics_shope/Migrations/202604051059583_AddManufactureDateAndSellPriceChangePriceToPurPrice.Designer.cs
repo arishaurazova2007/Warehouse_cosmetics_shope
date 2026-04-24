@@ -7,13 +7,13 @@ namespace Warehouse_cosmetics_shope.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.5.1")]
-    public sealed partial class FixIdTypeToString : IMigrationMetadata
+    public sealed partial class AddManufactureDateAndSellPriceChangePriceToSellPrice : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(FixIdTypeToString));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddManufactureDateAndSellPriceChangePriceToSellPrice));
         
         string IMigrationMetadata.Id
         {
-            get { return "202603221305082_FixIdTypeToString"; }
+            get { return "202604051059583_AddManufactureDateAndSellPriceChangePriceToSellPrice"; }
         }
         
         string IMigrationMetadata.Source

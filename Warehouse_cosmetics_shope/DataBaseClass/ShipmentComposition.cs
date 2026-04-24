@@ -14,11 +14,11 @@ namespace Warehouse_cosmetics_shope.DataBaseClass
         [Key]
         public int CompositionID { get; set; }
         /// <summary>
-        /// Идентификатор родительского документа отгрузки
+        /// Идентификатор отгрузки
         /// </summary>
         public Guid ShipmentID { get; set; }
         /// <summary>
-        /// Идентификатор отгружаемого товара
+        /// Идентификатор родительского документа отгрузки
         /// </summary>
         public Guid ProductID { get; set; }
         /// <summary>
@@ -28,12 +28,13 @@ namespace Warehouse_cosmetics_shope.DataBaseClass
         /// <summary>
         /// Навигационное свойство для доступа к заголовку отгрузки
         /// </summary>
-        [ForeignKey("ShipmentID")]
-        public virtual Shipment Shipment { get; set; }
-        /// <summary>
-        /// Навигационное свойство для доступа к подробным данным отгружаемого товара
-        /// </summary>
         [ForeignKey("ProductID")]
         public virtual Item Product { get; set; }
+
+        /// <summary>
+        /// Навигационное свойство к отгрузке
+        /// </summary>
+        [ForeignKey("ShipmentID")]
+        public virtual Shipment Shipment { get; set; }
     }
 }

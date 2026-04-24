@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Warehouse_cosmetics_shope.Enum;
 namespace Warehouse_cosmetics_shope.DataBaseClass
 {
     /// <summary>
@@ -15,6 +16,11 @@ namespace Warehouse_cosmetics_shope.DataBaseClass
         /// </summary>
         [Key]
         public Guid ProductID { get; set; }
+        /// <summary>
+        /// Артикул товара
+        /// </summary>
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int ProductNumber { get; set; }
         /// <summary>
         /// Наименование товара
         /// </summary>
@@ -34,13 +40,21 @@ namespace Warehouse_cosmetics_shope.DataBaseClass
         /// </summary>
         public MeasurementUnits Units { get; set; }
         /// <summary>
-        /// Срок годности товара
+        /// дата истечения срока годности товара
         /// </summary>
         public DateTime ExpDate { get; set; }
         /// <summary>
-        /// Цена за единицу товара.
+        /// Дата изготовления товара
         /// </summary>
-        public decimal Price { get; set; }
+        public DateTime ManufDate { get; set; }
+        /// <summary>
+        /// Цена закупки товара
+        /// </summary>
+        public decimal PurPrice { get; set; }
+        /// <summary>
+        /// Цена для продажи товара
+        /// </summary>
+        public decimal SellPrice { get; set; }
         /// <summary>
         /// Текущий фактический остаток товара на складе
         /// </summary>

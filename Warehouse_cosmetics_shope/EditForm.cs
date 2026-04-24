@@ -9,31 +9,32 @@ namespace Warehouse_cosmetics_shope
     {
         private Guid productId;
         private Guid currentUserId;
+        private string currentUserLogin;
         public EditForm()
         {
             InitializeComponent();
             productId = Guid.Empty;
         }
-        public EditForm(Guid productId, Guid userId)
+        public EditForm(Guid productId, Guid userId, string userLogin)
         {
             InitializeComponent();
             this.productId = productId;
             this.currentUserId = userId;
-            if (productId != Guid.Empty)
-            {
-                LoadProductData();
-            }
+            this.currentUserLogin = userLogin;
+            LoadProductData();
+            LoadCategories();
+            LoadTypes();
         }
         private void buttonSave_Click(object sender, EventArgs e)
         {
             SaveProduct(); // Метод для БД
-            var catalogForm = new CatalogFormAdmin(currentUserId);
+            var catalogForm = new CatalogFormAdmin(currentUserId, currentUserLogin);
             catalogForm.Show();
             this.Hide();
         }
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            var catalogForm = new CatalogFormAdmin(currentUserId);
+            var catalogForm = new CatalogFormAdmin(currentUserId, currentUserLogin);
             catalogForm.Show();
             this.Hide();
         }
@@ -120,20 +121,20 @@ namespace Warehouse_cosmetics_shope
         }
         private void Deletebutton_Click(object sender, EventArgs e)
         {
-            var confirmResult = MessageBox.Show(
-                Resources.ConfirmDelete,
-                Resources.ConfirmDeleteTitle,
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Warning);
+            //var confirmResult = MessageBox.Show(
+            //    Resources.ConfirmDelete,
+            //    Resources.ConfirmDeleteTitle,
+            //    MessageBoxButtons.YesNo,
+            //    MessageBoxIcon.Warning);
 
-            if (confirmResult == DialogResult.Yes)
-            {
-                DeleteProductFromCatalog();
-                LogDeletionToHistory();
-                var catalogForm = new CatalogFormAdmin(currentUserId);
-                catalogForm.Show();
-                this.Hide();
-            }
+            //if (confirmResult == DialogResult.Yes)
+            //{
+            //    DeleteProductFromCatalog();
+            //    LogDeletionToHistory();
+            //    var catalogForm = new CatalogFormAdmin(currentUserId);
+            //    catalogForm.Show();
+            //    this.Hide();
+            //}
         }
         private void DeleteProductFromCatalog()
         {

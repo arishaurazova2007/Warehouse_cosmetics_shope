@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Warehouse_cosmetics_shope.DataBaseClass;
+using Warehouse_cosmetics_shope.Enum;
 namespace Warehouse_cosmetics_shope
 {
     /// <summary>
@@ -15,6 +17,7 @@ namespace Warehouse_cosmetics_shope
         /// </summary>
         [Key]
         public Guid UserID { get; set; }
+        public string UserLogin { get; set; }
         /// <summary>
         /// Фамилия сотрудника
         /// </summary>
@@ -39,6 +42,6 @@ namespace Warehouse_cosmetics_shope
         /// Коллекция отгрузок, оформленных данным пользователем
         /// Позволяет отслеживать историю операций конкретного сотрудника
         /// </summary>
-        public virtual ICollection<Shipment> Shipment { get; set; } = new List<Shipment>();
+        public virtual ICollection<Shipment> Shipments { get; set; } = new List<Shipment>();
     }
 }

@@ -28,44 +28,55 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.labelID = new System.Windows.Forms.Label();
+            this.topPanel = new System.Windows.Forms.Panel();
+            this.deliveryFromCatalogButton = new System.Windows.Forms.Button();
+            this.labelShowLogin = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.buttonExit = new System.Windows.Forms.Button();
             this.buttonOtgruzka = new System.Windows.Forms.Button();
-            this.labelLogin = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.dataGridViewProducts = new System.Windows.Forms.DataGridView();
+            this.catalogLabel = new System.Windows.Forms.Label();
+            this.kladCatalogGrid = new System.Windows.Forms.DataGridView();
+            this.searchBox = new System.Windows.Forms.TextBox();
+            this.searchButton = new System.Windows.Forms.Button();
             this.buttonFilter = new System.Windows.Forms.Button();
-            this.textBoxSearch = new System.Windows.Forms.TextBox();
-            this.buttonSearch = new System.Windows.Forms.Button();
-            this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProducts)).BeginInit();
+            this.topPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kladCatalogGrid)).BeginInit();
             this.SuspendLayout();
             // 
-            // panel1
+            // topPanel
             // 
-            this.panel1.BackColor = System.Drawing.Color.White;
-            this.panel1.Controls.Add(this.labelID);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.buttonExit);
-            this.panel1.Controls.Add(this.buttonOtgruzka);
-            this.panel1.Location = new System.Drawing.Point(1, 1);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(810, 49);
-            this.panel1.TabIndex = 8;
+            this.topPanel.BackColor = System.Drawing.Color.White;
+            this.topPanel.Controls.Add(this.deliveryFromCatalogButton);
+            this.topPanel.Controls.Add(this.labelShowLogin);
+            this.topPanel.Controls.Add(this.label2);
+            this.topPanel.Controls.Add(this.buttonExit);
+            this.topPanel.Controls.Add(this.buttonOtgruzka);
+            this.topPanel.Location = new System.Drawing.Point(1, 1);
+            this.topPanel.Name = "topPanel";
+            this.topPanel.Size = new System.Drawing.Size(1132, 49);
+            this.topPanel.TabIndex = 8;
             // 
-            // labelID
+            // deliveryFromCatalogButton
             // 
-            this.labelID.AutoSize = true;
-            this.labelID.Location = new System.Drawing.Point(693, 16);
-            this.labelID.Name = "labelID";
-            this.labelID.Size = new System.Drawing.Size(0, 16);
-            this.labelID.TabIndex = 9;
+            this.deliveryFromCatalogButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
+            this.deliveryFromCatalogButton.FlatAppearance.BorderSize = 2;
+            this.deliveryFromCatalogButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.deliveryFromCatalogButton.Location = new System.Drawing.Point(237, 0);
+            this.deliveryFromCatalogButton.Name = "deliveryFromCatalogButton";
+            this.deliveryFromCatalogButton.Size = new System.Drawing.Size(120, 49);
+            this.deliveryFromCatalogButton.TabIndex = 11;
+            this.deliveryFromCatalogButton.Text = "Поставка";
+            this.deliveryFromCatalogButton.UseVisualStyleBackColor = true;
+            this.deliveryFromCatalogButton.Click += new System.EventHandler(this.deliveryFromCatalogButton_Click);
+            // 
+            // labelShowLogin
+            // 
+            this.labelShowLogin.AutoSize = true;
+            this.labelShowLogin.Location = new System.Drawing.Point(877, 16);
+            this.labelShowLogin.Name = "labelShowLogin";
+            this.labelShowLogin.Size = new System.Drawing.Size(77, 16);
+            this.labelShowLogin.TabIndex = 9;
+            this.labelShowLogin.Text = "Ваш логин:";
             // 
             // label2
             // 
@@ -75,21 +86,12 @@
             this.label2.Size = new System.Drawing.Size(0, 16);
             this.label2.TabIndex = 8;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(663, 16);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(23, 16);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "ID:";
-            // 
             // buttonExit
             // 
             this.buttonExit.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
             this.buttonExit.FlatAppearance.BorderSize = 2;
             this.buttonExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonExit.Location = new System.Drawing.Point(117, 0);
+            this.buttonExit.Location = new System.Drawing.Point(1, 0);
             this.buttonExit.Name = "buttonExit";
             this.buttonExit.Size = new System.Drawing.Size(120, 49);
             this.buttonExit.TabIndex = 1;
@@ -102,7 +104,7 @@
             this.buttonOtgruzka.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
             this.buttonOtgruzka.FlatAppearance.BorderSize = 2;
             this.buttonOtgruzka.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonOtgruzka.Location = new System.Drawing.Point(0, 0);
+            this.buttonOtgruzka.Location = new System.Drawing.Point(119, 0);
             this.buttonOtgruzka.Name = "buttonOtgruzka";
             this.buttonOtgruzka.Size = new System.Drawing.Size(120, 49);
             this.buttonOtgruzka.TabIndex = 0;
@@ -110,48 +112,50 @@
             this.buttonOtgruzka.UseVisualStyleBackColor = true;
             this.buttonOtgruzka.Click += new System.EventHandler(this.buttonOtgruzka_Click);
             // 
-            // labelLogin
+            // catalogLabel
             // 
-            this.labelLogin.AutoSize = true;
-            this.labelLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelLogin.Location = new System.Drawing.Point(30, 89);
-            this.labelLogin.Name = "labelLogin";
-            this.labelLogin.Size = new System.Drawing.Size(250, 32);
-            this.labelLogin.TabIndex = 9;
-            this.labelLogin.Text = "Каталог товаров";
+            this.catalogLabel.AutoSize = true;
+            this.catalogLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.catalogLabel.Location = new System.Drawing.Point(40, 89);
+            this.catalogLabel.Name = "catalogLabel";
+            this.catalogLabel.Size = new System.Drawing.Size(250, 32);
+            this.catalogLabel.TabIndex = 9;
+            this.catalogLabel.Text = "Каталог товаров";
             // 
-            // panel2
+            // kladCatalogGrid
             // 
-            this.panel2.Controls.Add(this.dataGridViewProducts);
-            this.panel2.Location = new System.Drawing.Point(1, 159);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(801, 296);
-            this.panel2.TabIndex = 10;
+            this.kladCatalogGrid.BackgroundColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.kladCatalogGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.kladCatalogGrid.Location = new System.Drawing.Point(1, 151);
+            this.kladCatalogGrid.Name = "kladCatalogGrid";
+            this.kladCatalogGrid.RowHeadersWidth = 51;
+            this.kladCatalogGrid.RowTemplate.Height = 24;
+            this.kladCatalogGrid.Size = new System.Drawing.Size(1132, 477);
+            this.kladCatalogGrid.TabIndex = 13;
             // 
-            // dataGridViewProducts
+            // searchBox
             // 
-            this.dataGridViewProducts.BackgroundColor = System.Drawing.Color.White;
-            this.dataGridViewProducts.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dataGridViewProducts.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.dataGridViewProducts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewProducts.DefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGridViewProducts.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewProducts.EnableHeadersVisualStyles = false;
-            this.dataGridViewProducts.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
-            this.dataGridViewProducts.Location = new System.Drawing.Point(0, 0);
-            this.dataGridViewProducts.Name = "dataGridViewProducts";
-            this.dataGridViewProducts.RowHeadersVisible = false;
-            this.dataGridViewProducts.RowHeadersWidth = 51;
-            this.dataGridViewProducts.RowTemplate.Height = 24;
-            this.dataGridViewProducts.Size = new System.Drawing.Size(801, 296);
-            this.dataGridViewProducts.TabIndex = 6;
+            this.searchBox.ForeColor = System.Drawing.Color.Gray;
+            this.searchBox.Location = new System.Drawing.Point(624, 99);
+            this.searchBox.MaximumSize = new System.Drawing.Size(300, 50);
+            this.searchBox.Name = "searchBox";
+            this.searchBox.Size = new System.Drawing.Size(300, 22);
+            this.searchBox.TabIndex = 15;
+            this.searchBox.Text = "Поиск";
+            // 
+            // searchButton
+            // 
+            this.searchButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
+            this.searchButton.FlatAppearance.BorderSize = 0;
+            this.searchButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.searchButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.searchButton.ForeColor = System.Drawing.Color.White;
+            this.searchButton.Location = new System.Drawing.Point(930, 96);
+            this.searchButton.Name = "searchButton";
+            this.searchButton.Size = new System.Drawing.Size(140, 29);
+            this.searchButton.TabIndex = 14;
+            this.searchButton.Text = "Искать";
+            this.searchButton.UseVisualStyleBackColor = false;
             // 
             // buttonFilter
             // 
@@ -160,58 +164,30 @@
             this.buttonFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonFilter.ForeColor = System.Drawing.Color.Black;
-            this.buttonFilter.Location = new System.Drawing.Point(305, 95);
+            this.buttonFilter.Location = new System.Drawing.Point(332, 93);
             this.buttonFilter.Name = "buttonFilter";
-            this.buttonFilter.Size = new System.Drawing.Size(108, 26);
-            this.buttonFilter.TabIndex = 9;
+            this.buttonFilter.Size = new System.Drawing.Size(133, 33);
+            this.buttonFilter.TabIndex = 16;
             this.buttonFilter.Text = "Фильтровать";
             this.buttonFilter.UseVisualStyleBackColor = false;
-            this.buttonFilter.Click += new System.EventHandler(this.buttonFilter_Click);
-            // 
-            // textBoxSearch
-            // 
-            this.textBoxSearch.ForeColor = System.Drawing.Color.Gray;
-            this.textBoxSearch.Location = new System.Drawing.Point(458, 98);
-            this.textBoxSearch.MaximumSize = new System.Drawing.Size(300, 50);
-            this.textBoxSearch.Name = "textBoxSearch";
-            this.textBoxSearch.Size = new System.Drawing.Size(237, 22);
-            this.textBoxSearch.TabIndex = 11;
-            this.textBoxSearch.Text = "Поиск";
-            this.textBoxSearch.Click += new System.EventHandler(this.TextBox1_LostFocus);
-            // 
-            // buttonSearch
-            // 
-            this.buttonSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
-            this.buttonSearch.FlatAppearance.BorderSize = 0;
-            this.buttonSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonSearch.ForeColor = System.Drawing.Color.White;
-            this.buttonSearch.Location = new System.Drawing.Point(689, 99);
-            this.buttonSearch.Name = "buttonSearch";
-            this.buttonSearch.Size = new System.Drawing.Size(86, 22);
-            this.buttonSearch.TabIndex = 12;
-            this.buttonSearch.Text = "Искать";
-            this.buttonSearch.UseVisualStyleBackColor = false;
-            this.buttonSearch.Click += new System.EventHandler(this.button3_Click);
             // 
             // CatalogFormKlad
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.buttonSearch);
-            this.Controls.Add(this.textBoxSearch);
+            this.ClientSize = new System.Drawing.Size(1132, 628);
             this.Controls.Add(this.buttonFilter);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.labelLogin);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.searchBox);
+            this.Controls.Add(this.searchButton);
+            this.Controls.Add(this.kladCatalogGrid);
+            this.Controls.Add(this.catalogLabel);
+            this.Controls.Add(this.topPanel);
             this.Name = "CatalogFormKlad";
             this.Text = "Каталог кладовщика";
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProducts)).EndInit();
+            this.topPanel.ResumeLayout(false);
+            this.topPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kladCatalogGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -219,17 +195,16 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel topPanel;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonExit;
         private System.Windows.Forms.Button buttonOtgruzka;
-        private System.Windows.Forms.Label labelLogin;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.DataGridView dataGridViewProducts;
+        private System.Windows.Forms.Label catalogLabel;
+        private System.Windows.Forms.Label labelShowLogin;
+        private System.Windows.Forms.DataGridView kladCatalogGrid;
+        private System.Windows.Forms.TextBox searchBox;
+        private System.Windows.Forms.Button searchButton;
         private System.Windows.Forms.Button buttonFilter;
-        private System.Windows.Forms.TextBox textBoxSearch;
-        private System.Windows.Forms.Button buttonSearch;
-        private System.Windows.Forms.Label labelID;
+        private System.Windows.Forms.Button deliveryFromCatalogButton;
     }
 }

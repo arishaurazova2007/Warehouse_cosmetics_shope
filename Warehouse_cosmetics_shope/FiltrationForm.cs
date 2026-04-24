@@ -1,125 +1,239 @@
-﻿using System;
+﻿using Serilog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
-using System.Data.Entity;
 using Warehouse_cosmetics_shope.DataBaseClass;
+using Warehouse_cosmetics_shope.Helpers;
+
 namespace Warehouse_cosmetics_shope
 {
     public partial class FiltrationForm : Form
     {
-        private Guid currentUserId;
-        public event Action<FilterCriteria> OnFilterApplied;
-        public FiltrationForm(Guid userId)
+        /// <summary>
+        /// Событие, возникающее при применении фильтра. Передаёт выбранные категории и параметры фильтрации.
+        /// </summary>
+        public event Action<List<Guid>, decimal?, decimal?, bool?, bool?, bool?, bool?> FilterApplied;
+
+        private List<CategoryInfo> _allCategories;
+
+        /// <summary>
+        /// Конструктор формы фильтрации
+        /// </summary>
+        public FiltrationForm()
         {
             InitializeComponent();
-            this.currentUserId = userId;
+            LoadCategories();
+            SetupCheckBoxes();
+            Log.Information("Открыта форма фильтрации");
         }
+
+        /// <summary>
+        /// Настраивает взаимосвязь между чекбоксами (исключающий выбор)
+        /// </summary>
+        private void SetupCheckBoxes()
+        {
+            checkBoxInStock.CheckedChanged += (s, e) =>
+            {
+                if (checkBoxInStock.Checked) checkBoxNotInStock.Checked = false;
+            };
+            checkBoxNotInStock.CheckedChanged += (s, e) =>
+            {
+                if (checkBoxNotInStock.Checked) checkBoxInStock.Checked = false;
+            };
+
+            withDiscCheckBox.CheckedChanged += (s, e) =>
+            {
+                if (withDiscCheckBox.Checked) withoutDiscCheckBox.Checked = false;
+            };
+            withoutDiscCheckBox.CheckedChanged += (s, e) =>
+            {
+                if (withoutDiscCheckBox.Checked) withDiscCheckBox.Checked = false;
+            };
+        }
+
+        /// <summary>
+        /// Загружает категории в иерархическом виде с отступами
+        /// </summary>
+        private void LoadCategories()
+        {
+            try
+            {
+                using (var db = new WarehouseContext())
+                {
+                    var categories = db.Categories.ToList();
+                    _allCategories = new List<CategoryInfo>();
+
+                    foreach (var cat in categories.Where(c => c.ParentID == null).OrderBy(c => c.CategoryName))
+                    {
+                        AddCategoryWithChildren(cat, categories, 0);
+                    }
+
+                    categoriesCheckedListBox.DataSource = _allCategories;
+                    categoriesCheckedListBox.DisplayMember = "DisplayName";
+                    categoriesCheckedListBox.ValueMember = "CategoryID";
+
+                    Log.Debug("Загружено {CategoryCount} категорий для фильтрации", _allCategories.Count);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Ошибка при загрузке категорий для фильтрации");
+                MessageBox.Show("Ошибка при загрузке категорий", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Рекурсивно добавляет категорию и всех её дочерних в список с отступами
+        /// </summary>
+        /// <param name="cat">Текущая категория</param>
+        /// <param name="all">Список всех категорий</param>
+        /// <param name="level">Уровень вложенности (для отступа)</param>
+        private void AddCategoryWithChildren(Category cat, List<Category> all, int level)
+        {
+            _allCategories.Add(new CategoryInfo
+            {
+                CategoryID = cat.CategoryID,
+                DisplayName = new string(' ', level * 4) + cat.CategoryName,
+                ParentID = cat.ParentID
+            });
+
+            var children = all.Where(c => c.ParentID == cat.CategoryID).OrderBy(c => c.CategoryName);
+            foreach (var child in children)
+            {
+                AddCategoryWithChildren(child, all, level + 1);
+            }
+        }
+
+        /// <summary>
+        /// Обработчик изменения состояния чекбокса категории (автоматически выбирает/снимает дочерние)
+        /// </summary>
+        private void categoriesCheckedListBox_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            try
+            {
+                var selected = _allCategories[e.Index];
+                int startIndex = e.Index + 1;
+                int endIndex = FindLastChildIndex(selected.CategoryID, startIndex);
+
+                for (int i = startIndex; i <= endIndex; i++)
+                {
+                    categoriesCheckedListBox.SetItemChecked(i, e.NewValue == CheckState.Checked);
+                }
+
+                Log.Debug("Изменён выбор категории: {CategoryName} (новое состояние: {NewState})",
+                    selected.DisplayName.Trim(), e.NewValue);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Ошибка при обработке изменения выбора категории");
+            }
+        }
+
+        /// <summary>
+        /// Находит индекс последней дочерней категории для указанной родительской
+        /// </summary>
+        /// <param name="parentId">Идентификатор родительской категории</param>
+        /// <param name="startIndex">Начальный индекс для поиска</param>
+        /// <returns>Индекс последней дочерней категории</returns>
+        private int FindLastChildIndex(Guid parentId, int startIndex)
+        {
+            int lastIndex = startIndex - 1;
+
+            for (int i = startIndex; i < _allCategories.Count; i++)
+            {
+                if (IsDescendantOf(parentId, _allCategories[i].CategoryID))
+                {
+                    lastIndex = i;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return lastIndex;
+        }
+
+        /// <summary>
+        /// Проверяет, является ли категория потомком указанной родительской
+        /// </summary>
+        /// <param name="parentId">Идентификатор родительской категории</param>
+        /// <param name="childId">Идентификатор проверяемой категории</param>
+        /// <returns>true - если является потомком, false - иначе</returns>
+        private bool IsDescendantOf(Guid parentId, Guid childId)
+        {
+            try
+            {
+                using (var db = new WarehouseContext())
+                {
+                    var current = db.Categories.FirstOrDefault(c => c.CategoryID == childId);
+                    while (current != null)
+                    {
+                        if (current.ParentID == parentId) return true;
+                        current = db.Categories.FirstOrDefault(c => c.CategoryID == current.ParentID);
+                    }
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Ошибка при проверке принадлежности категории {ChildId} к родителю {ParentId}", childId, parentId);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Обработчик нажатия кнопки "Показать" (применяет фильтры)
+        /// </summary>
         private void buttonShow_Click(object sender, EventArgs e)
         {
+            try
+            {
+                var selectedCategoryIds = new List<Guid>();
+                for (int i = 0; i < categoriesCheckedListBox.Items.Count; i++)
+                {
+                    if (categoriesCheckedListBox.GetItemChecked(i))
+                    {
+                        selectedCategoryIds.Add(_allCategories[i].CategoryID);
+                    }
+                }
 
-            var criteria = GetFilterCriteria();
-            OnFilterApplied?.Invoke(criteria);
+                decimal? priceFrom = priceFromNumeric.Value > 0 ? priceFromNumeric.Value : (decimal?)null;
+                decimal? priceTo = priceToNumeric.Value < 1000000 ? priceToNumeric.Value : (decimal?)null;
+
+                bool? inStockOnly = checkBoxInStock.Checked ? true : (bool?)null;
+                bool? notInStockOnly = checkBoxNotInStock.Checked ? true : (bool?)null;
+
+                bool? withDiscount = withDiscCheckBox.Checked ? true : (bool?)null;
+                bool? withoutDiscount = withoutDiscCheckBox.Checked ? true : (bool?)null;
+
+                Log.Information("Применены фильтры: Категорий={CategoryCount}, Цена от={PriceFrom}, Цена до={PriceTo}, " +
+                    "В наличии={InStock}, Нет в наличии={NotInStock}, Со скидкой={WithDiscount}, Без скидки={WithoutDiscount}",
+                    selectedCategoryIds.Count, priceFrom, priceTo, inStockOnly, notInStockOnly, withDiscount, withoutDiscount);
+
+                if (selectedCategoryIds.Count == 0)
+                {
+                    Log.Warning("Фильтр применён без выбора категорий");
+                }
+
+                FilterApplied?.Invoke(selectedCategoryIds, priceFrom, priceTo, inStockOnly, notInStockOnly, withDiscount, withoutDiscount);
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Ошибка при применении фильтров");
+                MessageBox.Show("Ошибка при применении фильтров", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Обработчик нажатия кнопки "Отмена"
+        /// </summary>
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            Log.Information("Фильтрация отменена пользователем");
             this.Close();
         }
-        private FilterCriteria GetFilterCriteria()
-        {
-            var criteria = new FilterCriteria();
-            // Категория
-            criteria.CategoryPerfumeMen = checkBoxPerfumeMen.Checked;
-            criteria.CategoryPerfumeWomen = checkBoxPerfumeWomen.Checked;
-            criteria.CategoryCosmetics = checkBoxCosmetics.Checked;
-            // Вид
-            criteria.TypePerfume = checkBoxPerfume.Checked;
-            criteria.TypePerfumeWater = checkBoxPerfumeWater.Checked;
-            criteria.TypeToiletWater = checkBoxToiletWater.Checked;
-            criteria.TypeCare = checkBoxCare.Checked;
-            criteria.TypeDecor = checkBoxDecor.Checked;
-            // Цена
-            criteria.PriceFrom = textBoxPriceFrom.Text;
-            criteria.PriceTo = textBoxPriceTo.Text;
-            // Наличие
-            criteria.InStock = checkBoxInStock.Checked;
-            criteria.NotInStock = checkBoxNotInStock.Checked;
-            return criteria;
-        }
-        private void ApplyFilter(FilterCriteria criteria)
-        {
-            // Применение фильтра (БД)
-        }
-        private void ResetFilter()
-        {
-            checkBoxPerfumeMen.Checked = false;
-            checkBoxPerfumeWomen.Checked = false;
-            checkBoxCosmetics.Checked = false;
-            checkBoxPerfume.Checked = false;
-            checkBoxPerfumeWater.Checked = false;
-            checkBoxToiletWater.Checked = false;
-            checkBoxCare.Checked = false;
-            checkBoxDecor.Checked = false;
-            checkBoxInStock.Checked = false;
-            checkBoxNotInStock.Checked = false;
-            textBoxPriceFrom.Clear();
-            textBoxPriceTo.Clear();
-            // Отправим пустой фильтр
-            OnFilterApplied?.Invoke(new FilterCriteria());
-        }
-        private void LoadAllProducts()
-        {
-            // Загрузка всех товаров (без фильтра)
-        }
-        private void FiltrationForm_Load(object sender, EventArgs e)
-        {
-
-        }
-    }
-    public class FilterCriteria
-    {
-        /// <summary>
-        /// Категория: Парфюм для мужчин
-        /// </summary>
-        public bool CategoryPerfumeMen { get; set; }
-        /// <summary>
-        /// Категория: Парфюм для женщин
-        /// </summary>
-        public bool CategoryPerfumeWomen { get; set; }
-        /// <summary>
-        /// Категория: Косметика
-        /// </summary>
-        public bool CategoryCosmetics { get; set; }
-        /// <summary>
-        /// Вид: Парфюм
-        /// </summary>
-        public bool TypePerfume { get; set; }
-        /// <summary>
-        /// Вид: Парфюмированная вода
-        /// </summary>
-        public bool TypePerfumeWater { get; set; }
-        /// <summary>
-        /// Вид: Туалетная вода
-        /// </summary>
-        public bool TypeToiletWater { get; set; }
-        /// <summary>
-        /// Вид: Уходовая косметика
-        /// </summary>
-        public bool TypeCare { get; set; }
-        /// <summary>
-        /// Вид: Декоративная косметика
-        /// </summary>
-        public bool TypeDecor { get; set; }
-        /// <summary>
-        /// Цена: от
-        /// </summary>
-        public string PriceFrom { get; set; }
-        /// <summary>
-        /// Цена: до
-        /// </summary>
-        public string PriceTo { get; set; }
-        /// <summary>
-        /// Наличие: в наличии
-        /// </summary>
-        public bool InStock { get; set; }
-        /// <summary>
-        /// Наличие: нет в наличии
-        /// </summary>
-        public bool NotInStock { get; set; }
     }
 }

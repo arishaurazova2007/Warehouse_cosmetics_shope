@@ -3,16 +3,14 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class FixIdTypeToString : DbMigration
+    public partial class InitialCreate : DbMigration
     {
         public override void Up()
         {
-            AlterColumn("dbo.Items", "ExpDate", c => c.DateTime(nullable: false));
         }
         
         public override void Down()
         {
-            AlterColumn("dbo.Items", "ExpDate", c => c.Int(nullable: false));
         }
     }
 }

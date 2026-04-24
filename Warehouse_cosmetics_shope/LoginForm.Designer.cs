@@ -86,7 +86,7 @@
             // labelPassword
             // 
             this.labelPassword.AutoSize = true;
-            this.labelPassword.Location = new System.Drawing.Point(76, 93);
+            this.labelPassword.Location = new System.Drawing.Point(86, 96);
             this.labelPassword.Name = "labelPassword";
             this.labelPassword.Size = new System.Drawing.Size(56, 16);
             this.labelPassword.TabIndex = 4;
@@ -95,16 +95,16 @@
             // labelId
             // 
             this.labelId.AutoSize = true;
-            this.labelId.Location = new System.Drawing.Point(57, 34);
+            this.labelId.Location = new System.Drawing.Point(57, 37);
             this.labelId.Name = "labelId";
-            this.labelId.Size = new System.Drawing.Size(100, 16);
+            this.labelId.Size = new System.Drawing.Size(126, 16);
             this.labelId.TabIndex = 3;
-            this.labelId.Text = "ID сотрудника";
+            this.labelId.Text = "Логин сотрудника";
             // 
             // buttonLogin
             // 
             this.buttonLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonLogin.Location = new System.Drawing.Point(319, 293);
+            this.buttonLogin.Location = new System.Drawing.Point(305, 293);
             this.buttonLogin.Name = "buttonLogin";
             this.buttonLogin.Size = new System.Drawing.Size(193, 37);
             this.buttonLogin.TabIndex = 5;
@@ -115,7 +115,7 @@
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(319, 336);
+            this.button1.Location = new System.Drawing.Point(305, 336);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(193, 37);
             this.button1.TabIndex = 6;

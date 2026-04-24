@@ -1,13 +1,18 @@
-﻿using System;
-namespace Warehouse_cosmetics_shope
+﻿using System.ComponentModel.DataAnnotations;
+namespace Warehouse_cosmetics_shope.Enum
 {
     /// <summary>
     /// Категории клиентов для ведения документооборота и учета отгрузок
     /// </summary>
     public enum ClientTypes
     {
-        Юр_лицо = 1,
-        ИП = 2,
-        Физ_лицо = 3
+        [Display(Name = "Юридическое лицо")]
+        LegalEntity = 1,
+
+        [Display(Name = "Индивидуальный предприниматель")]
+        IndividualEntrepreneur = 2,
+
+        [Display(Name = "Физическое лицо")]
+        Individual = 3
     }
 }

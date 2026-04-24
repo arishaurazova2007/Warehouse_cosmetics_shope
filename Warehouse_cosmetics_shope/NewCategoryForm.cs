@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Linq;
 using System.Windows.Forms;
-using System.Data.Entity;  // ← ДОБАВИТЬ
 using Warehouse_cosmetics_shope.DataBaseClass;
-using Warehouse_cosmetics_shope.Properties;  // ← ДОБАВИТЬ
+using Warehouse_cosmetics_shope.Helpers;
 
 namespace Warehouse_cosmetics_shope
 {
@@ -11,98 +11,163 @@ namespace Warehouse_cosmetics_shope
     {
         private Guid currentUserId;
 
+        /// <summary>
+        /// Конструктор по умолчанию
+        /// </summary>
         public NewCategoryForm()
         {
             InitializeComponent();
+            LoadParentCategories();
+            Log.Information("Открыта форма создания новой категории");
         }
+
+        /// <summary>
+        /// Конструктор с идентификатором пользователя
+        /// </summary>
+        /// <param name="userId">Идентификатор текущего пользователя</param>
         public NewCategoryForm(Guid userId)
         {
             InitializeComponent();
             this.currentUserId = userId;
+            LoadParentCategories();
+            Log.Information("Пользователь {UserId} открыл форму создания категории", userId);
         }
+
+        /// <summary>
+        /// Обработчик нажатия кнопки "Добавить"
+        /// </summary>
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            if (AddCategory())  // ← ПРОВЕРКА: успешно ли сохранено
-            {
-                var editCategoryForm = new EditCategoryForm(Guid.Empty, currentUserId);
-                editCategoryForm.Show();
-                this.Hide();
-            }
-        }
-        private void buttonBack_Click(object sender, EventArgs e)
-        {
-            var editCategoryForm = new EditCategoryForm(Guid.Empty, currentUserId);
-            editCategoryForm.Show();
+            AddCategory();
             this.Hide();
         }
-        private bool AddCategory()  
+
+        /// <summary>
+        /// Обработчик нажатия кнопки "Назад"
+        /// </summary>
+        private void buttonBack_Click(object sender, EventArgs e)
         {
-            // Валидация
-            if (string.IsNullOrWhiteSpace(textBoxCategoryName.Text))
+            Log.Information("Создание категории отменено");
+            this.Hide();
+        }
+
+        /// <summary>
+        /// Добавляет новую категорию в базу данных
+        /// </summary>
+        private void AddCategory()
+        {
+            if (string.IsNullOrWhiteSpace(categoryNameInput.Text))
             {
-                MessageBox.Show(Resources.EnterCategoryName, Resources.Error,
+                Log.Warning("Попытка добавить категорию без названия");
+                MessageBox.Show("Введите название категории", "Ошибка",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                textBoxCategoryName.Focus();
-                return false;
+                categoryNameInput.Focus();
+                return;
             }
+
+            Guid? parentId = null;
+            string parentName = "Корневая категория";
+            string newCategoryName = categoryNameInput.Text.Trim();
+
+            if (parentCategoryComboBox.SelectedItem != null)
+            {
+                var selected = (CategoryPath)parentCategoryComboBox.SelectedItem;
+                parentId = selected.CategoryID;
+                parentName = selected.FullPath;
+            }
+
             try
             {
                 using (var db = new WarehouseContext())
                 {
-                    // Проверяем, нет ли такой категории
-                    var existingCategory = db.Categories
-                        .FirstOrDefault(c => c.CategoryName == textBoxCategoryName.Text.Trim());
+                    var existingCategory = db.Categories.FirstOrDefault(c => c.CategoryName == newCategoryName);
                     if (existingCategory != null)
                     {
-                        MessageBox.Show(Resources.CategoryAlreadyExists, Resources.Error,
-                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return false;
+                        Log.Warning("Попытка добавить существующую категорию '{CategoryName}'", newCategoryName);
+                        MessageBox.Show($"Категория с названием \"{newCategoryName}\" уже существует!",
+                            "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        categoryNameInput.Focus();
+                        return;
                     }
-                    // Создаём новую категорию
+
                     var newCategory = new Category
                     {
                         CategoryID = Guid.NewGuid(),
-                        CategoryName = textBoxCategoryName.Text.Trim(),
-                        ParentID = comboBoxParentCategory.SelectedValue as Guid?  // Может быть null
+                        CategoryName = newCategoryName,
+                        ParentID = parentId
                     };
+
                     db.Categories.Add(newCategory);
                     db.SaveChanges();
 
-                    MessageBox.Show(Resources.CategoryAdded, Resources.Success,
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Log.Information("Создана новая категория: '{CategoryName}' (ID: {CategoryId}), родитель: {ParentName}",
+                        newCategoryName, newCategory.CategoryID, parentName);
 
-                    return true;
+                    MessageBox.Show($"Категория \"{newCategoryName}\" успешно добавлена в {parentName}!",
+                        "Оповещение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Hide();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Resources.ErrorAddingCategory, ex.Message),
-                    Resources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                Log.Error(ex, "Ошибка при создании категории '{CategoryName}'", newCategoryName);
+                MessageBox.Show("Ошибка при создании категории", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        /// <summary>
+        /// Загружает список родительских категорий для выбора
+        /// </summary>
         private void LoadParentCategories()
         {
             try
             {
                 using (var db = new WarehouseContext())
                 {
-                    var categories = db.Categories.ToList();
-                    comboBoxParentCategory.DataSource = categories;
-                    comboBoxParentCategory.DisplayMember = "CategoryName";
-                    comboBoxParentCategory.ValueMember = "CategoryID";
-                    comboBoxParentCategory.SelectedIndex = -1;  // Ничего не выбрано
+                    var allCategories = db.Categories.ToList();
+                    var displayList = allCategories.Select(cat => new CategoryPath
+                    {
+                        CategoryID = cat.CategoryID,
+                        FullPath = GetCategoryPath(cat.CategoryID, allCategories)
+                    }).OrderBy(c => c.FullPath).ToList();
+
+                    parentCategoryComboBox.DataSource = displayList;
+                    parentCategoryComboBox.DisplayMember = "FullPath";
+                    parentCategoryComboBox.ValueMember = "CategoryID";
+
+                    parentCategoryComboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                    parentCategoryComboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
+
+                    Log.Debug("Загружено {CategoryCount} категорий для выбора родителя", displayList.Count);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Resources.ErrorLoadingCategories, ex.Message),
-                    Resources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Log.Error(ex, "Ошибка при загрузке списка родительских категорий");
+                MessageBox.Show("Ошибка при загрузке категорий", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void NewCategoryForm_Load(object sender, EventArgs e)
+
+        /// <summary>
+        /// Получение полного пути категории (рекурсивно)
+        /// </summary>
+        /// <param name="categoryId">Идентификатор категории</param>
+        /// <param name="allCategories">Список всех категорий</param>
+        /// <returns>Полный путь категории в формате "Родитель → Дочерняя"</returns>
+        private string GetCategoryPath(Guid categoryId, System.Collections.Generic.List<Category> allCategories)
         {
-            LoadParentCategories();
+            var path = new System.Collections.Generic.List<string>();
+            var current = allCategories.FirstOrDefault(c => c.CategoryID == categoryId);
+
+            while (current != null)
+            {
+                path.Insert(0, current.CategoryName);
+                current = allCategories.FirstOrDefault(c => c.CategoryID == current.ParentID);
+            }
+
+            return string.Join(" → ", path);
         }
     }
 }

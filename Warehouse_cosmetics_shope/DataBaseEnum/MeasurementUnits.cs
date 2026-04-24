@@ -1,13 +1,18 @@
-﻿using System;
-namespace Warehouse_cosmetics_shope
+﻿using System.ComponentModel.DataAnnotations;
+namespace Warehouse_cosmetics_shope.Enum
 {
     /// <summary>
     /// Единицы измерения для складского учета товаров
     /// </summary>
     public enum MeasurementUnits
     {
-        Шт = 1,
-        Мл = 2,
-        Гр = 3
+        [Display(Name = "шт")]
+        Piece = 1,
+
+        [Display(Name = "мл")]
+        Milliliter = 2,
+
+        [Display(Name = "г")]
+        Gram = 3
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
+﻿using System.Data.Entity;
 namespace Warehouse_cosmetics_shope.DataBaseClass
 {
     /// <summary>
@@ -16,33 +14,59 @@ namespace Warehouse_cosmetics_shope.DataBaseClass
         {
             Database.SetInitializer<WarehouseContext>(null);
         }
-        /// <summary> 
-        /// Таблица клиентов склада
-        /// </summary>
+
         public DbSet<Client> Clients { get; set; }
-        /// <summary>
-        /// Таблица зарегистрированных пользователей
-        /// </summary>
         public DbSet<User> Users { get; set; }
-        /// <summary>
-        /// Таблица товаров, доступных на складе
-        /// </summary>
         public DbSet<Item> Items { get; set; }
-        /// <summary>
-        /// Таблица категорий товаров
-        /// </summary>
         public DbSet<Category> Categories { get; set; }
-        /// <summary> 
-        /// Журнал документов отгрузки
-        /// </summary>
         public DbSet<Shipment> Shipments { get; set; }
-        /// <summary>
-        /// Детализированный состав каждой отгрузки
-        /// </summary>
         public DbSet<ShipmentComposition> ShipmentCompositions { get; set; }
-        /// <summary>
-        /// Журнал истории изменений товаров
-        /// </summary>
-        public DbSet<HistoryChange> HistoryChanges { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            // Настройка самоссылающейся связи для категорий
+            modelBuilder.Entity<Category>()
+                .HasOptional(c => c.Parent)
+                .WithMany(c => c.SubCategories)
+                .HasForeignKey(c => c.ParentID)
+                .WillCascadeOnDelete(false);
+
+            // Настройка связи Item с Category
+            modelBuilder.Entity<Item>()
+                .HasRequired(i => i.Category)
+                .WithMany(c => c.Items)
+                .HasForeignKey(i => i.CategoryID)
+                .WillCascadeOnDelete(false);
+
+            // Настройка связи Shipment с Client
+            modelBuilder.Entity<Shipment>()
+                .HasRequired(s => s.Client)
+                .WithMany(c => c.Shipments)
+                .HasForeignKey(s => s.ClientID)
+                .WillCascadeOnDelete(false);
+
+            // Настройка связи Shipment с User
+            modelBuilder.Entity<Shipment>()
+                .HasRequired(s => s.User)
+                .WithMany(u => u.Shipments)
+                .HasForeignKey(s => s.UserID)
+                .WillCascadeOnDelete(false);
+
+            // Настройка связи ShipmentComposition с Shipment
+            modelBuilder.Entity<ShipmentComposition>()
+                .HasRequired(sc => sc.Shipment)
+                .WithMany(s => s.ShipmentCompositions)
+                .HasForeignKey(sc => sc.ShipmentID)
+                .WillCascadeOnDelete(true);
+
+            // Настройка связи ShipmentComposition с Item
+            modelBuilder.Entity<ShipmentComposition>()
+                .HasRequired(sc => sc.Product)
+                .WithMany(p => p.ShipmentCompositions)
+                .HasForeignKey(sc => sc.ProductID)
+                .WillCascadeOnDelete(false);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
