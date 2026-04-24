@@ -167,7 +167,6 @@
     <Compile Include="FiltrationForm.Designer.cs">
       <DependentUpon>FiltrationForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\NumberGenerator.cs" />
     <Compile Include="ShipmentHistoryForm.cs">
       <SubType>Form</SubType>
     </Compile>

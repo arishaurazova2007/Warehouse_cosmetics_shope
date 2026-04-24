@@ -552,5 +552,14 @@ namespace Warehouse_cosmetics_shope
                 MessageBox.Show("Ошибка при поиске товаров", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void deliveryFromCatalogButton_Click(object sender, EventArgs e)
+        {
+            Log.Information("Кладовщик {UserLogin} открыл форму поставки", currentUserLogin);
+            var deliveryForm = new DeliveryForm(currentUserId, currentUserLogin);
+            deliveryForm.Show(); 
+            this.Hide();          
+        }
     }
+    
 }

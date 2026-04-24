@@ -219,7 +219,7 @@ namespace Warehouse_cosmetics_shope
             Log.Information("Пользователь {UserLogin} вернулся в каталог из поставки", currentUserLogin);
             var catalogForm = new CatalogFormAdmin(currentUserId, currentUserLogin);
             catalogForm.Show();
-            this.Hide();
+            this.Close();
         }
 
         /// <summary>

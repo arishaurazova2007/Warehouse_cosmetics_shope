@@ -15,7 +15,6 @@ namespace Warehouse_cosmetics_shope
         private string currentUserLogin;
         private Guid currentUserId;
         private List<Guid> currentFilterCategoryIds = null;
-        private Roles currentUserRole;
         private decimal? currentPriceFrom = null;
         private decimal? currentPriceTo = null;
         private bool? currentInStockOnly = null;
