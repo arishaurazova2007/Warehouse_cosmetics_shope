@@ -49,18 +49,15 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=10.0.0.6, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.10.0.6\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.3.1.1\lib\net471\Serilog.dll</HintPath>
+    <Reference Include="Serilog, Version=4.3.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.4.3.1\lib\net471\Serilog.dll</HintPath>
     </Reference>
-    <Reference Include="Serilog.Sinks.File, Version=5.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.Sinks.File.5.0.0\lib\net45\Serilog.Sinks.File.dll</HintPath>
+    <Reference Include="Serilog.Sinks.File, Version=7.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.File.7.0.0\lib\net471\Serilog.Sinks.File.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.dll</HintPath>
@@ -71,13 +68,10 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Diagnostics.DiagnosticSource, Version=7.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.7.0.2\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=8.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.8.0.1\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
-    <Reference Include="System.IO.Pipelines, Version=10.0.0.6, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.Pipelines.10.0.6\lib\net462\System.IO.Pipelines.dll</HintPath>
-    </Reference>
     <Reference Include="System.Memory, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.6.3\lib\net462\System.Memory.dll</HintPath>
     </Reference>
@@ -87,9 +81,6 @@
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Text.Encodings.Web, Version=10.0.0.6, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Encodings.Web.10.0.6\lib\net462\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
     <Reference Include="System.Text.Json, Version=10.0.0.6, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Json.10.0.6\lib\net462\System.Text.Json.dll</HintPath>
@@ -105,12 +96,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CartochkaForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CartochkaForm.Designer.cs">
-      <DependentUpon>CartochkaForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="CatalogFormAdmin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -150,6 +135,19 @@
     <Compile Include="LossForm.Designer.cs">
       <DependentUpon>LossForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202604250116505_InitialCreate.cs" />
+    <Compile Include="Migrations\202604250116505_InitialCreate.Designer.cs">
+      <DependentUpon>202604250116505_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604250139583_AddNewProducts.cs" />
+    <Compile Include="Migrations\202604250139583_AddNewProducts.Designer.cs">
+      <DependentUpon>202604250139583_AddNewProducts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604250143373_AddNewProductsAgain.cs" />
+    <Compile Include="Migrations\202604250143373_AddNewProductsAgain.Designer.cs">
+      <DependentUpon>202604250143373_AddNewProductsAgain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NewItemForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -187,19 +185,6 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202604040835413_InitialCreate.cs" />
-    <Compile Include="Migrations\202604040835413_InitialCreate.Designer.cs">
-      <DependentUpon>202604040835413_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202604041404161_AddNumbersAndLogin.cs" />
-    <Compile Include="Migrations\202604041404161_AddNumbersAndLogin.Designer.cs">
-      <DependentUpon>202604041404161_AddNumbersAndLogin.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202604051059583_AddManufactureDateAndSellPriceChangePriceToPurPrice.cs" />
-    <Compile Include="Migrations\202604051059583_AddManufactureDateAndSellPriceChangePriceToPurPrice.Designer.cs">
-      <DependentUpon>202604051059583_AddManufactureDateAndSellPriceChangePriceToPurPrice.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NewCategoryForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -230,9 +215,6 @@
     <Compile Include="DataBaseClass\Client.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="CartochkaForm.resx">
-      <DependentUpon>CartochkaForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="CatalogFormAdmin.resx">
       <DependentUpon>CatalogFormAdmin.cs</DependentUpon>
     </EmbeddedResource>
@@ -247,6 +229,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LossForm.resx">
       <DependentUpon>LossForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604250116505_InitialCreate.resx">
+      <DependentUpon>202604250116505_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604250139583_AddNewProducts.resx">
+      <DependentUpon>202604250139583_AddNewProducts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604250143373_AddNewProductsAgain.resx">
+      <DependentUpon>202604250143373_AddNewProductsAgain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NewItemForm.resx">
       <DependentUpon>NewItemForm.cs</DependentUpon>
@@ -265,15 +256,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202604040835413_InitialCreate.resx">
-      <DependentUpon>202604040835413_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202604041404161_AddNumbersAndLogin.resx">
-      <DependentUpon>202604041404161_AddNumbersAndLogin.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202604051059583_AddManufactureDateAndSellPriceChangePriceToPurPrice.resx">
-      <DependentUpon>202604051059583_AddManufactureDateAndSellPriceChangePriceToPurPrice.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NewCategoryForm.resx">
       <DependentUpon>NewCategoryForm.cs</DependentUpon>
@@ -310,6 +292,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" />
   <Import Project="..\packages\System.ValueTuple.4.6.2\build\net471\System.ValueTuple.targets" Condition="Exists('..\packages\System.ValueTuple.4.6.2\build\net471\System.ValueTuple.targets')" />
@@ -318,5 +301,7 @@
       <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\System.ValueTuple.4.6.2\build\net471\System.ValueTuple.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.ValueTuple.4.6.2\build\net471\System.ValueTuple.targets'))" />
+    <Error Condition="!Exists('..\packages\Serilog.4.3.1\build\Serilog.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Serilog.4.3.1\build\Serilog.targets'))" />
   </Target>
+  <Import Project="..\packages\Serilog.4.3.1\build\Serilog.targets" Condition="Exists('..\packages\Serilog.4.3.1\build\Serilog.targets')" />
 </Project>

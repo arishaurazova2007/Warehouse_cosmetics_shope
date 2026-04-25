@@ -27,6 +27,17 @@ namespace Warehouse_cosmetics_shope
             InitializeComponent();
             currentUserId = userId;
             currentUserLogin = userLogin;
+            
+            dataGridViewCatalog.DataError += (s, ev) =>
+            {
+                ev.ThrowException = false;
+
+                if (ev.Exception != null)
+                {
+                    Log.Warning(ev.Exception, "DataGridView ошибка в строке {RowIndex}, колонке {ColumnIndex}",
+                        ev.RowIndex, ev.ColumnIndex);
+                }
+            };
 
             Log.Information("Администратор {UserLogin} открыл каталог", currentUserLogin);
 
@@ -97,23 +108,37 @@ namespace Warehouse_cosmetics_shope
                         }
                     }
 
-                    var displayList = filtered.Select(i => new
-                    {
-                        i.ProductNumber,
-                        i.ProductName,
-                        ParentCategoryName = i.Category?.Parent?.CategoryName,
-                        ChildCategoryName = i.Category?.CategoryName,
-                        Units = GetUnitDisplayName(i.Units),
-                        i.ManufDate,
-                        i.ExpDate,
-                        i.PurPrice,
-                        i.SellPrice,
-                        i.Quantity
-                    }).ToList();
+    
+                    var displayList = filtered
+                        .GroupBy(i => new
+                        {
+                            i.ProductNumber,
+                            i.ProductName,
+                            i.CategoryID,
+                            i.Units,
+                            i.SellPrice,
+                            i.PurPrice,
+                            i.ManufDate,
+                            i.ExpDate
+                        })
+                        .Select(g => new
+                        {
+                            g.Key.ProductNumber,
+                            g.Key.ProductName,
+                            ParentCategoryName = g.First().Category?.Parent?.CategoryName,
+                            ChildCategoryName = g.First().Category?.CategoryName,
+                            Units = GetUnitDisplayName(g.Key.Units),
+                            g.Key.ManufDate,
+                            g.Key.ExpDate,
+                            g.Key.PurPrice,
+                            SellPrice = GetPriceWithDiscount(g.First(), today),
+                            Quantity = g.Sum(i => i.Quantity)
+                        })
+                        .OrderBy(i => i.ProductNumber)
+                        .ToList();
 
                     dataGridViewCatalog.DataSource = displayList;
-
-                    Log.Information("Загружено {ItemCount} товаров", displayList.Count);
+                    Log.Information("Загружено {ItemCount} товаров (сгруппировано)", displayList.Count);
                 }
             }
             catch (Exception ex)
@@ -162,6 +187,15 @@ namespace Warehouse_cosmetics_shope
                 dataGridViewCatalog.Columns["ExpDate"].DefaultCellStyle.Format = "dd.MM.yyyy";
             if (dataGridViewCatalog.Columns.Contains("ManufDate"))
                 dataGridViewCatalog.Columns["ManufDate"].DefaultCellStyle.Format = "dd.MM.yyyy";
+        }
+
+        private decimal GetPriceWithDiscount(Item item, DateTime today)
+        {
+            if (IsDiscounted(item, today))
+            {
+                return item.SellPrice * 0.7m;
+            }
+            return item.SellPrice;
         }
 
         private bool IsDiscounted(Item item, DateTime today)
@@ -294,6 +328,7 @@ namespace Warehouse_cosmetics_shope
 
                     using (var db = new WarehouseContext())
                     {
+                        // Находим первый товар с таким артикулом (для карточки)
                         var product = db.Items.FirstOrDefault(i => i.ProductNumber == productNumber);
                         if (product != null)
                         {
@@ -320,41 +355,70 @@ namespace Warehouse_cosmetics_shope
 
         private void dataGridViewCatalog_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.RowIndex < 0) return;
-
-            var expDateCell = dataGridViewCatalog.Rows[e.RowIndex].Cells["ExpDate"];
-            var manufDateCell = dataGridViewCatalog.Rows[e.RowIndex].Cells["ManufDate"];
-
-            DateTime expDate = (DateTime)expDateCell.Value;
-            DateTime today = DateTime.Now.Date;
-            double totalDays;
-
-            if (manufDateCell.Value != null)
+            try
             {
-                DateTime manufDate = (DateTime)manufDateCell.Value;
-                totalDays = (expDate - manufDate).TotalDays;
-            }
-            else
-            {
-                totalDays = 1095;
-            }
+                if (e.RowIndex < 0) return;
+                if (e.ColumnIndex < 0) return;
 
-            double daysRemaining = (expDate - today).TotalDays;
-            double remainingPercent = daysRemaining / totalDays;
+                // Получаем дату истечения срока годности
+                var expDateCell = dataGridViewCatalog.Rows[e.RowIndex].Cells["ExpDate"];
+                if (expDateCell == null || expDateCell.Value == null || expDateCell.Value == DBNull.Value) return;
 
-            if (remainingPercent < 0.33)
-            {
-                dataGridViewCatalog.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(255, 235, 157);
-
-                if (dataGridViewCatalog.Columns[e.ColumnIndex].Name == "SellPrice")
+                DateTime expDate;
+                try
                 {
-                    decimal originalPrice = (decimal)dataGridViewCatalog.Rows[e.RowIndex].Cells["SellPrice"].Value;
-                    e.Value = originalPrice * 0.7m;
+                    expDate = Convert.ToDateTime(expDateCell.Value);
+                }
+                catch (Exception ex)
+                {
+                    Log.Warning(ex, "Ошибка преобразования даты истечения срока годности в строке {RowIndex}", e.RowIndex);
+                    return;
+                }
+
+                DateTime today = DateTime.Now.Date;
+                double totalDays = 1095;
+
+                var manufDateCell = dataGridViewCatalog.Rows[e.RowIndex].Cells["ManufDate"];
+                if (manufDateCell != null && manufDateCell.Value != null && manufDateCell.Value != DBNull.Value)
+                {
+                    try
+                    {
+                        DateTime manufDate = Convert.ToDateTime(manufDateCell.Value);
+                        totalDays = (expDate - manufDate).TotalDays;
+                        if (totalDays <= 0) totalDays = 1095;
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Warning(ex, "Ошибка преобразования даты изготовления в строке {RowIndex}, используем стандартный срок", e.RowIndex);
+                        totalDays = 1095;
+                    }
+                }
+
+                double daysRemaining = (expDate - today).TotalDays;
+                double remainingPercent = daysRemaining / totalDays;
+
+                if (remainingPercent < 0.33)
+                {
+                    dataGridViewCatalog.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.FromArgb(255, 235, 157);
+                }
+                else
+                {
+                    dataGridViewCatalog.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;
                 }
             }
-            else
+            catch (ArgumentOutOfRangeException ex)
             {
-                dataGridViewCatalog.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;
+                Log.Error(ex, "Выход за границы диапазона в CellFormatting. RowIndex: {RowIndex}, ColumnIndex: {ColumnIndex}",
+                    e.RowIndex, e.ColumnIndex);
+            }
+            catch (NullReferenceException ex)
+            {
+                Log.Error(ex, "NullReferenceException в CellFormatting. Возможно, отсутствует колонка или ячейка");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Критическая ошибка в CellFormatting. Строка: {RowIndex}, Колонка: {ColumnIndex}",
+                    e.RowIndex, e.ColumnIndex);
             }
         }
 
@@ -453,19 +517,33 @@ namespace Warehouse_cosmetics_shope
                         }
                     }
 
-                    var displayList = filtered.Select(i => new
-                    {
-                        i.ProductNumber,
-                        i.ProductName,
-                        ParentCategoryName = i.Category?.Parent?.CategoryName ?? string.Empty,
-                        ChildCategoryName = i.Category?.CategoryName ?? string.Empty,
-                        Units = GetUnitDisplayName(i.Units),
-                        i.ManufDate,
-                        i.ExpDate,
-                        i.PurPrice,
-                        i.SellPrice,
-                        i.Quantity
-                    }).ToList();
+                    var displayList = filtered
+                        .GroupBy(i => new
+                        {
+                            i.ProductNumber,
+                            i.ProductName,
+                            i.CategoryID,
+                            i.Units,
+                            i.SellPrice,
+                            i.PurPrice,
+                            i.ManufDate,
+                            i.ExpDate
+                        })
+                        .Select(g => new
+                        {
+                            g.Key.ProductNumber,
+                            g.Key.ProductName,
+                            ParentCategoryName = g.First().Category?.Parent?.CategoryName ?? string.Empty,
+                            ChildCategoryName = g.First().Category?.CategoryName ?? string.Empty,
+                            Units = GetUnitDisplayName(g.Key.Units),
+                            g.Key.ManufDate,
+                            g.Key.ExpDate,
+                            g.Key.PurPrice,
+                            SellPrice = GetPriceWithDiscount(g.First(), today),
+                            Quantity = g.Sum(i => i.Quantity)
+                        })
+                        .OrderBy(i => i.ProductNumber)
+                        .ToList();
 
                     dataGridViewCatalog.DataSource = displayList;
                     ConfigureColumns();
