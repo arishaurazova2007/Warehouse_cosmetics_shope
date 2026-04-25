@@ -21,7 +21,7 @@ namespace Warehouse_cosmetics_shope.DataBaseClass
         /// <summary>
         /// Идентификатор родительской категории
         /// Если значение null, категория считается корневой
-        public Guid? ParentID { get; set; }// Guid — это значимый тип, он не может быть null. Значит, у каждой категории обязательно должен быть родитель. Но у главных категорий его нет
+        public Guid? ParentID { get; set; }
         /// <summary>
         /// Навигационное свойство для доступа к родительской категории
         /// </summary>

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using Warehouse_cosmetics_shope.DataBaseClass;
 using Warehouse_cosmetics_shope.Enum;
 namespace Warehouse_cosmetics_shope
