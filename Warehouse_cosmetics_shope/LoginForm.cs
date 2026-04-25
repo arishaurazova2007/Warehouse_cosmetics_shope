@@ -4,15 +4,11 @@ using System.Windows.Forms;
 using Warehouse_cosmetics_shope.DataBaseClass;
 using Warehouse_cosmetics_shope.Enum;
 using Serilog;
-using BCrypt.Net;
 
 namespace Warehouse_cosmetics_shope
 {
     public partial class LoginForm : Form
     {
-        /// <summary>
-        /// Конструктор формы авторизации
-        /// </summary>
         public LoginForm()
         {
             InitializeComponent();
@@ -20,9 +16,6 @@ namespace Warehouse_cosmetics_shope
             Log.Information("Открыта форма авторизации");
         }
 
-        /// <summary>
-        /// Обработчик нажатия кнопки "Назад"
-        /// </summary>
         private void buttonBack_Click(object sender, EventArgs e)
         {
             Log.Information("Пользователь вернулся на главную форму");
@@ -31,14 +24,11 @@ namespace Warehouse_cosmetics_shope
             this.Hide();
         }
 
-        /// <summary>
-        /// Обработчик нажатия кнопки "Войти"
-        /// </summary>
         private void buttonLogin_Click(object sender, EventArgs e)
         {
             if (ValidateLoginData())
             {
-                if (AuthenticateUser(out Guid userId, out string userLogin))
+                if (AuthenticateUser(out Guid userId, out string userLogin, out string errorMessage))
                 {
                     var userRole = GetUserRole(userId);
 
@@ -59,22 +49,19 @@ namespace Warehouse_cosmetics_shope
                 }
                 else
                 {
+                    MessageBox.Show(errorMessage, "Ошибка входа",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                     textBoxPassword.Clear();
                     textBoxPassword.Focus();
                 }
             }
         }
 
-        /// <summary>
-        /// Аутентифицирует пользователя по логину и паролю
-        /// </summary>
-        /// <param name="userId">Возвращает идентификатор пользователя при успешной аутентификации</param>
-        /// <param name="userLogin">Возвращает логин пользователя при успешной аутентификации</param>
-        /// <returns>true - если аутентификация успешна, false - если логин или пароль неверны</returns>
-        private bool AuthenticateUser(out Guid userId, out string userLogin)
+        private bool AuthenticateUser(out Guid userId, out string userLogin, out string errorMessage)
         {
             userId = Guid.Empty;
             userLogin = null;
+            errorMessage = null;
 
             try
             {
@@ -84,41 +71,52 @@ namespace Warehouse_cosmetics_shope
 
                     if (string.IsNullOrWhiteSpace(login))
                     {
+                        errorMessage = "Введите логин";
                         Log.Warning("Попытка входа с пустым логином");
-                        MessageBox.Show("Введите логин", "Ошибка",
-                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return false;
                     }
 
                     var user = db.Users.FirstOrDefault(u => u.UserLogin == login);
 
-                    if (user != null && BCrypt.Net.BCrypt.Verify(textBoxPassword.Text, user.Password))
+                    if (user == null)
                     {
-                        userId = user.UserID;
-                        userLogin = user.UserLogin;
-                        return true;
+                        errorMessage = $"Пользователь с логином '{login}' не найден";
+                        Log.Warning("Пользователь с логином {Login} не найден", login);
+                        return false;
                     }
 
-                    Log.Warning("Неудачная попытка входа с логином {Login}", login);
-                    MessageBox.Show("Неверный логин или пароль", "Ошибка",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return false;
+                    bool passwordValid;
+                    try
+                    {
+                        passwordValid = BCrypt.Net.BCrypt.Verify(textBoxPassword.Text, user.Password);
+                    }
+                    catch (Exception ex)
+                    {
+                        errorMessage = $"Ошибка проверки пароля: {ex.Message}";
+                        Log.Error(ex, "Ошибка при проверке пароля для пользователя {Login}", login);
+                        return false;
+                    }
+
+                    if (!passwordValid)
+                    {
+                        errorMessage = "Неверный пароль";
+                        Log.Warning("Неверный пароль для пользователя {Login}", login);
+                        return false;
+                    }
+
+                    userId = user.UserID;
+                    userLogin = user.UserLogin;
+                    return true;
                 }
             }
             catch (Exception ex)
             {
+                errorMessage = $"Ошибка подключения к базе данных: {ex.Message}";
                 Log.Error(ex, "Ошибка при аутентификации пользователя");
-                MessageBox.Show("Ошибка при входе в систему", "Ошибка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
         }
 
-        /// <summary>
-        /// Получает роль пользователя по его идентификатору
-        /// </summary>
-        /// <param name="userId">Идентификатор пользователя</param>
-        /// <returns>Роль пользователя (Admin или Storekeeper)</returns>
         private Roles GetUserRole(Guid userId)
         {
             try
@@ -141,10 +139,6 @@ namespace Warehouse_cosmetics_shope
             }
         }
 
-        /// <summary>
-        /// Проверяет, что поля логина и пароля не пустые
-        /// </summary>
-        /// <returns>true - если данные введены, false - если есть пустые поля</returns>
         private bool ValidateLoginData()
         {
             if (string.IsNullOrWhiteSpace(IdTextBox.Text))
