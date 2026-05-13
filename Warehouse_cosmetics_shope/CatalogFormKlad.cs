@@ -557,8 +557,9 @@ namespace Warehouse_cosmetics_shope
         {
             Log.Information("Кладовщик {UserLogin} открыл форму поставки", currentUserLogin);
             var deliveryForm = new DeliveryForm(currentUserId, currentUserLogin);
-            deliveryForm.Show(); 
-            this.Hide();          
+            deliveryForm.FormClosed += (s, args) => this.Show();
+            deliveryForm.Show();
+            this.Hide();      
         }
     }
     

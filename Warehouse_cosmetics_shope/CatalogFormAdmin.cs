@@ -64,11 +64,13 @@ namespace Warehouse_cosmetics_shope
 
                     var filtered = allItems.AsEnumerable();
 
+                    // Фильтр по категориям
                     if (currentFilterCategoryIds != null && currentFilterCategoryIds.Any())
                     {
                         filtered = filtered.Where(i => currentFilterCategoryIds.Contains(i.CategoryID));
                     }
 
+                    // Фильтр по цене
                     if (currentPriceFrom.HasValue)
                     {
                         filtered = filtered.Where(i => i.SellPrice >= currentPriceFrom.Value);
@@ -77,18 +79,15 @@ namespace Warehouse_cosmetics_shope
                     {
                         filtered = filtered.Where(i => i.SellPrice <= currentPriceTo.Value);
                     }
-
                     if (currentInStockOnly == true)
                     {
+                        // Только товары в наличии
                         filtered = filtered.Where(i => i.Quantity > 0);
                     }
                     else if (currentNotInStockOnly == true)
                     {
+                        // Только товары не в наличии
                         filtered = filtered.Where(i => i.Quantity == 0);
-                    }
-                    else
-                    {
-                        filtered = filtered.Where(i => i.Quantity > 0);
                     }
 
                     if (currentWithDiscount == true || currentWithoutDiscount == true)
@@ -108,37 +107,22 @@ namespace Warehouse_cosmetics_shope
                         }
                     }
 
-    
-                    var displayList = filtered
-                        .GroupBy(i => new
-                        {
-                            i.ProductNumber,
-                            i.ProductName,
-                            i.CategoryID,
-                            i.Units,
-                            i.SellPrice,
-                            i.PurPrice,
-                            i.ManufDate,
-                            i.ExpDate
-                        })
-                        .Select(g => new
-                        {
-                            g.Key.ProductNumber,
-                            g.Key.ProductName,
-                            ParentCategoryName = g.First().Category?.Parent?.CategoryName,
-                            ChildCategoryName = g.First().Category?.CategoryName,
-                            Units = GetUnitDisplayName(g.Key.Units),
-                            g.Key.ManufDate,
-                            g.Key.ExpDate,
-                            g.Key.PurPrice,
-                            SellPrice = GetPriceWithDiscount(g.First(), today),
-                            Quantity = g.Sum(i => i.Quantity)
-                        })
-                        .OrderBy(i => i.ProductNumber)
-                        .ToList();
+                    var displayList = filtered.Select(i => new
+                    {
+                        i.ProductNumber,
+                        i.ProductName,
+                        ParentCategoryName = i.Category?.Parent?.CategoryName,
+                        ChildCategoryName = i.Category?.CategoryName,
+                        Units = GetUnitDisplayName(i.Units),
+                        i.ManufDate,
+                        i.ExpDate,
+                        i.PurPrice,
+                        i.SellPrice,
+                        i.Quantity
+                    }).ToList();
 
                     dataGridViewCatalog.DataSource = displayList;
-                    Log.Information("Загружено {ItemCount} товаров (сгруппировано)", displayList.Count);
+                    Log.Information("Загружено {ItemCount} товаров", displayList.Count);
                 }
             }
             catch (Exception ex)
@@ -149,7 +133,6 @@ namespace Warehouse_cosmetics_shope
 
             ConfigureColumns();
         }
-
         private void ConfigureColumns()
         {
             if (dataGridViewCatalog.Columns.Contains("ProductNumber"))
@@ -299,8 +282,9 @@ namespace Warehouse_cosmetics_shope
         {
             Log.Information("Администратор {UserLogin} открыл историю отгрузок", currentUserLogin);
             var historyForm = new ShipmentHistoryForm(currentUserId, currentUserLogin);
+            historyForm.FormClosed += (s, args) => this.Show();  
             historyForm.Show();
-            this.Hide();
+            this.Hide(); 
         }
 
         private void buttonExit_Click(object sender, EventArgs e)
@@ -569,16 +553,18 @@ namespace Warehouse_cosmetics_shope
         {
             Log.Information("Администратор {UserLogin} открыл форму поставки", currentUserLogin);
             var deliveryForm = new DeliveryForm(currentUserId, currentUserLogin);
+            deliveryForm.FormClosed += (s, args) => this.Show();  
             deliveryForm.Show();
-            this.Hide();
+            this.Hide(); 
         }
 
         private void LossFromCatalogButton_Click(Object sender, EventArgs e)
         {
             Log.Information("Администратор {UserLogin} открыл форму убытков", currentUserLogin);
             var lossForm = new LossForm(currentUserId, currentUserLogin);
+            lossForm.FormClosed += (s, args) => this.Show(); 
             lossForm.Show();
-            this.Hide();
+            this.Hide();  
         }
     }
 }

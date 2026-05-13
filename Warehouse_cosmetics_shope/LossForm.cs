@@ -96,9 +96,7 @@ namespace Warehouse_cosmetics_shope
         /// </summary>
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            var catalogAdminForm = new CatalogFormAdmin(currentUserId, currentUserLogin);
-            catalogAdminForm.ShowDialog();
-            this.Hide();
+            this.Close();
             Log.Information("Пользователь {UserLogin} закрыл форму убытков", currentUserLogin);
         }
     }

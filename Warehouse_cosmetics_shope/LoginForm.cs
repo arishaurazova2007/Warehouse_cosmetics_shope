@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using Warehouse_cosmetics_shope.DataBaseClass;
 using Warehouse_cosmetics_shope.Enum;
 using Serilog;
-using BCrypt.Net;
 
 namespace Warehouse_cosmetics_shope
 {

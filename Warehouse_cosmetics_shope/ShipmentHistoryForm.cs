@@ -234,9 +234,7 @@ namespace Warehouse_cosmetics_shope
         private void ButtonBackToCatalog_Click(object sender, EventArgs e)
         {
             Log.Information("Пользователь {UserLogin} вернулся в каталог из истории отгрузок", currentUserLogin);
-            var catalogForm = new CatalogFormAdmin(currentUserId, currentUserLogin);
-            catalogForm.Show();
-            this.Hide();
+            this.Close();  
         }
     }
 }

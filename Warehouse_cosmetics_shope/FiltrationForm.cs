@@ -25,6 +25,10 @@ namespace Warehouse_cosmetics_shope
             InitializeComponent();
             LoadCategories();
             SetupCheckBoxes();
+
+            // ✅ ПОДПИСЫВАЕМСЯ НА СОБЫТИЕ ItemCheck
+            categoriesCheckedListBox.ItemCheck += categoriesCheckedListBox_ItemCheck;
+
             Log.Information("Открыта форма фильтрации");
         }
 
@@ -191,13 +195,22 @@ namespace Warehouse_cosmetics_shope
             try
             {
                 var selectedCategoryIds = new List<Guid>();
+
                 for (int i = 0; i < categoriesCheckedListBox.Items.Count; i++)
                 {
                     if (categoriesCheckedListBox.GetItemChecked(i))
                     {
-                        selectedCategoryIds.Add(_allCategories[i].CategoryID);
+                        var selectedCategoryId = _allCategories[i].CategoryID;
+                        selectedCategoryIds.Add(selectedCategoryId);
+
+                        // ✅ Добавляем все дочерние категории выбранной категории
+                        var childCategories = GetAllChildCategoryIds(selectedCategoryId);
+                        selectedCategoryIds.AddRange(childCategories);
                     }
                 }
+
+                // Удаляем дубликаты
+                selectedCategoryIds = selectedCategoryIds.Distinct().ToList();
 
                 decimal? priceFrom = priceFromNumeric.Value > 0 ? priceFromNumeric.Value : (decimal?)null;
                 decimal? priceTo = priceToNumeric.Value < 1000000 ? priceToNumeric.Value : (decimal?)null;
@@ -208,14 +221,8 @@ namespace Warehouse_cosmetics_shope
                 bool? withDiscount = withDiscCheckBox.Checked ? true : (bool?)null;
                 bool? withoutDiscount = withoutDiscCheckBox.Checked ? true : (bool?)null;
 
-                Log.Information("Применены фильтры: Категорий={CategoryCount}, Цена от={PriceFrom}, Цена до={PriceTo}, " +
-                    "В наличии={InStock}, Нет в наличии={NotInStock}, Со скидкой={WithDiscount}, Без скидки={WithoutDiscount}",
-                    selectedCategoryIds.Count, priceFrom, priceTo, inStockOnly, notInStockOnly, withDiscount, withoutDiscount);
-
-                if (selectedCategoryIds.Count == 0)
-                {
-                    Log.Warning("Фильтр применён без выбора категорий");
-                }
+                Log.Information("Применены фильтры: Категорий={CategoryCount} (включая дочерние), Цена от={PriceFrom}, Цена до={PriceTo}",
+                    selectedCategoryIds.Count, priceFrom, priceTo);
 
                 FilterApplied?.Invoke(selectedCategoryIds, priceFrom, priceTo, inStockOnly, notInStockOnly, withDiscount, withoutDiscount);
                 this.Close();
@@ -225,6 +232,35 @@ namespace Warehouse_cosmetics_shope
                 Log.Error(ex, "Ошибка при применении фильтров");
                 MessageBox.Show("Ошибка при применении фильтров", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        /// <summary>
+        /// Получает все дочерние категории для указанной категории (рекурсивно)
+        /// </summary>
+        /// <param name="parentId">Идентификатор родительской категории</param>
+        /// <returns>Список ID всех дочерних категорий</returns>
+        private List<Guid> GetAllChildCategoryIds(Guid parentId)
+        {
+            var childIds = new List<Guid>();
+
+            try
+            {
+                using (var db = new WarehouseContext())
+                {
+                    var directChildren = db.Categories.Where(c => c.ParentID == parentId).ToList();
+
+                    foreach (var child in directChildren)
+                    {
+                        childIds.Add(child.CategoryID);
+                        childIds.AddRange(GetAllChildCategoryIds(child.CategoryID));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Ошибка при получении дочерних категорий для {ParentId}", parentId);
+            }
+
+            return childIds;
         }
 
         /// <summary>
