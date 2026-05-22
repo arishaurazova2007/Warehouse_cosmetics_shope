@@ -21,6 +21,8 @@ namespace Warehouse_cosmetics_shope.DataBaseClass
         public DbSet<Category> Categories { get; set; }
         public DbSet<Shipment> Shipments { get; set; }
         public DbSet<ShipmentComposition> ShipmentCompositions { get; set; }
+        public DbSet<CurrencyRates> CurrencyRates { get; set; }
+        public DbSet<CheckHistory> CheckHistory { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -64,6 +66,20 @@ namespace Warehouse_cosmetics_shope.DataBaseClass
                 .HasRequired(sc => sc.Product)
                 .WithMany(p => p.ShipmentCompositions)
                 .HasForeignKey(sc => sc.ProductID)
+                .WillCascadeOnDelete(false);
+
+            // Настройка связи Item с CurrencyRates
+            modelBuilder.Entity<Item>()
+                .HasOptional(i => i.CurrencyRate)
+                .WithMany(c => c.Items)
+                .HasForeignKey(i => i.CurrencyCode)
+                .WillCascadeOnDelete(false);
+
+            // Настройка связи CheckHistory с Client
+            modelBuilder.Entity<CheckHistory>()
+                .HasRequired(ch => ch.Client)
+                .WithMany(c => c.CheckHistories)
+                .HasForeignKey(ch => ch.ClientID)
                 .WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);
