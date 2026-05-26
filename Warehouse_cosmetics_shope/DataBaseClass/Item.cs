@@ -75,7 +75,7 @@ namespace Warehouse_cosmetics_shope.DataBaseClass
         public int CellNumber { get; set; }
 
         /// <summary>
-        /// Код валюты закупки (например, USD, EUR)
+        /// Код валюты закупки 
         /// </summary>
         public string CurrencyCode { get; set; }
 
@@ -84,6 +84,10 @@ namespace Warehouse_cosmetics_shope.DataBaseClass
         /// </summary>
         [ForeignKey("CurrencyCode")]
         public virtual CurrencyRates CurrencyRate { get; set; }
+        /// <summary>
+        /// Фиксированный курс валюты на момент закупки
+        /// </summary>
+        public decimal PurchaseRate { get; set; }
 
     }
 }

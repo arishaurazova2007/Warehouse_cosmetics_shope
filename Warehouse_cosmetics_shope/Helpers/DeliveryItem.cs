@@ -11,5 +11,7 @@ namespace Warehouse_cosmetics_shope.Helpers
         public int Quantity { get; set; }
         public DateTime ManufDate { get; set; }
         public DateTime ExpDate { get; set; }
+        public string CurrencyCode { get; set; }
+        public decimal PurechaseRate { get; set; }
     }
 }

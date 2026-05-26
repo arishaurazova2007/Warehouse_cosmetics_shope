@@ -106,6 +106,7 @@
     <Compile Include="CatalogFormKlad.Designer.cs">
       <DependentUpon>CatalogFormKlad.cs</DependentUpon>
     </Compile>
+    <Compile Include="CurrencySettings.cs" />
     <Compile Include="DataBaseClass\CheckHistory.cs" />
     <Compile Include="DataBaseClass\CurrencyRates.cs" />
     <Compile Include="DataBaseEnum\ClientTypes.cs" />
@@ -122,6 +123,12 @@
     </Compile>
     <Compile Include="DeliveryForm.Designer.cs">
       <DependentUpon>DeliveryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CurrencyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CurrencyForm.Designer.cs">
+      <DependentUpon>CurrencyForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\CategoryPath.cs" />
     <Compile Include="Helpers\ExportShipmentItem.cs" />
@@ -150,6 +157,10 @@
     <Compile Include="Migrations\202605221844107_AddCurrencyAndCheckHistory.cs" />
     <Compile Include="Migrations\202605221844107_AddCurrencyAndCheckHistory.Designer.cs">
       <DependentUpon>202605221844107_AddCurrencyAndCheckHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202605251951063_AddPurchaseRateToItem.cs" />
+    <Compile Include="Migrations\202605251951063_AddPurchaseRateToItem.Designer.cs">
+      <DependentUpon>202605251951063_AddPurchaseRateToItem.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NewItemForm.cs">
@@ -224,6 +235,9 @@
     <EmbeddedResource Include="CatalogFormKlad.resx">
       <DependentUpon>CatalogFormKlad.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CurrencyForm.resx">
+      <DependentUpon>CurrencyForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditCategoryForm.resx">
       <DependentUpon>EditCategoryForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -244,6 +258,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202605221844107_AddCurrencyAndCheckHistory.resx">
       <DependentUpon>202605221844107_AddCurrencyAndCheckHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202605251951063_AddPurchaseRateToItem.resx">
+      <DependentUpon>202605251951063_AddPurchaseRateToItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NewItemForm.resx">
       <DependentUpon>NewItemForm.cs</DependentUpon>
