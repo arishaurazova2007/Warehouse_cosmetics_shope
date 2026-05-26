@@ -52,6 +52,8 @@ namespace Warehouse_cosmetics_shope
             this.catalogInDeliveryGridView = new System.Windows.Forms.DataGridView();
             this.catalogInDelivryLabel = new System.Windows.Forms.Label();
             this.itemsToDeliveryLabel = new System.Windows.Forms.Label();
+            this.currencyComboBox = new System.Windows.Forms.ComboBox();
+            this.currencyLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.deliveryDataDridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.deliveryPurPriceNumeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.deliveryQuantityNumeric)).BeginInit();
@@ -119,7 +121,7 @@ namespace Warehouse_cosmetics_shope
             // 
             this.deliveryPurPriceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold);
             this.deliveryPurPriceLabel.ForeColor = System.Drawing.Color.Black;
-            this.deliveryPurPriceLabel.Location = new System.Drawing.Point(791, 183);
+            this.deliveryPurPriceLabel.Location = new System.Drawing.Point(791, 196);
             this.deliveryPurPriceLabel.Name = "deliveryPurPriceLabel";
             this.deliveryPurPriceLabel.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.deliveryPurPriceLabel.Size = new System.Drawing.Size(145, 48);
@@ -128,7 +130,7 @@ namespace Warehouse_cosmetics_shope
             // 
             // deliveryPurPriceNumeric
             // 
-            this.deliveryPurPriceNumeric.Location = new System.Drawing.Point(958, 195);
+            this.deliveryPurPriceNumeric.Location = new System.Drawing.Point(958, 213);
             this.deliveryPurPriceNumeric.Maximum = new decimal(new int[] {
             1410065408,
             2,
@@ -302,7 +304,6 @@ namespace Warehouse_cosmetics_shope
             this.catalogInDeliveryGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.catalogInDeliveryGridView.Size = new System.Drawing.Size(721, 293);
             this.catalogInDeliveryGridView.TabIndex = 46;
-            catalogInDeliveryGridView.CellClick += CatalogInDeliveryGridView_CellClick;
             // 
             // catalogInDelivryLabel
             // 
@@ -324,12 +325,34 @@ namespace Warehouse_cosmetics_shope
             this.itemsToDeliveryLabel.TabIndex = 48;
             this.itemsToDeliveryLabel.Text = "Поставка";
             // 
+            // currencyComboBox
+            // 
+            this.currencyComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.currencyComboBox.FormattingEnabled = true;
+            this.currencyComboBox.Location = new System.Drawing.Point(958, 165);
+            this.currencyComboBox.Name = "currencyComboBox";
+            this.currencyComboBox.Size = new System.Drawing.Size(226, 24);
+            this.currencyComboBox.TabIndex = 49;
+            // 
+            // currencyLabel
+            // 
+            this.currencyLabel.AutoSize = true;
+            this.currencyLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold);
+            this.currencyLabel.ForeColor = System.Drawing.Color.Black;
+            this.currencyLabel.Location = new System.Drawing.Point(774, 163);
+            this.currencyLabel.Name = "currencyLabel";
+            this.currencyLabel.Size = new System.Drawing.Size(158, 22);
+            this.currencyLabel.TabIndex = 50;
+            this.currencyLabel.Text = "Валюта закупки";
+            // 
             // DeliveryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(1329, 820);
+            this.Controls.Add(this.currencyLabel);
+            this.Controls.Add(this.currencyComboBox);
             this.Controls.Add(this.itemsToDeliveryLabel);
             this.Controls.Add(this.catalogInDelivryLabel);
             this.Controls.Add(this.catalogInDeliveryGridView);
@@ -387,5 +410,7 @@ namespace Warehouse_cosmetics_shope
         private System.Windows.Forms.DataGridView catalogInDeliveryGridView;
         private System.Windows.Forms.Label catalogInDelivryLabel;
         private System.Windows.Forms.Label itemsToDeliveryLabel;
+        private ComboBox currencyComboBox;
+        private Label currencyLabel;
     }
 }

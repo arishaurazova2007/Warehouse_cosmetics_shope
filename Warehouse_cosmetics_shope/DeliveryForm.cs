@@ -34,6 +34,7 @@ namespace Warehouse_cosmetics_shope
             SetupCatalogGridView();
             SetupEventHandlers();
             SetupSearchBox();
+            LoadCurrencyComboBox();
         }
 
         /// <summary>
@@ -59,6 +60,28 @@ namespace Warehouse_cosmetics_shope
             deliverySearchBox.ForeColor = System.Drawing.Color.Gray;
             deliverySearchBox.Enter += DeliverySearchBox_Enter;
             deliverySearchBox.Leave += DeliverySearchBox_Leave;
+        }
+
+        /// <summary>
+        /// Загружает список валют из БД в выпадающий список
+        /// </summary>
+        private void LoadCurrencyComboBox()
+        {
+            try
+            {
+                using (var db = new WarehouseContext())
+                {
+                    var currencies = db.CurrencyRates.Select(c => c.CurrencyCode).ToList();
+                    currencyComboBox.Items.Clear();
+                    foreach (var c in currencies)
+                        currencyComboBox.Items.Add(c);
+                    currencyComboBox.SelectedItem = CurrencySettings.CurrentCurrency;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка загрузки валют: " + ex.Message);
+            }
         }
 
         /// <summary>
@@ -352,6 +375,17 @@ namespace Warehouse_cosmetics_shope
                         {
                             product.Quantity += item.Quantity;
                             product.PurPrice = item.PurPrice;
+                            // Фиксируем валюту и курс на момент поставки
+                            string selectedCurrency = currencyComboBox.SelectedItem?.ToString() ?? "RUB";
+                            using (var dbRate = new WarehouseContext())
+                            {
+                                var rate = dbRate.CurrencyRates.Find(selectedCurrency);
+                                product.CurrencyCode = selectedCurrency;
+                                product.PurchaseRate = rate != null ? rate.Rate : 1m;
+                                // Если цена введена в валюте — переводим в рубли для хранения
+                                if (selectedCurrency != "RUB" && product.PurchaseRate > 0)
+                                    product.PurPrice = item.PurPrice * product.PurchaseRate;
+                            }
                             product.ManufDate = item.ManufDate;
                             product.ExpDate = item.ExpDate;
                             Log.Debug("Обновлён товар {ProductName}: остаток увеличен на {Quantity}, новая закупочная цена {Price}",
