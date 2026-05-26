@@ -116,8 +116,8 @@ namespace Warehouse_cosmetics_shope
                         Units = GetUnitDisplayName(i.Units),
                         i.ManufDate,
                         i.ExpDate,
-                        i.PurPrice,
-                        i.SellPrice,
+                        PurPrice = ConvertPurPrice(i),
+                        SellPrice = Math.Round(i.SellPrice / CurrencySettings.CurrentRate, 2),
                         i.Quantity
                     }).ToList();
 
@@ -158,14 +158,14 @@ namespace Warehouse_cosmetics_shope
             if (dataGridViewCatalog.Columns.Contains("PurPrice"))
                 dataGridViewCatalog.Columns["PurPrice"].HeaderText = "Цена закупки";
             if (dataGridViewCatalog.Columns.Contains("SellPrice"))
-                dataGridViewCatalog.Columns["SellPrice"].HeaderText = "Цена продажи";
+                dataGridViewCatalog.Columns["SellPrice"].HeaderText = "Цена продажи(" + CurrencySettings.CurrentCurrency +")";
             if (dataGridViewCatalog.Columns.Contains("Quantity"))
                 dataGridViewCatalog.Columns["Quantity"].HeaderText = "Остаток";
 
             if (dataGridViewCatalog.Columns.Contains("PurPrice"))
-                dataGridViewCatalog.Columns["PurPrice"].DefaultCellStyle.Format = "C2";
+                dataGridViewCatalog.Columns["PurPrice"].DefaultCellStyle.Format = "N2";
             if (dataGridViewCatalog.Columns.Contains("SellPrice"))
-                dataGridViewCatalog.Columns["SellPrice"].DefaultCellStyle.Format = "C2";
+                dataGridViewCatalog.Columns["SellPrice"].DefaultCellStyle.Format = "N2";
             if (dataGridViewCatalog.Columns.Contains("ExpDate"))
                 dataGridViewCatalog.Columns["ExpDate"].DefaultCellStyle.Format = "dd.MM.yyyy";
             if (dataGridViewCatalog.Columns.Contains("ManufDate"))
@@ -522,8 +522,8 @@ namespace Warehouse_cosmetics_shope
                             Units = GetUnitDisplayName(g.Key.Units),
                             g.Key.ManufDate,
                             g.Key.ExpDate,
-                            g.Key.PurPrice,
-                            SellPrice = GetPriceWithDiscount(g.First(), today),
+                            PurPrice = ConvertPurPrice(g.First()),
+                            SellPrice = Math.Round( GetPriceWithDiscount(g.First(), today) / CurrencySettings.CurrentRate, 2),
                             Quantity = g.Sum(i => i.Quantity)
                         })
                         .OrderBy(i => i.ProductNumber)
@@ -565,6 +565,48 @@ namespace Warehouse_cosmetics_shope
             lossForm.FormClosed += (s, args) => this.Show(); 
             lossForm.Show();
             this.Hide();  
+        }
+
+        private void buttonWarehoeseMap_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonCurrency_Click(object sender, EventArgs e)
+        {
+            var currencyForm = new CurrencyForm(currentUserId, currentUserLogin);
+            currencyForm.FormClosed += (s, args) => { this.Show(); LoadCatalog(); };
+            currencyForm.Show();
+            this.Hide();
+
+        }
+        private decimal ConvertPurPrice(Item item)
+        {
+            // Если нет данных о валюте — возвращаем как есть
+            if (string.IsNullOrEmpty(item.CurrencyCode) || item.PurchaseRate <= 0)
+                return Math.Round(item.PurPrice / CurrencySettings.CurrentRate, 2);
+
+
+            // Переводим: рубли → валюта закупки → выбранная валюта
+            // 1. PurPrice хранится в рублях, делим на PurchaseRate → получаем в валюте закупки
+            // 2. Получаем текущий курс валюты закупки
+            // 3. Умножаем на текущий курс → рубли по новому курсу
+            // 4. Делим на текущий курс выбранной валюты
+            try
+            {
+                using (var db = new WarehouseContext())
+                {
+                    var purchaseCurrencyRate = db.CurrencyRates.Find(item.CurrencyCode);
+                    if (purchaseCurrencyRate == null)
+                        return Math.Round(item.PurPrice / CurrencySettings.CurrentRate, 2);
+
+
+                    decimal amountInPurchaseCurrency = item.PurPrice / item.PurchaseRate;
+                    decimal amountInRubNow = amountInPurchaseCurrency * purchaseCurrencyRate.Rate;
+                    return Math.Round(amountInRubNow / CurrencySettings.CurrentRate, 2);
+                }
+            }
+            catch { return item.PurPrice; }
         }
     }
 }

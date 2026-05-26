@@ -33,9 +33,11 @@
             this.searchBox = new System.Windows.Forms.TextBox();
             this.catalogLabel = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.buttonCurrency = new System.Windows.Forms.Button();
             this.buttonPlus = new System.Windows.Forms.Button();
             this.buttonFilter = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonWarehoeseMap = new System.Windows.Forms.Button();
             this.buttonEditCategory = new System.Windows.Forms.Button();
             this.lossFromCatalogButton = new System.Windows.Forms.Button();
             this.deliveryFromCatalogButton = new System.Windows.Forms.Button();
@@ -104,6 +106,7 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
+            this.panel2.Controls.Add(this.buttonCurrency);
             this.panel2.Controls.Add(this.buttonPlus);
             this.panel2.Controls.Add(this.buttonFilter);
             this.panel2.Controls.Add(this.panel1);
@@ -115,6 +118,20 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1132, 150);
             this.panel2.TabIndex = 8;
+            // 
+            // buttonCurrency
+            // 
+            this.buttonCurrency.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
+            this.buttonCurrency.FlatAppearance.BorderSize = 0;
+            this.buttonCurrency.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonCurrency.ForeColor = System.Drawing.Color.Black;
+            this.buttonCurrency.Location = new System.Drawing.Point(39, 63);
+            this.buttonCurrency.Name = "buttonCurrency";
+            this.buttonCurrency.Size = new System.Drawing.Size(244, 23);
+            this.buttonCurrency.TabIndex = 10;
+            this.buttonCurrency.Text = "Настройки валют";
+            this.buttonCurrency.UseVisualStyleBackColor = false;
+            this.buttonCurrency.Click += new System.EventHandler(this.buttonCurrency_Click);
             // 
             // buttonPlus
             // 
@@ -149,6 +166,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.buttonWarehoeseMap);
             this.panel1.Controls.Add(this.buttonEditCategory);
             this.panel1.Controls.Add(this.lossFromCatalogButton);
             this.panel1.Controls.Add(this.deliveryFromCatalogButton);
@@ -162,6 +180,19 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1272, 49);
             this.panel1.TabIndex = 7;
+            // 
+            // buttonWarehoeseMap
+            // 
+            this.buttonWarehoeseMap.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
+            this.buttonWarehoeseMap.FlatAppearance.BorderSize = 2;
+            this.buttonWarehoeseMap.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonWarehoeseMap.Location = new System.Drawing.Point(612, 0);
+            this.buttonWarehoeseMap.Name = "buttonWarehoeseMap";
+            this.buttonWarehoeseMap.Size = new System.Drawing.Size(139, 49);
+            this.buttonWarehoeseMap.TabIndex = 13;
+            this.buttonWarehoeseMap.Text = "Тепловая карта склада";
+            this.buttonWarehoeseMap.UseVisualStyleBackColor = true;
+            this.buttonWarehoeseMap.Click += new System.EventHandler(this.buttonWarehoeseMap_Click);
             // 
             // buttonEditCategory
             // 
@@ -312,5 +343,7 @@
         private System.Windows.Forms.Button lossFromCatalogButton;
         private System.Windows.Forms.Button deliveryFromCatalogButton;
         private System.Windows.Forms.Button buttonEditCategory;
+        private System.Windows.Forms.Button buttonCurrency;
+        private System.Windows.Forms.Button buttonWarehoeseMap;
     }
 }
