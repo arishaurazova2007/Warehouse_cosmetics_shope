@@ -349,7 +349,7 @@ namespace Warehouse_cosmetics_shope
                         {
                             Log.Information("Кладовщик {UserLogin} открыл карточку товара {ProductName} (арт. {ProductNumber})",
                                 currentUserLogin, product.ProductName, productNumber);
-                            var itemForm = new ItemForm(product.ProductID, currentUserId, currentUserLogin, Roles.Storekeeper, true);
+                            var itemForm = new ItemForm(product.ProductID, currentUserId, currentUserLogin, Roles.Storekeeper, false);
                             itemForm.Show();
                             this.Hide();
                         }
@@ -560,6 +560,13 @@ namespace Warehouse_cosmetics_shope
             deliveryForm.FormClosed += (s, args) => this.Show();
             deliveryForm.Show();
             this.Hide();      
+        }
+
+        private void buttonWarehoeseMap_Click(object sender, EventArgs e)
+        {
+            var heatMap = new HeatMapForm(currentUserId, currentUserLogin, Roles.Storekeeper);
+            heatMap.Show();
+            this.Hide();
         }
     }
     

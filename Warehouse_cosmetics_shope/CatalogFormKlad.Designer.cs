@@ -39,6 +39,7 @@
             this.searchBox = new System.Windows.Forms.TextBox();
             this.searchButton = new System.Windows.Forms.Button();
             this.buttonFilter = new System.Windows.Forms.Button();
+            this.buttonWarehoeseMap = new System.Windows.Forms.Button();
             this.topPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kladCatalogGrid)).BeginInit();
             this.SuspendLayout();
@@ -46,6 +47,7 @@
             // topPanel
             // 
             this.topPanel.BackColor = System.Drawing.Color.White;
+            this.topPanel.Controls.Add(this.buttonWarehoeseMap);
             this.topPanel.Controls.Add(this.deliveryFromCatalogButton);
             this.topPanel.Controls.Add(this.labelShowLogin);
             this.topPanel.Controls.Add(this.label2);
@@ -171,6 +173,19 @@
             this.buttonFilter.Text = "Фильтровать";
             this.buttonFilter.UseVisualStyleBackColor = false;
             // 
+            // buttonWarehoeseMap
+            // 
+            this.buttonWarehoeseMap.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
+            this.buttonWarehoeseMap.FlatAppearance.BorderSize = 2;
+            this.buttonWarehoeseMap.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonWarehoeseMap.Location = new System.Drawing.Point(354, 0);
+            this.buttonWarehoeseMap.Name = "buttonWarehoeseMap";
+            this.buttonWarehoeseMap.Size = new System.Drawing.Size(139, 49);
+            this.buttonWarehoeseMap.TabIndex = 17;
+            this.buttonWarehoeseMap.Text = "Тепловая карта склада";
+            this.buttonWarehoeseMap.UseVisualStyleBackColor = true;
+            this.buttonWarehoeseMap.Click += new System.EventHandler(this.buttonWarehoeseMap_Click);
+            // 
             // CatalogFormKlad
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -206,5 +221,6 @@
         private System.Windows.Forms.Button searchButton;
         private System.Windows.Forms.Button buttonFilter;
         private System.Windows.Forms.Button deliveryFromCatalogButton;
+        private System.Windows.Forms.Button buttonWarehoeseMap;
     }
 }

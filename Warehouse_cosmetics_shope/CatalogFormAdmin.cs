@@ -569,7 +569,9 @@ namespace Warehouse_cosmetics_shope
 
         private void buttonWarehoeseMap_Click(object sender, EventArgs e)
         {
-
+            var heatMap = new HeatMapForm(currentUserId, currentUserLogin, Roles.Admin);
+            heatMap.Show();
+            this.Hide();
         }
 
         private void buttonCurrency_Click(object sender, EventArgs e)
