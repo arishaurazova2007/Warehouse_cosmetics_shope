@@ -188,7 +188,8 @@ namespace Warehouse_cosmetics_shope
                         Quantity = 0,
                         Units = (MeasurementUnits)unitComboBox.SelectedValue,
                         ExpDate = DateTime.Now.AddYears(3),
-                        ManufDate = DateTime.Now
+                        ManufDate = DateTime.Now,
+                        IsFragile = isFragileCheckBox.Checked
                     };
 
                     db.Items.Add(newProduct);
@@ -196,9 +197,10 @@ namespace Warehouse_cosmetics_shope
 
                     Log.Information("Создана карточка товара: {ProductName}, артикул: {ProductNumber}",
                         newProduct.ProductName, newProduct.ProductNumber);
-
-                    MessageBox.Show($"Карточка товара создана!\nАртикул: {newProduct.ProductNumber}\n\nДля добавления товара на склад оформите поставку.",
-                        "Оповещение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    string message = $"Карточка товара создана!\nАртикул: {newProduct.ProductNumber}\n\nДля добавления товара на склад оформите поставку.";
+                    if (isFragileCheckBox.Checked)
+                        message += "\n\n⚠️ Внимание! Товар хрупкий, при транспортировке могут потребоваться специальные условия.";
+                    MessageBox.Show(message, "Оповещение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)
@@ -223,6 +225,11 @@ namespace Warehouse_cosmetics_shope
             var catalogForm = new CatalogFormAdmin(currentUserId, currentUserLogin);
             catalogForm.Show();
             this.Hide();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

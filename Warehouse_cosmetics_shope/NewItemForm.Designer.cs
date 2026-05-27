@@ -41,6 +41,8 @@
             this.itemFormTitleLabel = new System.Windows.Forms.Label();
             this.sellPriceLabel = new System.Windows.Forms.Label();
             this.sellPriceNumeric = new System.Windows.Forms.NumericUpDown();
+            this.isFragileCheckBox = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.sellPriceNumeric)).BeginInit();
             this.SuspendLayout();
             // 
@@ -182,12 +184,35 @@
             this.sellPriceNumeric.Size = new System.Drawing.Size(210, 22);
             this.sellPriceNumeric.TabIndex = 59;
             // 
+            // isFragileCheckBox
+            // 
+            this.isFragileCheckBox.AutoSize = true;
+            this.isFragileCheckBox.Location = new System.Drawing.Point(337, 385);
+            this.isFragileCheckBox.Name = "isFragileCheckBox";
+            this.isFragileCheckBox.Size = new System.Drawing.Size(251, 20);
+            this.isFragileCheckBox.TabIndex = 60;
+            this.isFragileCheckBox.Text = "Хрупкий, требует особых условий";
+            this.isFragileCheckBox.UseVisualStyleBackColor = true;
+            this.isFragileCheckBox.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(101, 381);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(211, 22);
+            this.label1.TabIndex = 61;
+            this.label1.Text = "При транспортировке";
+            // 
             // NewItemForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(1005, 553);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.isFragileCheckBox);
             this.Controls.Add(this.sellPriceNumeric);
             this.Controls.Add(this.sellPriceLabel);
             this.Controls.Add(this.itemNumberTitle);
@@ -202,7 +227,7 @@
             this.Controls.Add(this.productNameLabel);
             this.Controls.Add(this.itemFormTitleLabel);
             this.Name = "NewItemForm";
-            this.Text = "Новый товар";
+            this.Text = "  ";
             ((System.ComponentModel.ISupportInitialize)(this.sellPriceNumeric)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -224,5 +249,7 @@
         private System.Windows.Forms.Label itemFormTitleLabel;
         private System.Windows.Forms.Label sellPriceLabel;
         private System.Windows.Forms.NumericUpDown sellPriceNumeric;
+        private System.Windows.Forms.CheckBox isFragileCheckBox;
+        private System.Windows.Forms.Label label1;
     }
 }
