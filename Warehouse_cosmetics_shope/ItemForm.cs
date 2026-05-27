@@ -15,6 +15,8 @@ namespace Warehouse_cosmetics_shope
         private Guid currentUserId;
         private string currentUserLogin;
         private Roles currentUserRole;
+        private bool openedFromHeatMap = false;
+
 
         /// <summary>
         /// Конструктор по умолчанию
@@ -137,6 +139,7 @@ namespace Warehouse_cosmetics_shope
             this.currentUserId = userId;
             this.currentUserLogin = userLogin;
             this.currentUserRole = userRole;
+            this.openedFromHeatMap = isReadOnly;
 
             itemFormTitleLabel.Text = "Карточка товара";
             Log.Information("Кладовщик {UserLogin} открыл карточку товара (ID: {ProductId})", userLogin, productId);
@@ -306,6 +309,8 @@ namespace Warehouse_cosmetics_shope
                         manufdatePicker.Value = product.ManufDate;
                         measUnitsComboBox.SelectedItem = product.Units;
                         categoryComboBox.SelectedValue = product.CategoryID;
+                        fragileWarningLabel.Visible = product.IsFragile;
+
 
                         Log.Debug("Загружены данные товара: {ProductName}, артикул: {ProductNumber}",
                             product.ProductName, product.ProductNumber);
@@ -529,9 +534,14 @@ namespace Warehouse_cosmetics_shope
         /// </summary>
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            Log.Information("Пользователь {UserLogin} вернулся в каталог", currentUserLogin);
+            Log.Information("Пользователь {UserLogin} вернулся назад", currentUserLogin);
 
-            if (currentUserRole == Roles.Admin)
+            if (openedFromHeatMap)
+            {
+                var heatMap = new HeatMapForm(currentUserId, currentUserLogin, currentUserRole);
+                heatMap.Show();
+            }
+            else if (currentUserRole == Roles.Admin)
             {
                 var catalogForm = new CatalogFormAdmin(currentUserId, currentUserLogin);
                 catalogForm.Show();

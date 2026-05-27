@@ -130,6 +130,12 @@
     <Compile Include="CurrencyForm.Designer.cs">
       <DependentUpon>CurrencyForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="HeatMapForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HeatMapForm.Designer.cs">
+      <DependentUpon>HeatMapForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\CategoryPath.cs" />
     <Compile Include="Helpers\ExportShipmentItem.cs" />
     <Compile Include="Helpers\ShipmentHistoryItem.cs" />
@@ -161,6 +167,10 @@
     <Compile Include="Migrations\202605251951063_AddPurchaseRateToItem.cs" />
     <Compile Include="Migrations\202605251951063_AddPurchaseRateToItem.Designer.cs">
       <DependentUpon>202605251951063_AddPurchaseRateToItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202605262016521_AssignCellNumbers.cs" />
+    <Compile Include="Migrations\202605262016521_AssignCellNumbers.Designer.cs">
+      <DependentUpon>202605262016521_AssignCellNumbers.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NewItemForm.cs">
@@ -244,6 +254,9 @@
     <EmbeddedResource Include="DeliveryForm.resx">
       <DependentUpon>DeliveryForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="HeatMapForm.resx">
+      <DependentUpon>HeatMapForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LossForm.resx">
       <DependentUpon>LossForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -261,6 +274,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202605251951063_AddPurchaseRateToItem.resx">
       <DependentUpon>202605251951063_AddPurchaseRateToItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202605262016521_AssignCellNumbers.resx">
+      <DependentUpon>202605262016521_AssignCellNumbers.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NewItemForm.resx">
       <DependentUpon>NewItemForm.cs</DependentUpon>

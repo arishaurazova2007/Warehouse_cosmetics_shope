@@ -37,6 +37,7 @@
             this.sellPriceNumeric = new System.Windows.Forms.NumericUpDown();
             this.quantityPickOrShowNumeric = new System.Windows.Forms.NumericUpDown();
             this.itemNumberTitle = new System.Windows.Forms.Label();
+            this.fragileWarningLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.purPriceNumeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sellPriceNumeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.quantityPickOrShowNumeric)).BeginInit();
@@ -278,12 +279,25 @@
             this.itemNumberTitle.TabIndex = 34;
             this.itemNumberTitle.Text = "Артикул";
             // 
+            // fragileWarningLabel
+            // 
+            this.fragileWarningLabel.AutoSize = true;
+            this.fragileWarningLabel.ForeColor = System.Drawing.Color.Black;
+            this.fragileWarningLabel.Location = new System.Drawing.Point(261, 539);
+            this.fragileWarningLabel.Name = "fragileWarningLabel";
+            this.fragileWarningLabel.Size = new System.Drawing.Size(633, 16);
+            this.fragileWarningLabel.TabIndex = 35;
+            this.fragileWarningLabel.Text = "⚠️ Внимание! Товар хрупкий, при транспортировке могут потребоваться специальные у" +
+    "словия.";
+            this.fragileWarningLabel.Visible = false;
+            // 
             // ItemForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(1122, 686);
+            this.Controls.Add(this.fragileWarningLabel);
             this.Controls.Add(this.itemNumberTitle);
             this.Controls.Add(this.quantityPickOrShowNumeric);
             this.Controls.Add(this.sellPriceNumeric);
@@ -338,5 +352,6 @@
         private System.Windows.Forms.NumericUpDown sellPriceNumeric;
         private System.Windows.Forms.NumericUpDown quantityPickOrShowNumeric;
         private System.Windows.Forms.Label itemNumberTitle;
+        private System.Windows.Forms.Label fragileWarningLabel;
     }
 }
