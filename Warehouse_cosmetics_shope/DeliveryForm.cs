@@ -374,6 +374,16 @@ namespace Warehouse_cosmetics_shope
                         if (product != null)
                         {
                             product.Quantity += item.Quantity;
+                            // назначаем ячейку если её ещё нет
+                            if (product.CellNumber == 0)
+                            {
+                                int nextCell = db.Items
+                                    .Where(i => i.CellNumber > 0)
+                                    .Select(i => i.CellNumber)
+                                    .DefaultIfEmpty(0)
+                                    .Max() + 1;
+                                product.CellNumber = nextCell;
+                            }
                             product.PurPrice = item.PurPrice;
                             // Фиксируем валюту и курс на момент поставки
                             string selectedCurrency = currencyComboBox.SelectedItem?.ToString() ?? "RUB";
