@@ -5,11 +5,13 @@ using System.Linq;
 using System.Windows.Forms;
 using Warehouse_cosmetics_shope.DataBaseClass;
 using Warehouse_cosmetics_shope.Enum;
+using Autofac;
 
 namespace Warehouse_cosmetics_shope
 {
     public static class Program
     {
+        public static IContainer Container { get; private set; }
         [STAThread]
         static void Main()
         {
@@ -24,9 +26,14 @@ namespace Warehouse_cosmetics_shope
 
                 Log.Information("Приложение запущено");
 
-                InitializeDatabase();
+                //  настраиваем IoC-контейнер
+                Container = ContainerConfig.Configure();
 
-                Application.Run(new MainForm());
+                InitializeDatabase();
+                using (var scope = Container.BeginLifetimeScope())
+                {
+                    Application.Run(scope.Resolve<MainForm>());
+                }
             }
             catch (Exception ex)
             {

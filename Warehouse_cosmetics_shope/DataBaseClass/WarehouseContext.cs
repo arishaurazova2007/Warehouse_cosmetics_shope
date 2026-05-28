@@ -5,7 +5,7 @@ namespace Warehouse_cosmetics_shope.DataBaseClass
     /// Основной контекст данных приложения для взаимодействия с базой данных через Entity Framework
     /// Обеспечивает доступ к таблицам клиентов, пользователей, товаров и документов отгрузки
     /// </summary>
-    public class WarehouseContext : DbContext
+    public class WarehouseContext : DbContext, IWarehouseContext
     {
         /// <summary>
         /// Инициализирует новый экземпляр контекста, используя строку подключения "DBConnection"
