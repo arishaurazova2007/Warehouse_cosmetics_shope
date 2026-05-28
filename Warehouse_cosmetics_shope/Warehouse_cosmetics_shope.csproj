@@ -146,6 +146,7 @@
     </Compile>
     <Compile Include="Helpers\CategoryPath.cs" />
     <Compile Include="Helpers\ExportShipmentItem.cs" />
+    <Compile Include="Helpers\LoadingHelper.cs" />
     <Compile Include="Helpers\ShipmentHistoryItem.cs" />
     <Compile Include="Helpers\ShipmentItem.cs" />
     <Compile Include="Helpers\DeliveryItem.cs" />
