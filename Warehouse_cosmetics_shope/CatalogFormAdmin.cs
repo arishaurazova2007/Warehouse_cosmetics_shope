@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Warehouse_cosmetics_shope.DataBaseClass;
 using Warehouse_cosmetics_shope.Enum;
 using Serilog;
+using System.Threading.Tasks;
 
 namespace Warehouse_cosmetics_shope
 {
@@ -27,12 +28,15 @@ namespace Warehouse_cosmetics_shope
 
         private readonly IWarehouseContext _db;
 
+
         public CatalogFormAdmin(Guid userId, string userLogin, IWarehouseContext db)
         {
             InitializeComponent();
             currentUserId = userId;
             currentUserLogin = userLogin;
             _db = db;
+
+
 
             dataGridViewCatalog.DataError += (s, ev) =>
             {
@@ -46,8 +50,9 @@ namespace Warehouse_cosmetics_shope
             };
 
             Log.Information("Администратор {UserLogin} открыл каталог", currentUserLogin);
+            InitSpinner();                                              // ← инициализируем крутилку
+            this.Shown += async (s, e) => await LoadCatalogAsync();
 
-            LoadCatalog();
             ShowUserLogin();
         }
 
@@ -56,64 +61,54 @@ namespace Warehouse_cosmetics_shope
         /// категория, диапазон цен, наличие на складе, наличие скидки.
         /// Исключает товары с истёкшим сроком годности.
         /// </summary>
-        private void LoadCatalog()
+        /// <summary>
+        /// Асинхронно загружает каталог товаров, не блокируя UI
+        /// </summary>
+        private async Task LoadCatalogAsync()
         {
-            Log.Debug("Загрузка каталога с фильтрами: Категории={CategoryCount}, Цена от={PriceFrom}, Цена до={PriceTo}",
-                currentFilterCategoryIds?.Count ?? 0, currentPriceFrom, currentPriceTo);
+            spinnerPanel.Visible = true;
+            spinnerPanel.BringToFront();
 
             try
             {
                 var today = DateTime.Now.Date;
 
-                var allItems = _db.Items
+                // Запрос к БД — в фоновом потоке
+                var allItems = await Task.Run(() =>
+                    _db.Items
                         .Include(i => i.Category)
                         .Include(i => i.Category.Parent)
                         .Where(i => i.ExpDate > today)
-                        .ToList();
+                        .ToList()
+                );
 
                 var filtered = allItems.AsEnumerable();
 
-                // Фильтр по категориям
                 if (currentFilterCategoryIds != null && currentFilterCategoryIds.Any())
-                {
-                        filtered = filtered.Where(i => currentFilterCategoryIds.Contains(i.CategoryID));
-                }
+                    filtered = filtered.Where(i => currentFilterCategoryIds.Contains(i.CategoryID));
 
-                // Фильтр по цене
                 if (currentPriceFrom.HasValue)
-                {
                     filtered = filtered.Where(i => i.SellPrice >= currentPriceFrom.Value);
-                }
+
                 if (currentPriceTo.HasValue)
-                {
                     filtered = filtered.Where(i => i.SellPrice <= currentPriceTo.Value);
-                }
+
                 if (currentInStockOnly == true)
-                {
-                    // Только товары в наличии
                     filtered = filtered.Where(i => i.Quantity > 0);
-                }
                 else if (currentNotInStockOnly == true)
-                {
-                    // Только товары не в наличии
                     filtered = filtered.Where(i => i.Quantity == 0);
-                }
 
                 if (currentWithDiscount == true || currentWithoutDiscount == true)
                 {
                     var discountedIds = filtered
-                            .Where(i => IsDiscounted(i, today))
-                            .Select(i => i.ProductID)
-                            .ToList();
+                        .Where(i => IsDiscounted(i, today))
+                        .Select(i => i.ProductID)
+                        .ToList();
 
                     if (currentWithDiscount == true)
-                    {
                         filtered = filtered.Where(i => discountedIds.Contains(i.ProductID));
-                    }
                     else if (currentWithoutDiscount == true)
-                    {
-                            filtered = filtered.Where(i => !discountedIds.Contains(i.ProductID));
-                    }
+                        filtered = filtered.Where(i => !discountedIds.Contains(i.ProductID));
                 }
 
                 var displayList = filtered.Select(i => new
@@ -130,17 +125,22 @@ namespace Warehouse_cosmetics_shope
                     i.Quantity
                 }).ToList();
 
+                // Обновляем UI — здесь мы уже в главном потоке
                 dataGridViewCatalog.DataSource = displayList;
-                Log.Information("Загружено {ItemCount} товаров", displayList.Count);
+                ConfigureColumns();
 
+                Log.Information("Загружено {ItemCount} товаров", displayList.Count);
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "Ошибка при загрузке каталога");
-                MessageBox.Show("Ошибка при загрузке каталога", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ошибка при загрузке каталога", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            ConfigureColumns();
+            finally
+            {
+                spinnerPanel.Visible = false;  // скрываем в любом случае
+            }
         }
 
         /// <summary>
@@ -172,7 +172,7 @@ namespace Warehouse_cosmetics_shope
             if (dataGridViewCatalog.Columns.Contains("PurPrice"))
                 dataGridViewCatalog.Columns["PurPrice"].HeaderText = "Цена закупки";
             if (dataGridViewCatalog.Columns.Contains("SellPrice"))
-                dataGridViewCatalog.Columns["SellPrice"].HeaderText = "Цена продажи(" + CurrencySettings.CurrentCurrency +")";
+                dataGridViewCatalog.Columns["SellPrice"].HeaderText = "Цена продажи(" + CurrencySettings.CurrentCurrency + ")";
             if (dataGridViewCatalog.Columns.Contains("Quantity"))
                 dataGridViewCatalog.Columns["Quantity"].HeaderText = "Остаток";
 
@@ -244,6 +244,46 @@ namespace Warehouse_cosmetics_shope
         }
 
         /// <summary>
+        /// Создаёт панель-крутилку и навешивает центрирование
+        /// </summary>
+        private void InitSpinner()
+        {
+            spinnerPanel = new Panel
+            {
+                Size = new System.Drawing.Size(220, 70),
+                BackColor = System.Drawing.Color.White,
+                BorderStyle = BorderStyle.FixedSingle,
+                Visible = false
+            };
+
+            var label = new Label
+            {
+                Text = "⏳ Загрузка...",
+                Font = new System.Drawing.Font("Segoe UI", 12),
+                Dock = DockStyle.Fill,
+                TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+            };
+
+            spinnerPanel.Controls.Add(label);
+            this.Controls.Add(spinnerPanel);
+            spinnerPanel.BringToFront();
+
+            this.Resize += (s, e) => CenterSpinner();
+            this.Shown += (s, e) => CenterSpinner();
+        }
+
+        /// <summary>
+        /// Центрирует панель крутилки на форме
+        /// </summary>
+        private void CenterSpinner()
+        {
+            spinnerPanel.Location = new System.Drawing.Point(
+                (this.ClientSize.Width - spinnerPanel.Width) / 2,
+                (this.ClientSize.Height - spinnerPanel.Height) / 2
+            );
+        }
+
+        /// <summary>
         /// Обработчик кнопки "Добавить товар". Открывает форму создания нового товара.
         /// </summary>
         private void buttonPlus_Click(object sender, EventArgs e)
@@ -258,12 +298,12 @@ namespace Warehouse_cosmetics_shope
         /// Обработчик кнопки "Фильтр". Открывает форму фильтрации и применяет
         /// выбранные параметры к каталогу после подтверждения.
         /// </summary>
-        private void buttonFilter_Click(object sender, EventArgs e)
+        private async void buttonFilter_Click(object sender, EventArgs e)
         {
             Log.Information("Администратор {UserLogin} открыл форму фильтрации", currentUserLogin);
             var filterForm = new FiltrationForm(_db);
 
-            filterForm.FilterApplied += (selectedCategoryIds, priceFrom, priceTo, inStockOnly, notInStockOnly, withDiscount, withoutDiscount) =>
+            filterForm.FilterApplied += async (selectedCategoryIds, priceFrom, priceTo, inStockOnly, notInStockOnly, withDiscount, withoutDiscount) =>
             {
                 if (selectedCategoryIds == null || selectedCategoryIds.Count == 0)
                 {
@@ -287,7 +327,7 @@ namespace Warehouse_cosmetics_shope
                 currentNotInStockOnly = notInStockOnly;
                 currentWithDiscount = withDiscount;
                 currentWithoutDiscount = withoutDiscount;
-                LoadCatalog();
+                await LoadCatalogAsync();
             };
 
             filterForm.ShowDialog();
@@ -323,9 +363,9 @@ namespace Warehouse_cosmetics_shope
         {
             Log.Information("Администратор {UserLogin} открыл историю отгрузок", currentUserLogin);
             var historyForm = new ShipmentHistoryForm(currentUserId, currentUserLogin, _db);
-            historyForm.FormClosed += (s, args) => this.Show();  
+            historyForm.FormClosed += (s, args) => this.Show();
             historyForm.Show();
-            this.Hide(); 
+            this.Hide();
         }
 
         /// <summary>
@@ -486,11 +526,11 @@ namespace Warehouse_cosmetics_shope
         /// Выполняет живой поиск товаров по артикулу или названию при вводе текста.
         /// Учитывает активные фильтры. При пустом запросе восстанавливает полный каталог.
         /// </summary>
-        private void searchBox_TextChanged(object sender, EventArgs e)
+        private async void searchBox_TextChanged(object sender, EventArgs e)
         {
             if (searchBox.Text == "Поиск" || string.IsNullOrWhiteSpace(searchBox.Text))
             {
-                LoadCatalog();
+                await LoadCatalogAsync();
                 return;
             }
 
@@ -507,11 +547,16 @@ namespace Warehouse_cosmetics_shope
             {
 
                 var today = DateTime.Now.Date;
-                var allItems = _db.Items
-                    .Include(i => i.Category)
+                spinnerPanel.Visible = true;
+                spinnerPanel.BringToFront();
+
+                var allItems = await Task.Run(() =>
+                    _db.Items
+                        .Include(i => i.Category)
                         .Include(i => i.Category.Parent)
                         .Where(i => i.ExpDate > today)
-                        .ToList();
+                        .ToList()
+                );
 
                 var filtered = allItems
                     .Where(i => i.ProductNumber.ToString().Contains(searchText) ||
@@ -590,6 +635,8 @@ namespace Warehouse_cosmetics_shope
                     .OrderBy(i => i.ProductNumber)
                     .ToList();
 
+
+
                 dataGridViewCatalog.DataSource = displayList;
                 ConfigureColumns();
 
@@ -608,6 +655,10 @@ namespace Warehouse_cosmetics_shope
                 Log.Error(ex, "Ошибка при поиске товаров по запросу {SearchText}", searchText);
                 MessageBox.Show("Ошибка при поиске товаров", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            finally
+            {
+                spinnerPanel.Visible = false;  // ← добавить
+            }
         }
 
 
@@ -618,9 +669,9 @@ namespace Warehouse_cosmetics_shope
         {
             Log.Information("Администратор {UserLogin} открыл форму поставки", currentUserLogin);
             var deliveryForm = new DeliveryForm(currentUserId, currentUserLogin, _db);
-            deliveryForm.FormClosed += (s, args) => this.Show();  
+            deliveryForm.FormClosed += (s, args) => this.Show();
             deliveryForm.Show();
-            this.Hide(); 
+            this.Hide();
         }
 
         /// <summary>
@@ -630,9 +681,9 @@ namespace Warehouse_cosmetics_shope
         {
             Log.Information("Администратор {UserLogin} открыл форму убытков", currentUserLogin);
             var lossForm = new LossForm(currentUserId, currentUserLogin, _db);
-            lossForm.FormClosed += (s, args) => this.Show(); 
+            lossForm.FormClosed += (s, args) => this.Show();
             lossForm.Show();
-            this.Hide();  
+            this.Hide();
         }
 
         /// <summary>
@@ -652,7 +703,7 @@ namespace Warehouse_cosmetics_shope
         private void buttonCurrency_Click(object sender, EventArgs e)
         {
             var currencyForm = new CurrencyForm(currentUserId, currentUserLogin, _db);
-            currencyForm.FormClosed += (s, args) => { this.Show(); LoadCatalog(); };
+            currencyForm.FormClosed += async (s, args) => { this.Show(); await LoadCatalogAsync(); };
             currencyForm.Show();
             this.Hide();
 
@@ -689,5 +740,7 @@ namespace Warehouse_cosmetics_shope
             }
             catch { return item.PurPrice; }
         }
+
+
     }
 }

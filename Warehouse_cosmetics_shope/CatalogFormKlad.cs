@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Warehouse_cosmetics_shope.DataBaseClass;
 using Warehouse_cosmetics_shope.Enum;
 using Serilog;
+using System.Threading.Tasks;
 
 namespace Warehouse_cosmetics_shope
 {
@@ -37,7 +38,8 @@ namespace Warehouse_cosmetics_shope
 
             Log.Information("Кладовщик {UserLogin} открыл каталог", currentUserLogin);
 
-            LoadCatalog();
+            InitSpinner();
+            this.Shown += async (s, e) => await LoadCatalogAsync();
             ShowUserLogin();
             kladCatalogGrid.CellClick += KladCatalogGrid_CellClick;
             kladCatalogGrid.CellFormatting += KladCatalogGrid_CellFormatting;
@@ -45,27 +47,29 @@ namespace Warehouse_cosmetics_shope
             searchButton.Click += SearchButton_Click;
         }
 
+        
         /// <summary>
-        /// Загружает каталог товаров с учётом всех активных фильтров
-        /// </summary>
-        private void LoadCatalog()
+/// Асинхронно загружает каталог товаров, не блокируя UI
+/// </summary>
+private async Task LoadCatalogAsync()
         {
-            Log.Debug("Загрузка каталога кладовщика с фильтрами: Категории={CategoryCount}, Цена от={PriceFrom}, Цена до={PriceTo}",
-                currentFilterCategoryIds?.Count ?? 0, currentPriceFrom, currentPriceTo);
+            spinnerPanel.Visible = true;
+            spinnerPanel.BringToFront();
 
             try
             {
                 var today = DateTime.Now.Date;
 
-                var allItems = _db.Items
-                    .Include(i => i.Category)
-                    .Include(i => i.Category.Parent)
-                    .Where(i => i.ExpDate > today)
-                    .ToList();
+                var allItems = await Task.Run(() =>
+                    _db.Items
+                        .Include(i => i.Category)
+                        .Include(i => i.Category.Parent)
+                        .Where(i => i.ExpDate > today)
+                        .ToList()
+                );
 
                 var filtered = allItems.AsEnumerable();
 
-                // 1. Фильтр по категориям (с учётом дочерних)
                 if (currentFilterCategoryIds != null && currentFilterCategoryIds.Any())
                 {
                     var allCategoryIds = new List<Guid>();
@@ -78,31 +82,19 @@ namespace Warehouse_cosmetics_shope
                     filtered = filtered.Where(i => expandedIds.Contains(i.CategoryID));
                 }
 
-                // 2. Фильтр по цене
                 if (currentPriceFrom.HasValue)
-                {
                     filtered = filtered.Where(i => i.SellPrice >= currentPriceFrom.Value);
-                }
+
                 if (currentPriceTo.HasValue)
-                {
                     filtered = filtered.Where(i => i.SellPrice <= currentPriceTo.Value);
-                }
 
-                // 3. Фильтр по наличию
                 if (currentInStockOnly == true)
-                {
                     filtered = filtered.Where(i => i.Quantity > 0);
-                }
                 else if (currentNotInStockOnly == true)
-                {
                     filtered = filtered.Where(i => i.Quantity == 0);
-                }
                 else
-                {
                     filtered = filtered.Where(i => i.Quantity > 0);
-                }
 
-                // 4. Фильтр по скидке
                 if (currentWithDiscount == true || currentWithoutDiscount == true)
                 {
                     var discountedIds = filtered
@@ -111,13 +103,9 @@ namespace Warehouse_cosmetics_shope
                         .ToList();
 
                     if (currentWithDiscount == true)
-                    {
                         filtered = filtered.Where(i => discountedIds.Contains(i.ProductID));
-                    }
                     else if (currentWithoutDiscount == true)
-                    {
                         filtered = filtered.Where(i => !discountedIds.Contains(i.ProductID));
-                    }
                 }
 
                 var displayList = filtered.Select(i => new
@@ -135,17 +123,20 @@ namespace Warehouse_cosmetics_shope
                 }).ToList();
 
                 kladCatalogGrid.DataSource = displayList;
+                ConfigureColumns();
 
                 Log.Information("Загружено {ItemCount} товаров", displayList.Count);
-
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "Ошибка при загрузке каталога кладовщика");
-                MessageBox.Show("Ошибка при загрузке каталога", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ошибка при загрузке каталога", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            ConfigureColumns();
+            finally
+            {
+                spinnerPanel.Visible = false;
+            }
         }
 
         /// <summary>
@@ -276,6 +267,20 @@ namespace Warehouse_cosmetics_shope
             }
         }
 
+        private void InitSpinner()
+        {
+            this.Resize += (s, e) => CenterSpinner();
+            this.Shown += (s, e) => CenterSpinner();
+        }
+
+        private void CenterSpinner()
+        {
+            spinnerPanel.Location = new System.Drawing.Point(
+                (this.ClientSize.Width - spinnerPanel.Width) / 2,
+                (this.ClientSize.Height - spinnerPanel.Height) / 2
+            );
+        }
+
         /// <summary>
         /// Обработчик нажатия кнопки "Выход"
         /// </summary>
@@ -290,12 +295,12 @@ namespace Warehouse_cosmetics_shope
         /// <summary>
         /// Обработчик нажатия кнопки "Фильтр"
         /// </summary>
-        private void buttonFilter_Click(object sender, EventArgs e)
+        private async void buttonFilter_Click(object sender, EventArgs e)
         {
             Log.Information("Кладовщик {UserLogin} открыл форму фильтрации", currentUserLogin);
             var filterForm = new FiltrationForm(_db);
 
-            filterForm.FilterApplied += (selectedCategoryIds, priceFrom, priceTo, inStockOnly, notInStockOnly, withDiscount, withoutDiscount) =>
+            filterForm.FilterApplied += async (selectedCategoryIds, priceFrom, priceTo, inStockOnly, notInStockOnly, withDiscount, withoutDiscount) =>
             {
                 if (selectedCategoryIds == null || selectedCategoryIds.Count == 0)
                 {
@@ -312,7 +317,7 @@ namespace Warehouse_cosmetics_shope
                 currentNotInStockOnly = notInStockOnly;
                 currentWithDiscount = withDiscount;
                 currentWithoutDiscount = withoutDiscount;
-                LoadCatalog();
+                await LoadCatalogAsync();
             };
 
             filterForm.ShowDialog();
@@ -434,13 +439,13 @@ namespace Warehouse_cosmetics_shope
         /// <summary>
         /// Обработчик нажатия кнопки поиска
         /// </summary>
-        private void SearchButton_Click(object sender, EventArgs e)
+        private async void SearchButton_Click(object sender, EventArgs e)
         {
             string searchText = searchBox.Text.Trim().ToLower();
 
             if (searchText == "поиск" || string.IsNullOrWhiteSpace(searchText))
             {
-                LoadCatalog();
+                await LoadCatalogAsync();
                 return;
             }
 
@@ -451,11 +456,16 @@ namespace Warehouse_cosmetics_shope
                 var today = DateTime.Now.Date;
 
 
-                var allItems = _db.Items
-                    .Include(i => i.Category)
-                    .Include(i => i.Category.Parent)
-                    .Where(i => i.ExpDate > today)
-                    .ToList();
+                spinnerPanel.Visible = true;
+                spinnerPanel.BringToFront();
+
+                var allItems = await Task.Run(() =>
+                    _db.Items
+                        .Include(i => i.Category)
+                        .Include(i => i.Category.Parent)
+                        .Where(i => i.ExpDate > today)
+                        .ToList()
+                );
 
                 var filtered = allItems
                     .Where(i => i.ProductNumber.ToString().Contains(searchText) ||
@@ -545,6 +555,10 @@ namespace Warehouse_cosmetics_shope
             {
                 Log.Error(ex, "Ошибка при поиске товаров по запросу {SearchText}", searchText);
                 MessageBox.Show("Ошибка при поиске товаров", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                spinnerPanel.Visible = false;
             }
         }
 

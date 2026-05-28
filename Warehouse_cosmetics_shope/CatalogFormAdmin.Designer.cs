@@ -47,10 +47,13 @@
             this.labelShowUserLogin = new System.Windows.Forms.Label();
             this.buttonExit = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.spinnerPanel = new System.Windows.Forms.Panel();
+            this.spinnerLabel = new System.Windows.Forms.Label();
             this.dataGridViewCatalog = new System.Windows.Forms.DataGridView();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.spinnerPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCatalog)).BeginInit();
             this.SuspendLayout();
             // 
@@ -282,12 +285,31 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.White;
+            this.panel3.Controls.Add(this.spinnerPanel);
             this.panel3.Controls.Add(this.dataGridViewCatalog);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(0, 150);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(1132, 478);
             this.panel3.TabIndex = 9;
+            // 
+            // spinnerPanel
+            // 
+            this.spinnerPanel.Controls.Add(this.spinnerLabel);
+            this.spinnerPanel.Location = new System.Drawing.Point(363, 61);
+            this.spinnerPanel.Name = "spinnerPanel";
+            this.spinnerPanel.Size = new System.Drawing.Size(267, 157);
+            this.spinnerPanel.TabIndex = 1;
+            this.spinnerPanel.Visible = false;
+            // 
+            // spinnerLabel
+            // 
+            this.spinnerLabel.AutoSize = true;
+            this.spinnerLabel.Location = new System.Drawing.Point(92, 23);
+            this.spinnerLabel.Name = "spinnerLabel";
+            this.spinnerLabel.Size = new System.Drawing.Size(93, 16);
+            this.spinnerLabel.TabIndex = 0;
+            this.spinnerLabel.Text = "⏳ Загрузка...";
             // 
             // dataGridViewCatalog
             // 
@@ -318,6 +340,8 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel3.ResumeLayout(false);
+            this.spinnerPanel.ResumeLayout(false);
+            this.spinnerPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCatalog)).EndInit();
             this.ResumeLayout(false);
 
@@ -345,5 +369,7 @@
         private System.Windows.Forms.Button buttonEditCategory;
         private System.Windows.Forms.Button buttonCurrency;
         private System.Windows.Forms.Button buttonWarehoeseMap;
+        private System.Windows.Forms.Panel spinnerPanel;
+        private System.Windows.Forms.Label spinnerLabel;
     }
 }
