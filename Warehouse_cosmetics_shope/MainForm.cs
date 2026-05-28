@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Windows.Forms;
-using Serilog;
+using Warehouse_cosmetics_shope.DataBaseClass;
 
 namespace Warehouse_cosmetics_shope
 {
@@ -20,15 +21,18 @@ namespace Warehouse_cosmetics_shope
         /// </summary>
         private void buttonLogin_Click(object sender, EventArgs e)
         {
-            Log.Information("Пользователь перешёл к форме авторизации");
-            var loginForm = new LoginForm();
+            var db = new WarehouseContext();
+            var loginForm = new LoginForm(db);
             loginForm.FormClosed += (s, args) =>
             {
                 Log.Information("Форма авторизации закрыта");
+                db.Dispose();
                 this.Close();
             };
             loginForm.Show();
             this.Hide();
+
+
         }
 
         /// <summary>
@@ -37,10 +41,13 @@ namespace Warehouse_cosmetics_shope
         private void buttonRegister_Click(object sender, EventArgs e)
         {
             Log.Information("Пользователь перешёл к форме регистрации");
-            var registrationForm = new RegistrationForm();
+
+            var db = new WarehouseContext();
+            var registrationForm = new RegistrationForm(db);
             registrationForm.FormClosed += (s, args) =>
             {
                 Log.Information("Форма регистрации закрыта");
+                db.Dispose();
                 this.Close();
             };
             registrationForm.Show();

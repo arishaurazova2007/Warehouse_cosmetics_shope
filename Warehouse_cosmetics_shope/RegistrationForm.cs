@@ -10,12 +10,14 @@ namespace Warehouse_cosmetics_shope
 {
     public partial class RegistrationForm : Form
     {
+        private readonly IWarehouseContext _db;
         /// <summary>
         /// Конструктор формы регистрации
         /// </summary>
-        public RegistrationForm()
+        public RegistrationForm(IWarehouseContext db)
         {
             InitializeComponent();
+            _db = db;
             Log.Information("Открыта форма регистрации");
         }
 
@@ -43,7 +45,7 @@ namespace Warehouse_cosmetics_shope
 
             Log.Information("Пользователь {UserLogin} успешно зарегистрирован (ID: {UserId})", userLogin, userId);
 
-            var catalogFormStoreK = new CatalogFormKlad(userId, userLogin);
+            var catalogFormStoreK = new CatalogFormKlad(userId, userLogin, _db);
             catalogFormStoreK.Show();
             this.Hide();
         }
@@ -171,19 +173,18 @@ namespace Warehouse_cosmetics_shope
         {
             try
             {
-                using (var db = new WarehouseContext())
-                {
-                    string login = loginBox.Text.Trim();
-                    var existingUser = db.Users.FirstOrDefault(u => u.UserLogin == login);
+                
+                string login = loginBox.Text.Trim();
+                var existingUser = _db.Users.FirstOrDefault(u => u.UserLogin == login);
 
-                    if (existingUser != null)
+                if (existingUser != null)
                     {
                         Log.Warning("Попытка регистрации с уже существующим логином: {Login}", login);
                         MessageBox.Show("Логин уже существует", "Ошибка",
                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return false;
                     }
-                }
+                
                 return true;
             }
             catch (Exception ex)
@@ -207,10 +208,8 @@ namespace Warehouse_cosmetics_shope
 
             try
             {
-                using (var db = new WarehouseContext())
+                var newUser = new User
                 {
-                    var newUser = new User
-                    {
                         UserID = Guid.NewGuid(),
                         UserLogin = loginBox.Text.Trim(),
                         Surname = surnameBox.Text.Trim(),
@@ -218,14 +217,13 @@ namespace Warehouse_cosmetics_shope
                         Patronymic = patronimicBox.Text.Trim(),
                         Password = BCrypt.Net.BCrypt.HashPassword(passwordBox.Text),
                         Role = Roles.Storekeeper
-                    };
+                };
 
-                    db.Users.Add(newUser);
-                    db.SaveChanges();
-
-                    userId = newUser.UserID;
-                    userLogin = newUser.UserLogin;
-                }
+                _db.Users.Add(newUser);
+                _db.SaveChanges();
+                userId = newUser.UserID;
+                userLogin = newUser.UserLogin;
+                
             }
             catch (Exception ex)
             {

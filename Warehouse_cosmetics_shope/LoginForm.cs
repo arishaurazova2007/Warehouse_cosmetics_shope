@@ -9,12 +9,14 @@ namespace Warehouse_cosmetics_shope
 {
     public partial class LoginForm : Form
     {
+        private readonly IWarehouseContext _db;
         /// <summary>
         /// Конструктор формы авторизации
         /// </summary>
-        public LoginForm()
+        public LoginForm(IWarehouseContext db)
         {
             InitializeComponent();
+            _db = db;
             textBoxPassword.PasswordChar = '*';
             Log.Information("Открыта форма авторизации");
         }
@@ -44,14 +46,14 @@ namespace Warehouse_cosmetics_shope
                     if (userRole == Roles.Admin)
                     {
                         Log.Information("Администратор {UserLogin} успешно вошёл в систему", userLogin);
-                        var catalogForm = new CatalogFormAdmin(userId, userLogin);
+                        var catalogForm = new CatalogFormAdmin(userId, userLogin, _db);
                         catalogForm.Show();
                         this.Hide();
                     }
                     else if (userRole == Roles.Storekeeper)
                     {
                         Log.Information("Кладовщик {UserLogin} успешно вошёл в систему", userLogin);
-                        var catalogForm = new CatalogFormKlad(userId, userLogin);
+                        var catalogForm = new CatalogFormKlad(userId, userLogin, _db);
                         catalogForm.Show();
                         this.Hide();
                     }
@@ -77,32 +79,31 @@ namespace Warehouse_cosmetics_shope
 
             try
             {
-                using (var db = new WarehouseContext())
+
+                string login = IdTextBox.Text.Trim();
+
+                if (string.IsNullOrWhiteSpace(login))
                 {
-                    string login = IdTextBox.Text.Trim();
-
-                    if (string.IsNullOrWhiteSpace(login))
-                    {
-                        Log.Warning("Попытка входа с пустым логином");
-                        MessageBox.Show("Введите логин", "Ошибка",
-                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return false;
-                    }
-
-                    var user = db.Users.FirstOrDefault(u => u.UserLogin == login);
-
-                    if (user != null && BCrypt.Net.BCrypt.Verify(textBoxPassword.Text, user.Password))
-                    {
-                        userId = user.UserID;
-                        userLogin = user.UserLogin;
-                        return true;
-                    }
-
-                    Log.Warning("Неудачная попытка входа с логином {Login}", login);
-                    MessageBox.Show("Неверный логин или пароль", "Ошибка",
+                    Log.Warning("Попытка входа с пустым логином");
+                    MessageBox.Show("Введите логин", "Ошибка",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
+
+                var user = _db.Users.FirstOrDefault(u => u.UserLogin == login);
+
+                if (user != null && BCrypt.Net.BCrypt.Verify(textBoxPassword.Text, user.Password))
+                {
+                    userId = user.UserID;
+                    userLogin = user.UserLogin;
+                    return true;
+                }
+
+                Log.Warning("Неудачная попытка входа с логином {Login}", login);
+                MessageBox.Show("Неверный логин или пароль", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+
             }
             catch (Exception ex)
             {
@@ -122,16 +123,15 @@ namespace Warehouse_cosmetics_shope
         {
             try
             {
-                using (var db = new WarehouseContext())
+
+                var user = _db.Users.FirstOrDefault(u => u.UserID == userId);
+                if (user != null)
                 {
-                    var user = db.Users.FirstOrDefault(u => u.UserID == userId);
-                    if (user != null)
-                    {
-                        return user.Role;
-                    }
-                    Log.Warning("Пользователь с ID {UserId} не найден при получении роли", userId);
-                    return Roles.Storekeeper;
+                    return user.Role;
                 }
+                Log.Warning("Пользователь с ID {UserId} не найден при получении роли", userId);
+                return Roles.Storekeeper;
+
             }
             catch (Exception ex)
             {

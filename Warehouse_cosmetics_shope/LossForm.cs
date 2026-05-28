@@ -10,17 +10,19 @@ namespace Warehouse_cosmetics_shope
     {
         private Guid currentUserId;
         private string currentUserLogin;
+        private readonly IWarehouseContext _db;
 
         /// <summary>
         /// Конструктор формы учёта убытков
         /// </summary>
         /// <param name="userId">Идентификатор текущего пользователя</param>
         /// <param name="userLogin">Логин текущего пользователя</param>
-        public LossForm(Guid userId, string userLogin)
+        public LossForm(Guid userId, string userLogin, IWarehouseContext db)
         {
             InitializeComponent();
             currentUserId = userId;
             currentUserLogin = userLogin;
+            _db = db;
 
             Log.Information("Пользователь {UserLogin} открыл форму убытков", currentUserLogin);
 
@@ -34,54 +36,51 @@ namespace Warehouse_cosmetics_shope
         {
             try
             {
-                using (var db = new WarehouseContext())
+                var today = DateTime.Now.Date;
+
+                var lossItems = _db.Items
+                    .Where(i => i.ExpDate < today && i.Quantity > 0)
+                    .ToList();
+
+                if (lossItems.Count == 0)
                 {
-                    var today = DateTime.Now.Date;
-
-                    var lossItems = db.Items
-                        .Where(i => i.ExpDate < today && i.Quantity > 0)
-                        .ToList();
-
-                    if (lossItems.Count == 0)
-                    {
-                        Log.Information("Просроченные товары отсутствуют");
-                    }
-                    else
-                    {
-                        Log.Information("Найдено {ItemCount} просроченных товаров на сумму {TotalLoss:C}",
-                            lossItems.Count, lossItems.Sum(i => i.PurPrice * i.Quantity));
-                    }
-
-                    var displayList = lossItems.Select(i => new
-                    {
-                        i.ProductNumber,
-                        i.ProductName,
-                        i.Quantity,
-                        i.PurPrice,
-                        LossAmount = i.PurPrice * i.Quantity,
-                        ExpDate = i.ExpDate.ToShortDateString()
-                    }).ToList();
-
-                    lossDataDridView.DataSource = displayList;
-
-                    lossDataDridView.Columns["ProductNumber"].HeaderText = "Артикул";
-                    lossDataDridView.Columns["ProductName"].HeaderText = "Название";
-                    lossDataDridView.Columns["Quantity"].HeaderText = "Количество";
-                    lossDataDridView.Columns["PurPrice"].HeaderText = "Закупочная цена";
-                    lossDataDridView.Columns["LossAmount"].HeaderText = "Сумма убытка";
-                    lossDataDridView.Columns["ExpDate"].HeaderText = "Годен до";
-
-                    lossDataDridView.Columns["PurPrice"].DefaultCellStyle.Format = "C2";
-                    lossDataDridView.Columns["LossAmount"].DefaultCellStyle.Format = "C2";
-                    lossDataDridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-                    //общая сумма убытка
-                    decimal totalLoss = lossItems.Sum(i => i.PurPrice * i.Quantity);
-                    lessMoneyNumeric.Value = totalLoss;
-                    lessMoneyNumeric.Enabled = false;
-
-                    Log.Debug("Загружено {ItemCount} товаров в таблицу убытков", displayList.Count);
+                    Log.Information("Просроченные товары отсутствуют");
                 }
+                else
+                {
+                    Log.Information("Найдено {ItemCount} просроченных товаров на сумму {TotalLoss:C}",
+                        lossItems.Count, lossItems.Sum(i => i.PurPrice * i.Quantity));
+                }
+
+                var displayList = lossItems.Select(i => new
+                {
+                    i.ProductNumber,
+                    i.ProductName,
+                    i.Quantity,
+                    i.PurPrice,
+                    LossAmount = i.PurPrice * i.Quantity,
+                    ExpDate = i.ExpDate.ToShortDateString()
+                }).ToList();
+
+                lossDataDridView.DataSource = displayList;
+
+                lossDataDridView.Columns["ProductNumber"].HeaderText = "Артикул";
+                lossDataDridView.Columns["ProductName"].HeaderText = "Название";
+                lossDataDridView.Columns["Quantity"].HeaderText = "Количество";
+                lossDataDridView.Columns["PurPrice"].HeaderText = "Закупочная цена";
+                lossDataDridView.Columns["LossAmount"].HeaderText = "Сумма убытка";
+                lossDataDridView.Columns["ExpDate"].HeaderText = "Годен до";
+
+                lossDataDridView.Columns["PurPrice"].DefaultCellStyle.Format = "C2";
+                lossDataDridView.Columns["LossAmount"].DefaultCellStyle.Format = "C2";
+                lossDataDridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+                //общая сумма убытка
+                decimal totalLoss = lossItems.Sum(i => i.PurPrice * i.Quantity);
+                lessMoneyNumeric.Value = totalLoss;
+                lessMoneyNumeric.Enabled = false;
+
+                Log.Debug("Загружено {ItemCount} товаров в таблицу убытков", displayList.Count);
             }
             catch (Exception ex)
             {

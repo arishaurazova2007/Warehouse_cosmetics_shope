@@ -11,17 +11,19 @@ namespace Warehouse_cosmetics_shope
     {
         private Guid currentUserId;
         private string currentUserLogin;
+        private readonly IWarehouseContext _db;
 
         /// <summary>
         /// Конструктор формы создания новой карточки товара
         /// </summary>
         /// <param name="userId">Идентификатор текущего пользователя</param>
         /// <param name="userLogin">Логин текущего пользователя</param>
-        public NewItemForm(Guid userId, string userLogin)
+        public NewItemForm(Guid userId, string userLogin, IWarehouseContext db)
         {
             InitializeComponent();
             currentUserId = userId;
             currentUserLogin = userLogin;
+            _db = db;
 
             Log.Information("Пользователь {UserLogin} открыл форму создания нового товара", currentUserLogin);
 
@@ -36,21 +38,18 @@ namespace Warehouse_cosmetics_shope
         {
             try
             {
-                using (var db = new WarehouseContext())
+                var allCategories = _db.Categories.ToList();
+                var displayList = allCategories.Select(cat => new
                 {
-                    var allCategories = db.Categories.ToList();
-                    var displayList = allCategories.Select(cat => new
-                    {
-                        CategoryID = cat.CategoryID,
-                        FullPath = GetCategoryPath(cat.CategoryID, allCategories)
-                    }).OrderBy(c => c.FullPath).ToList();
+                    CategoryID = cat.CategoryID,
+                    FullPath = GetCategoryPath(cat.CategoryID, allCategories)
+                }).OrderBy(c => c.FullPath).ToList();
 
-                    categoryComboBox.DataSource = displayList;
-                    categoryComboBox.DisplayMember = "FullPath";
-                    categoryComboBox.ValueMember = "CategoryID";
+                categoryComboBox.DataSource = displayList;
+                categoryComboBox.DisplayMember = "FullPath";
+                categoryComboBox.ValueMember = "CategoryID";
 
-                    Log.Debug("Загружено {CategoryCount} категорий", displayList.Count);
-                }
+                Log.Debug("Загружено {CategoryCount} категорий", displayList.Count);
             }
             catch (Exception ex)
             {
@@ -176,32 +175,30 @@ namespace Warehouse_cosmetics_shope
 
             try
             {
-                using (var db = new WarehouseContext())
+                var newProduct = new Item
                 {
-                    var newProduct = new Item
-                    {
-                        ProductID = Guid.NewGuid(),
-                        ProductName = productNameTextBox.Text.Trim(),
-                        CategoryID = (Guid)categoryComboBox.SelectedValue,
-                        PurPrice = 0,
-                        SellPrice = sellPriceNumeric.Value,
-                        Quantity = 0,
-                        Units = (MeasurementUnits)unitComboBox.SelectedValue,
-                        ExpDate = DateTime.Now.AddYears(3),
-                        ManufDate = DateTime.Now,
-                        IsFragile = isFragileCheckBox.Checked
-                    };
+                    ProductID = Guid.NewGuid(),
+                    ProductName = productNameTextBox.Text.Trim(),
+                    CategoryID = (Guid)categoryComboBox.SelectedValue,
+                    PurPrice = 0,
+                    SellPrice = sellPriceNumeric.Value,
+                    Quantity = 0,
+                    Units = (MeasurementUnits)unitComboBox.SelectedValue,
+                    ExpDate = DateTime.Now.AddYears(3),
+                    ManufDate = DateTime.Now,
+                    IsFragile = isFragileCheckBox.Checked
+                };
 
-                    db.Items.Add(newProduct);
-                    db.SaveChanges();
+                _db.Items.Add(newProduct);
+                _db.SaveChanges();
 
-                    Log.Information("Создана карточка товара: {ProductName}, артикул: {ProductNumber}",
-                        newProduct.ProductName, newProduct.ProductNumber);
-                    string message = $"Карточка товара создана!\nАртикул: {newProduct.ProductNumber}\n\nДля добавления товара на склад оформите поставку.";
-                    if (isFragileCheckBox.Checked)
-                        message += "\n\n⚠️ Внимание! Товар хрупкий, при транспортировке могут потребоваться специальные условия.";
-                    MessageBox.Show(message, "Оповещение", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                Log.Information("Создана карточка товара: {ProductName}, артикул: {ProductNumber}",
+                    newProduct.ProductName, newProduct.ProductNumber);
+                string message = $"Карточка товара создана!\nАртикул: {newProduct.ProductNumber}\n\nДля добавления товара на склад оформите поставку.";
+                if (isFragileCheckBox.Checked)
+                    message += "\n\n⚠️ Внимание! Товар хрупкий, при транспортировке могут потребоваться специальные условия.";
+                MessageBox.Show(message, "Оповещение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             }
             catch (Exception ex)
             {
@@ -211,7 +208,7 @@ namespace Warehouse_cosmetics_shope
                 return;
             }
 
-            var catalogForm = new CatalogFormAdmin(currentUserId, currentUserLogin);
+            var catalogForm = new CatalogFormAdmin(currentUserId, currentUserLogin, _db);
             catalogForm.Show();
             this.Hide();
         }
@@ -222,7 +219,7 @@ namespace Warehouse_cosmetics_shope
         private void buttonBack_Click(object sender, EventArgs e)
         {
             Log.Information("Пользователь {UserLogin} отменил создание товара", currentUserLogin);
-            var catalogForm = new CatalogFormAdmin(currentUserId, currentUserLogin);
+            var catalogForm = new CatalogFormAdmin(currentUserId, currentUserLogin, _db);
             catalogForm.Show();
             this.Hide();
         }

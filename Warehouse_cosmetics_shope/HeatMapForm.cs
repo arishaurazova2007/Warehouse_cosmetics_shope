@@ -12,19 +12,20 @@ namespace Warehouse_cosmetics_shope
         private Guid currentUserId;
         private string currentUserLogin;
         private Roles currentUserRole;
+        private readonly IWarehouseContext _db;
 
         private const int COLUMNS = 8;
         private const int CELL_WIDTH = 60;
         private const int CELL_HEIGHT = 40;
         private const int CELL_MARGIN = 4;
 
-        public HeatMapForm(Guid userId, string userLogin, Roles userRole)
+        public HeatMapForm(Guid userId, string userLogin, Roles userRole, IWarehouseContext db)
         {
             InitializeComponent();
             this.currentUserId = userId;
             this.currentUserLogin = userLogin;
             this.currentUserRole = userRole;
-            this.Text = "Тепловая карта склада";
+            _db = db;
             this.BackColor = ColorTranslator.FromHtml("#C8EEF2");
         }
 
@@ -45,45 +46,43 @@ namespace Warehouse_cosmetics_shope
                 .ToList();
             foreach (var c in toRemove) mapPanel.Controls.Remove(c);
 
-            using (var db = new WarehouseContext())
-            {
-                var items = db.Items
-                    .Where(i => i.CellNumber > 0)
+
+            var items = _db.Items
+                 .Where(i => i.CellNumber > 0)
                     .OrderBy(i => i.CellNumber)
                     .ToList();
 
-                int startX = 10;
-                int startY = 10;
+            int startX = 10;
+            int startY = 10;
 
-                foreach (var item in items)
-                {
-                    int cellIndex = item.CellNumber - 1;
-                    int col = cellIndex % COLUMNS;
-                    int row = cellIndex / COLUMNS;
+            foreach (var item in items)
+            {
+                int cellIndex = item.CellNumber - 1;
+                int col = cellIndex % COLUMNS;
+                int row = cellIndex / COLUMNS;
 
-                    int x = startX + col * (CELL_WIDTH + CELL_MARGIN);
-                    int y = startY + row * (CELL_HEIGHT + CELL_MARGIN);
+                int x = startX + col * (CELL_WIDTH + CELL_MARGIN);
+                int y = startY + row * (CELL_HEIGHT + CELL_MARGIN);
 
-                    Color cellColor = GetCellColor(item);
+                Color cellColor = GetCellColor(item);
 
-                    var btn = new Button();
-                    btn.Size = new Size(CELL_WIDTH, CELL_HEIGHT);
-                    btn.Location = new Point(x, y);
-                    btn.BackColor = cellColor;
-                    btn.FlatStyle = FlatStyle.Flat;
-                    btn.FlatAppearance.BorderColor = Color.White;
-                    btn.FlatAppearance.BorderSize = 1;
-                    btn.Tag = "cell";
-                    btn.Cursor = Cursors.Hand;
-                    btn.Name = item.ProductID.ToString();
+                var btn = new Button();
+                btn.Size = new Size(CELL_WIDTH, CELL_HEIGHT);
+                btn.Location = new Point(x, y);
+                btn.BackColor = cellColor;
+                btn.FlatStyle = FlatStyle.Flat;
+                btn.FlatAppearance.BorderColor = Color.White;
+                btn.FlatAppearance.BorderSize = 1;
+                btn.Tag = "cell";
+                btn.Cursor = Cursors.Hand;
+                btn.Name = item.ProductID.ToString();
 
-                    var tooltip = new ToolTip();
-                    tooltip.SetToolTip(btn,
-                        $"{item.ProductName}\nЯчейка: {item.CellNumber}\nОстаток: {item.Quantity}");
+                var tooltip = new ToolTip();
+                tooltip.SetToolTip(btn,
+                    $"{item.ProductName}\nЯчейка: {item.CellNumber}\nОстаток: {item.Quantity}");
 
-                    btn.Click += CellButton_Click;
-                    mapPanel.Controls.Add(btn);
-                }
+                btn.Click += CellButton_Click;
+                mapPanel.Controls.Add(btn);
             }
         }
 
@@ -136,7 +135,8 @@ namespace Warehouse_cosmetics_shope
                     currentUserId,
                     currentUserLogin,
                     currentUserRole,
-                    isReadOnly: true   // всегда только просмотр
+                    isReadOnly: true,   // всегда только просмотр
+                    _db
                 );
                 itemForm.Show();
                 this.Hide();
@@ -150,12 +150,12 @@ namespace Warehouse_cosmetics_shope
         {
             if (currentUserRole == Roles.Admin)
             {
-                var catalog = new CatalogFormAdmin(currentUserId, currentUserLogin);
+                var catalog = new CatalogFormAdmin(currentUserId, currentUserLogin, _db);
                 catalog.Show();
             }
             else
             {
-                var catalog = new CatalogFormKlad(currentUserId, currentUserLogin);
+                var catalog = new CatalogFormKlad(currentUserId, currentUserLogin, _db);
                 catalog.Show();
             }
             this.Hide();

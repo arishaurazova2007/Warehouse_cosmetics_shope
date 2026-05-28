@@ -16,6 +16,7 @@ namespace Warehouse_cosmetics_shope
         private string currentUserLogin;
         private Roles currentUserRole;
         private bool openedFromHeatMap = false;
+        private readonly IWarehouseContext _db;
 
 
         /// <summary>
@@ -33,13 +34,14 @@ namespace Warehouse_cosmetics_shope
         /// <param name="userId">Идентификатор текущего пользователя</param>
         /// <param name="userLogin">Логин текущего пользователя</param>
         /// <param name="userRole">Роль текущего пользователя</param>
-        public ItemForm(Guid productId, Guid userId, string userLogin, Roles userRole)
+        public ItemForm(Guid productId, Guid userId, string userLogin, Roles userRole, IWarehouseContext db)
         {
             InitializeComponent();
             this.productId = productId;
             this.currentUserId = userId;
             this.currentUserLogin = userLogin;
             this.currentUserRole = userRole;
+            _db = db;
 
             Log.Information("Администратор {UserLogin} открыл форму товара (режим: {Mode})",
                 userLogin, productId == Guid.Empty ? "создание" : "редактирование");
@@ -132,7 +134,7 @@ namespace Warehouse_cosmetics_shope
         /// <param name="userLogin">Логин текущего пользователя</param>
         /// <param name="userRole">Роль текущего пользователя</param>
         /// <param name="isReadOnly">Флаг режима только для чтения</param>
-        public ItemForm(Guid productId, Guid userId, string userLogin, Roles userRole, bool isReadOnly)
+        public ItemForm(Guid productId, Guid userId, string userLogin, Roles userRole, bool isReadOnly, IWarehouseContext db)
         {
             InitializeComponent();
             this.productId = productId;
@@ -140,6 +142,7 @@ namespace Warehouse_cosmetics_shope
             this.currentUserLogin = userLogin;
             this.currentUserRole = userRole;
             this.openedFromHeatMap = isReadOnly;
+            _db = db;
 
             itemFormTitleLabel.Text = "Карточка товара";
             Log.Information("Кладовщик {UserLogin} открыл карточку товара (ID: {ProductId})", userLogin, productId);
@@ -201,24 +204,23 @@ namespace Warehouse_cosmetics_shope
         {
             try
             {
-                using (var db = new WarehouseContext())
+
+                var allCategories = _db.Categories.ToList();
+                var displayList = allCategories.Select(cat => new CategoryPath
                 {
-                    var allCategories = db.Categories.ToList();
-                    var displayList = allCategories.Select(cat => new CategoryPath
-                    {
-                        CategoryID = cat.CategoryID,
-                        FullPath = GetCategoryPath(cat.CategoryID, allCategories)
-                    }).OrderBy(c => c.FullPath).ToList();
+                    CategoryID = cat.CategoryID,
+                    FullPath = GetCategoryPath(cat.CategoryID, allCategories)
+                }).OrderBy(c => c.FullPath).ToList();
 
-                    categoryComboBox.DataSource = displayList;
-                    categoryComboBox.DisplayMember = "FullPath";
-                    categoryComboBox.ValueMember = "CategoryID";
+                categoryComboBox.DataSource = displayList;
+                categoryComboBox.DisplayMember = "FullPath";
+                categoryComboBox.ValueMember = "CategoryID";
 
-                    categoryComboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                    categoryComboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
+                categoryComboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                categoryComboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
 
-                    Log.Debug("Загружено {CategoryCount} категорий", displayList.Count);
-                }
+                Log.Debug("Загружено {CategoryCount} категорий", displayList.Count);
+
             }
             catch (Exception ex)
             {
@@ -295,31 +297,30 @@ namespace Warehouse_cosmetics_shope
 
             try
             {
-                using (var db = new WarehouseContext())
+
+                var product = _db.Items.FirstOrDefault(i => i.ProductID == productId);
+                if (product != null)
                 {
-                    var product = db.Items.FirstOrDefault(i => i.ProductID == productId);
-                    if (product != null)
-                    {
-                        productNameInput.Text = product.ProductName;
-                        showProductNumberLabel.Text = product.ProductNumber.ToString();
-                        purPriceNumeric.Value = product.PurPrice;
-                        sellPriceNumeric.Value = product.SellPrice;
-                        quantityPickOrShowNumeric.Value = product.Quantity;
-                        expDatePicker.Value = product.ExpDate;
-                        manufdatePicker.Value = product.ManufDate;
-                        measUnitsComboBox.SelectedItem = product.Units;
-                        categoryComboBox.SelectedValue = product.CategoryID;
-                        fragileWarningLabel.Visible = product.IsFragile;
+                    productNameInput.Text = product.ProductName;
+                    showProductNumberLabel.Text = product.ProductNumber.ToString();
+                    purPriceNumeric.Value = product.PurPrice;
+                    sellPriceNumeric.Value = product.SellPrice;
+                    quantityPickOrShowNumeric.Value = product.Quantity;
+                    expDatePicker.Value = product.ExpDate;
+                    manufdatePicker.Value = product.ManufDate;
+                    measUnitsComboBox.SelectedItem = product.Units;
+                    categoryComboBox.SelectedValue = product.CategoryID;
+                    fragileWarningLabel.Visible = product.IsFragile;
 
 
-                        Log.Debug("Загружены данные товара: {ProductName}, артикул: {ProductNumber}",
-                            product.ProductName, product.ProductNumber);
-                    }
-                    else
-                    {
-                        Log.Warning("Товар с ID {ProductId} не найден в БД", productId);
-                    }
+                    Log.Debug("Загружены данные товара: {ProductName}, артикул: {ProductNumber}",
+                        product.ProductName, product.ProductNumber);
                 }
+                else
+                {
+                    Log.Warning("Товар с ID {ProductId} не найден в БД", productId);
+                }
+
             }
             catch (Exception ex)
             {
@@ -335,30 +336,27 @@ namespace Warehouse_cosmetics_shope
         {
             try
             {
-                using (var db = new WarehouseContext())
+                var newProduct = new Item
                 {
-                    var newProduct = new Item
-                    {
-                        ProductID = Guid.NewGuid(),
-                        ProductName = productNameInput.Text.Trim(),
-                        CategoryID = (Guid)categoryComboBox.SelectedValue,
-                        PurPrice = 0,
-                        SellPrice = sellPriceNumeric.Value,
-                        Quantity = 0,
-                        Units = (MeasurementUnits)measUnitsComboBox.SelectedValue,
-                        ManufDate = manufdatePicker.Value,
-                        ExpDate = expDatePicker.Value
-                    };
+                    ProductID = Guid.NewGuid(),
+                    ProductName = productNameInput.Text.Trim(),
+                    CategoryID = (Guid)categoryComboBox.SelectedValue,
+                    PurPrice = 0,
+                    SellPrice = sellPriceNumeric.Value,
+                    Quantity = 0,
+                    Units = (MeasurementUnits)measUnitsComboBox.SelectedValue,
+                    ManufDate = manufdatePicker.Value,
+                    ExpDate = expDatePicker.Value
+                };
 
-                    db.Items.Add(newProduct);
-                    db.SaveChanges();
+                _db.Items.Add(newProduct);
+                _db.SaveChanges();
 
-                    Log.Information("Создана карточка товара: {ProductName}, артикул: {ProductNumber}",
-                        newProduct.ProductName, newProduct.ProductNumber);
+                Log.Information("Создана карточка товара: {ProductName}, артикул: {ProductNumber}",
+                    newProduct.ProductName, newProduct.ProductNumber);
 
-                    MessageBox.Show($"Карточка товара создана!\nАртикул: {newProduct.ProductNumber}\n\nДля добавления товара на склад оформите поставку.",
-                        "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                MessageBox.Show($"Карточка товара создана!\nАртикул: {newProduct.ProductNumber}\n\nДля добавления товара на склад оформите поставку.",
+                    "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -374,31 +372,28 @@ namespace Warehouse_cosmetics_shope
         {
             try
             {
-                using (var db = new WarehouseContext())
+                var product = _db.Items.FirstOrDefault(i => i.ProductID == productId);
+                if (product != null)
                 {
-                    var product = db.Items.FirstOrDefault(i => i.ProductID == productId);
-                    if (product != null)
-                    {
-                        string oldName = product.ProductName;
-                        product.ProductName = productNameInput.Text.Trim();
-                        product.CategoryID = (Guid)categoryComboBox.SelectedValue;
-                        product.SellPrice = sellPriceNumeric.Value;
-                        product.Units = (MeasurementUnits)measUnitsComboBox.SelectedValue;
-                        product.ExpDate = expDatePicker.Value;
-                        product.ManufDate = manufdatePicker.Value;
-                        db.SaveChanges();
+                    string oldName = product.ProductName;
+                    product.ProductName = productNameInput.Text.Trim();
+                    product.CategoryID = (Guid)categoryComboBox.SelectedValue;
+                    product.SellPrice = sellPriceNumeric.Value;
+                    product.Units = (MeasurementUnits)measUnitsComboBox.SelectedValue;
+                    product.ExpDate = expDatePicker.Value;
+                    product.ManufDate = manufdatePicker.Value;
+                    _db.SaveChanges();
+                    Log.Information("Товар обновлён: '{OldName}' → '{NewName}' (ID: {ProductId})",
+                        oldName, product.ProductName, productId);
 
-                        Log.Information("Товар обновлён: '{OldName}' → '{NewName}' (ID: {ProductId})",
-                            oldName, product.ProductName, productId);
-
-                        MessageBox.Show("Товар успешно обновлён!", "Оповещение",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        Log.Warning("Товар с ID {ProductId} не найден для редактирования", productId);
-                    }
+                    MessageBox.Show("Товар успешно обновлён!", "Оповещение",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+                else
+                {
+                    Log.Warning("Товар с ID {ProductId} не найден для редактирования", productId);
+                }
+
             }
             catch (Exception ex)
             {
@@ -414,24 +409,22 @@ namespace Warehouse_cosmetics_shope
         {
             try
             {
-                using (var db = new WarehouseContext())
+
+                var product = _db.Items.FirstOrDefault(i => i.ProductID == productId);
+                if (product != null)
                 {
-                    var product = db.Items.FirstOrDefault(i => i.ProductID == productId);
-                    if (product != null)
-                    {
-                        string productName = product.ProductName;
-                        db.Items.Remove(product);
-                        db.SaveChanges();
+                    string productName = product.ProductName;
+                    _db.Items.Remove(product);
+                    _db.SaveChanges();
 
-                        Log.Information("Товар удалён: {ProductName} (ID: {ProductId})", productName, productId);
+                    Log.Information("Товар удалён: {ProductName} (ID: {ProductId})", productName, productId);
 
-                        MessageBox.Show("Товар удалён!", "Оповещение",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        Log.Warning("Товар с ID {ProductId} не найден для удаления", productId);
-                    }
+                    MessageBox.Show("Товар удалён!", "Оповещение",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    Log.Warning("Товар с ID {ProductId} не найден для удаления", productId);
                 }
             }
             catch (Exception ex)
@@ -523,7 +516,7 @@ namespace Warehouse_cosmetics_shope
                     Log.Information("Товар отредактирован");
                 }
 
-                var catalogForm = new CatalogFormAdmin(currentUserId, currentUserLogin);
+                var catalogForm = new CatalogFormAdmin(currentUserId, currentUserLogin, _db);
                 catalogForm.Show();
                 this.Hide();
             }
@@ -538,17 +531,17 @@ namespace Warehouse_cosmetics_shope
 
             if (openedFromHeatMap)
             {
-                var heatMap = new HeatMapForm(currentUserId, currentUserLogin, currentUserRole);
+                var heatMap = new HeatMapForm(currentUserId, currentUserLogin, currentUserRole, _db);
                 heatMap.Show();
             }
             else if (currentUserRole == Roles.Admin)
             {
-                var catalogForm = new CatalogFormAdmin(currentUserId, currentUserLogin);
+                var catalogForm = new CatalogFormAdmin(currentUserId, currentUserLogin, _db);
                 catalogForm.Show();
             }
             else
             {
-                var catalogForm = new CatalogFormKlad(currentUserId, currentUserLogin);
+                var catalogForm = new CatalogFormKlad(currentUserId, currentUserLogin, _db);
                 catalogForm.Show();
             }
             this.Hide();
@@ -567,7 +560,7 @@ namespace Warehouse_cosmetics_shope
             if (result == DialogResult.Yes)
             {
                 DeleteProduct();
-                var catalogForm = new CatalogFormAdmin(currentUserId, currentUserLogin);
+                var catalogForm = new CatalogFormAdmin(currentUserId, currentUserLogin, _db);
                 catalogForm.Show();
                 this.Hide();
             }

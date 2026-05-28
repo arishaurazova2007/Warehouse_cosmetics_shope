@@ -21,17 +21,19 @@ namespace Warehouse_cosmetics_shope
         private bool? currentNotInStockOnly = null;
         private bool? currentWithDiscount = null;
         private bool? currentWithoutDiscount = null;
+        private readonly IWarehouseContext _db;
 
         /// <summary>
         /// Конструктор формы каталога кладовщика
         /// </summary>
         /// <param name="userId">Идентификатор текущего пользователя</param>
         /// <param name="userLogin">Логин текущего пользователя</param>
-        public CatalogFormKlad(Guid userId, string userLogin)
+        public CatalogFormKlad(Guid userId, string userLogin, IWarehouseContext db)
         {
             InitializeComponent();
             currentUserId = userId;
             currentUserLogin = userLogin;
+            _db = db;
 
             Log.Information("Кладовщик {UserLogin} открыл каталог", currentUserLogin);
 
@@ -53,91 +55,89 @@ namespace Warehouse_cosmetics_shope
 
             try
             {
-                using (var db = new WarehouseContext())
-                {
-                    var today = DateTime.Now.Date;
+                var today = DateTime.Now.Date;
 
-                    var allItems = db.Items
-                        .Include(i => i.Category)
-                        .Include(i => i.Category.Parent)
-                        .Where(i => i.ExpDate > today)
+                var allItems = _db.Items
+                    .Include(i => i.Category)
+                    .Include(i => i.Category.Parent)
+                    .Where(i => i.ExpDate > today)
+                    .ToList();
+
+                var filtered = allItems.AsEnumerable();
+
+                // 1. Фильтр по категориям (с учётом дочерних)
+                if (currentFilterCategoryIds != null && currentFilterCategoryIds.Any())
+                {
+                    var allCategoryIds = new List<Guid>();
+                    foreach (var catId in currentFilterCategoryIds)
+                    {
+                        allCategoryIds.Add(catId);
+                        allCategoryIds.AddRange(GetAllDescendantIds(catId));
+                    }
+                    var expandedIds = allCategoryIds.Distinct().ToList();
+                    filtered = filtered.Where(i => expandedIds.Contains(i.CategoryID));
+                }
+
+                // 2. Фильтр по цене
+                if (currentPriceFrom.HasValue)
+                {
+                    filtered = filtered.Where(i => i.SellPrice >= currentPriceFrom.Value);
+                }
+                if (currentPriceTo.HasValue)
+                {
+                    filtered = filtered.Where(i => i.SellPrice <= currentPriceTo.Value);
+                }
+
+                // 3. Фильтр по наличию
+                if (currentInStockOnly == true)
+                {
+                    filtered = filtered.Where(i => i.Quantity > 0);
+                }
+                else if (currentNotInStockOnly == true)
+                {
+                    filtered = filtered.Where(i => i.Quantity == 0);
+                }
+                else
+                {
+                    filtered = filtered.Where(i => i.Quantity > 0);
+                }
+
+                // 4. Фильтр по скидке
+                if (currentWithDiscount == true || currentWithoutDiscount == true)
+                {
+                    var discountedIds = filtered
+                        .Where(i => IsDiscounted(i, today))
+                        .Select(i => i.ProductID)
                         .ToList();
 
-                    var filtered = allItems.AsEnumerable();
-
-                    // 1. Фильтр по категориям (с учётом дочерних)
-                    if (currentFilterCategoryIds != null && currentFilterCategoryIds.Any())
+                    if (currentWithDiscount == true)
                     {
-                        var allCategoryIds = new List<Guid>();
-                        foreach (var catId in currentFilterCategoryIds)
-                        {
-                            allCategoryIds.Add(catId);
-                            allCategoryIds.AddRange(GetAllDescendantIds(catId));
-                        }
-                        var expandedIds = allCategoryIds.Distinct().ToList();
-                        filtered = filtered.Where(i => expandedIds.Contains(i.CategoryID));
+                        filtered = filtered.Where(i => discountedIds.Contains(i.ProductID));
                     }
-
-                    // 2. Фильтр по цене
-                    if (currentPriceFrom.HasValue)
+                    else if (currentWithoutDiscount == true)
                     {
-                        filtered = filtered.Where(i => i.SellPrice >= currentPriceFrom.Value);
+                        filtered = filtered.Where(i => !discountedIds.Contains(i.ProductID));
                     }
-                    if (currentPriceTo.HasValue)
-                    {
-                        filtered = filtered.Where(i => i.SellPrice <= currentPriceTo.Value);
-                    }
-
-                    // 3. Фильтр по наличию
-                    if (currentInStockOnly == true)
-                    {
-                        filtered = filtered.Where(i => i.Quantity > 0);
-                    }
-                    else if (currentNotInStockOnly == true)
-                    {
-                        filtered = filtered.Where(i => i.Quantity == 0);
-                    }
-                    else
-                    {
-                        filtered = filtered.Where(i => i.Quantity > 0);
-                    }
-
-                    // 4. Фильтр по скидке
-                    if (currentWithDiscount == true || currentWithoutDiscount == true)
-                    {
-                        var discountedIds = filtered
-                            .Where(i => IsDiscounted(i, today))
-                            .Select(i => i.ProductID)
-                            .ToList();
-
-                        if (currentWithDiscount == true)
-                        {
-                            filtered = filtered.Where(i => discountedIds.Contains(i.ProductID));
-                        }
-                        else if (currentWithoutDiscount == true)
-                        {
-                            filtered = filtered.Where(i => !discountedIds.Contains(i.ProductID));
-                        }
-                    }
-
-                    var displayList = filtered.Select(i => new
-                    {
-                        i.ProductNumber,
-                        i.ProductName,
-                        ParentCategoryName = i.Category?.Parent?.CategoryName,
-                        ChildCategoryName = i.Category?.CategoryName,
-                        Units = GetUnitDisplayName(i.Units),
-                        i.ManufDate,
-                        i.ExpDate,
-                        i.PurPrice,
-                        SellPrice = GetPriceWithDiscount(i, today),
-                        i.Quantity
-                    }).ToList();
-
-                    kladCatalogGrid.DataSource = displayList;
-
-                    Log.Information("Загружено {ItemCount} товаров", displayList.Count);
                 }
+
+                var displayList = filtered.Select(i => new
+                {
+                    i.ProductNumber,
+                    i.ProductName,
+                    ParentCategoryName = i.Category?.Parent?.CategoryName,
+                    ChildCategoryName = i.Category?.CategoryName,
+                    Units = GetUnitDisplayName(i.Units),
+                    i.ManufDate,
+                    i.ExpDate,
+                    i.PurPrice,
+                    SellPrice = GetPriceWithDiscount(i, today),
+                    i.Quantity
+                }).ToList();
+
+                kladCatalogGrid.DataSource = displayList;
+
+                Log.Information("Загружено {ItemCount} товаров", displayList.Count);
+
             }
             catch (Exception ex)
             {
@@ -192,14 +192,12 @@ namespace Warehouse_cosmetics_shope
             var result = new List<Guid>();
             try
             {
-                using (var db = new WarehouseContext())
+
+                var children = _db.Categories.Where(c => c.ParentID == parentId).ToList();
+                foreach (var child in children)
                 {
-                    var children = db.Categories.Where(c => c.ParentID == parentId).ToList();
-                    foreach (var child in children)
-                    {
-                        result.Add(child.CategoryID);
-                        result.AddRange(GetAllDescendantIds(child.CategoryID));
-                    }
+                    result.Add(child.CategoryID);
+                    result.AddRange(GetAllDescendantIds(child.CategoryID));
                 }
             }
             catch (Exception ex)
@@ -295,7 +293,7 @@ namespace Warehouse_cosmetics_shope
         private void buttonFilter_Click(object sender, EventArgs e)
         {
             Log.Information("Кладовщик {UserLogin} открыл форму фильтрации", currentUserLogin);
-            var filterForm = new FiltrationForm();
+            var filterForm = new FiltrationForm(_db);
 
             filterForm.FilterApplied += (selectedCategoryIds, priceFrom, priceTo, inStockOnly, notInStockOnly, withDiscount, withoutDiscount) =>
             {
@@ -326,7 +324,7 @@ namespace Warehouse_cosmetics_shope
         private void buttonOtgruzka_Click(object sender, EventArgs e)
         {
             Log.Information("Кладовщик {UserLogin} открыл форму отгрузки", currentUserLogin);
-            var otgruzkaForm = new ShipmentForm(currentUserId, currentUserLogin);
+            var otgruzkaForm = new ShipmentForm(currentUserId, currentUserLogin, _db);
             otgruzkaForm.Show();
             this.Hide();
         }
@@ -342,23 +340,21 @@ namespace Warehouse_cosmetics_shope
                 {
                     int productNumber = (int)kladCatalogGrid.Rows[e.RowIndex].Cells["ProductNumber"].Value;
 
-                    using (var db = new WarehouseContext())
+                    var product = _db.Items.FirstOrDefault(i => i.ProductNumber == productNumber);
+                    if (product != null)
                     {
-                        var product = db.Items.FirstOrDefault(i => i.ProductNumber == productNumber);
-                        if (product != null)
-                        {
-                            Log.Information("Кладовщик {UserLogin} открыл карточку товара {ProductName} (арт. {ProductNumber})",
-                                currentUserLogin, product.ProductName, productNumber);
-                            var itemForm = new ItemForm(product.ProductID, currentUserId, currentUserLogin, Roles.Storekeeper, false);
-                            itemForm.Show();
-                            this.Hide();
-                        }
-                        else
-                        {
-                            Log.Warning("Товар с артикулом {ProductNumber} не найден в БД", productNumber);
-                            MessageBox.Show("Товар не найден", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
+                        Log.Information("Кладовщик {UserLogin} открыл карточку товара {ProductName} (арт. {ProductNumber})",
+                            currentUserLogin, product.ProductName, productNumber);
+                        var itemForm = new ItemForm(product.ProductID, currentUserId, currentUserLogin, Roles.Storekeeper, false, _db);
+                        itemForm.Show();
+                        this.Hide();
                     }
+                    else
+                    {
+                        Log.Warning("Товар с артикулом {ProductNumber} не найден в БД", productNumber);
+                        MessageBox.Show("Товар не найден", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+
                 }
                 catch (Exception ex)
                 {
@@ -454,97 +450,96 @@ namespace Warehouse_cosmetics_shope
             {
                 var today = DateTime.Now.Date;
 
-                using (var db = new WarehouseContext())
+
+                var allItems = _db.Items
+                    .Include(i => i.Category)
+                    .Include(i => i.Category.Parent)
+                    .Where(i => i.ExpDate > today)
+                    .ToList();
+
+                var filtered = allItems
+                    .Where(i => i.ProductNumber.ToString().Contains(searchText) ||
+                                i.ProductName.ToLower().Contains(searchText))
+                    .AsEnumerable();
+
+                //фильтр по категориям (с учётом дочерних)
+                if (currentFilterCategoryIds != null && currentFilterCategoryIds.Any())
                 {
-                    var allItems = db.Items
-                        .Include(i => i.Category)
-                        .Include(i => i.Category.Parent)
-                        .Where(i => i.ExpDate > today)
+                    var allCategoryIds = new List<Guid>();
+                    foreach (var catId in currentFilterCategoryIds)
+                    {
+                        allCategoryIds.Add(catId);
+                        allCategoryIds.AddRange(GetAllDescendantIds(catId));
+                    }
+                    var expandedIds = allCategoryIds.Distinct().ToList();
+                    filtered = filtered.Where(i => expandedIds.Contains(i.CategoryID));
+                }
+
+                if (currentPriceFrom.HasValue)
+                {
+                    filtered = filtered.Where(i => i.SellPrice >= currentPriceFrom.Value);
+                }
+                if (currentPriceTo.HasValue)
+                {
+                    filtered = filtered.Where(i => i.SellPrice <= currentPriceTo.Value);
+                }
+
+                if (currentInStockOnly == true)
+                {
+                    filtered = filtered.Where(i => i.Quantity > 0);
+                }
+                else if (currentNotInStockOnly == true)
+                {
+                    filtered = filtered.Where(i => i.Quantity == 0);
+                }
+                else
+                {
+                    filtered = filtered.Where(i => i.Quantity > 0);
+                }
+
+                if (currentWithDiscount == true || currentWithoutDiscount == true)
+                {
+                    var discountedIds = filtered
+                        .Where(i => IsDiscounted(i, today))
+                        .Select(i => i.ProductID)
                         .ToList();
 
-                    var filtered = allItems
-                        .Where(i => i.ProductNumber.ToString().Contains(searchText) ||
-                                    i.ProductName.ToLower().Contains(searchText))
-                        .AsEnumerable();
-
-                    //фильтр по категориям (с учётом дочерних)
-                    if (currentFilterCategoryIds != null && currentFilterCategoryIds.Any())
+                    if (currentWithDiscount == true)
                     {
-                        var allCategoryIds = new List<Guid>();
-                        foreach (var catId in currentFilterCategoryIds)
-                        {
-                            allCategoryIds.Add(catId);
-                            allCategoryIds.AddRange(GetAllDescendantIds(catId));
-                        }
-                        var expandedIds = allCategoryIds.Distinct().ToList();
-                        filtered = filtered.Where(i => expandedIds.Contains(i.CategoryID));
+                        filtered = filtered.Where(i => discountedIds.Contains(i.ProductID));
                     }
-
-                    if (currentPriceFrom.HasValue)
+                    else if (currentWithoutDiscount == true)
                     {
-                        filtered = filtered.Where(i => i.SellPrice >= currentPriceFrom.Value);
-                    }
-                    if (currentPriceTo.HasValue)
-                    {
-                        filtered = filtered.Where(i => i.SellPrice <= currentPriceTo.Value);
-                    }
-
-                    if (currentInStockOnly == true)
-                    {
-                        filtered = filtered.Where(i => i.Quantity > 0);
-                    }
-                    else if (currentNotInStockOnly == true)
-                    {
-                        filtered = filtered.Where(i => i.Quantity == 0);
-                    }
-                    else
-                    {
-                        filtered = filtered.Where(i => i.Quantity > 0);
-                    }
-
-                    if (currentWithDiscount == true || currentWithoutDiscount == true)
-                    {
-                        var discountedIds = filtered
-                            .Where(i => IsDiscounted(i, today))
-                            .Select(i => i.ProductID)
-                            .ToList();
-
-                        if (currentWithDiscount == true)
-                        {
-                            filtered = filtered.Where(i => discountedIds.Contains(i.ProductID));
-                        }
-                        else if (currentWithoutDiscount == true)
-                        {
-                            filtered = filtered.Where(i => !discountedIds.Contains(i.ProductID));
-                        }
-                    }
-
-                    var displayList = filtered.Select(i => new
-                    {
-                        i.ProductNumber,
-                        i.ProductName,
-                        ParentCategoryName = i.Category?.Parent?.CategoryName ?? string.Empty,
-                        ChildCategoryName = i.Category?.CategoryName ?? string.Empty,
-                        Units = GetUnitDisplayName(i.Units),
-                        i.ManufDate,
-                        i.ExpDate,
-                        i.PurPrice,
-                        SellPrice = GetPriceWithDiscount(i, today),
-                        i.Quantity
-                    }).ToList();
-
-                    kladCatalogGrid.DataSource = displayList;
-                    ConfigureColumns();
-
-                    if (displayList.Count == 0)
-                    {
-                        Log.Warning("По запросу '{SearchText}' ничего не найдено", searchText);
-                    }
-                    else
-                    {
-                        Log.Information("По запросу '{SearchText}' найдено {ItemCount} товаров", searchText, displayList.Count);
+                        filtered = filtered.Where(i => !discountedIds.Contains(i.ProductID));
                     }
                 }
+
+                var displayList = filtered.Select(i => new
+                {
+                    i.ProductNumber,
+                    i.ProductName,
+                    ParentCategoryName = i.Category?.Parent?.CategoryName ?? string.Empty,
+                    ChildCategoryName = i.Category?.CategoryName ?? string.Empty,
+                    Units = GetUnitDisplayName(i.Units),
+                    i.ManufDate,
+                    i.ExpDate,
+                    i.PurPrice,
+                    SellPrice = GetPriceWithDiscount(i, today),
+                    i.Quantity
+                }).ToList();
+
+                kladCatalogGrid.DataSource = displayList;
+                ConfigureColumns();
+
+                if (displayList.Count == 0)
+                {
+                    Log.Warning("По запросу '{SearchText}' ничего не найдено", searchText);
+                }
+                else
+                {
+                    Log.Information("По запросу '{SearchText}' найдено {ItemCount} товаров", searchText, displayList.Count);
+                }
+
             }
             catch (Exception ex)
             {
@@ -556,7 +551,7 @@ namespace Warehouse_cosmetics_shope
         private void deliveryFromCatalogButton_Click(object sender, EventArgs e)
         {
             Log.Information("Кладовщик {UserLogin} открыл форму поставки", currentUserLogin);
-            var deliveryForm = new DeliveryForm(currentUserId, currentUserLogin);
+            var deliveryForm = new DeliveryForm(currentUserId, currentUserLogin, _db);
             deliveryForm.FormClosed += (s, args) => this.Show();
             deliveryForm.Show();
             this.Hide();      
@@ -564,7 +559,7 @@ namespace Warehouse_cosmetics_shope
 
         private void buttonWarehoeseMap_Click(object sender, EventArgs e)
         {
-            var heatMap = new HeatMapForm(currentUserId, currentUserLogin, Roles.Storekeeper);
+            var heatMap = new HeatMapForm(currentUserId, currentUserLogin, Roles.Storekeeper, _db);
             heatMap.Show();
             this.Hide();
         }

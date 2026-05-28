@@ -16,20 +16,22 @@ namespace Warehouse_cosmetics_shope
         public event Action<List<Guid>, decimal?, decimal?, bool?, bool?, bool?, bool?> FilterApplied;
 
         private List<CategoryInfo> _allCategories;
-
+        private readonly IWarehouseContext _db;
         /// <summary>
         /// Конструктор формы фильтрации
         /// </summary>
-        public FiltrationForm()
+        public FiltrationForm(IWarehouseContext db)
         {
             InitializeComponent();
+            _db = db;
             LoadCategories();
             SetupCheckBoxes();
 
-            // ✅ ПОДПИСЫВАЕМСЯ НА СОБЫТИЕ ItemCheck
+            // Подписываемся на событие ItemCheck
             categoriesCheckedListBox.ItemCheck += categoriesCheckedListBox_ItemCheck;
 
             Log.Information("Открыта форма фильтрации");
+            
         }
 
         /// <summary>
@@ -63,22 +65,20 @@ namespace Warehouse_cosmetics_shope
         {
             try
             {
-                using (var db = new WarehouseContext())
+                var categories = _db.Categories.ToList();
+                _allCategories = new List<CategoryInfo>();
+
+                foreach (var cat in categories.Where(c => c.ParentID == null).OrderBy(c => c.CategoryName))
                 {
-                    var categories = db.Categories.ToList();
-                    _allCategories = new List<CategoryInfo>();
-
-                    foreach (var cat in categories.Where(c => c.ParentID == null).OrderBy(c => c.CategoryName))
-                    {
-                        AddCategoryWithChildren(cat, categories, 0);
-                    }
-
-                    categoriesCheckedListBox.DataSource = _allCategories;
-                    categoriesCheckedListBox.DisplayMember = "DisplayName";
-                    categoriesCheckedListBox.ValueMember = "CategoryID";
-
-                    Log.Debug("Загружено {CategoryCount} категорий для фильтрации", _allCategories.Count);
+                    AddCategoryWithChildren(cat, categories, 0);
                 }
+
+                categoriesCheckedListBox.DataSource = _allCategories;
+                categoriesCheckedListBox.DisplayMember = "DisplayName";
+                categoriesCheckedListBox.ValueMember = "CategoryID";
+
+                Log.Debug("Загружено {CategoryCount} категорий для фильтрации", _allCategories.Count);
+
             }
             catch (Exception ex)
             {
@@ -169,16 +169,15 @@ namespace Warehouse_cosmetics_shope
         {
             try
             {
-                using (var db = new WarehouseContext())
+
+                var current = _db.Categories.FirstOrDefault(c => c.CategoryID == childId);
+                while (current != null)
                 {
-                    var current = db.Categories.FirstOrDefault(c => c.CategoryID == childId);
-                    while (current != null)
-                    {
-                        if (current.ParentID == parentId) return true;
-                        current = db.Categories.FirstOrDefault(c => c.CategoryID == current.ParentID);
-                    }
-                    return false;
+                    if (current.ParentID == parentId) return true;
+                    current = _db.Categories.FirstOrDefault(c => c.CategoryID == current.ParentID);
                 }
+                return false;
+
             }
             catch (Exception ex)
             {
@@ -244,16 +243,14 @@ namespace Warehouse_cosmetics_shope
 
             try
             {
-                using (var db = new WarehouseContext())
-                {
-                    var directChildren = db.Categories.Where(c => c.ParentID == parentId).ToList();
+                var directChildren = _db.Categories.Where(c => c.ParentID == parentId).ToList();
 
-                    foreach (var child in directChildren)
-                    {
-                        childIds.Add(child.CategoryID);
-                        childIds.AddRange(GetAllChildCategoryIds(child.CategoryID));
-                    }
+                foreach (var child in directChildren)
+                {
+                    childIds.Add(child.CategoryID);
+                    childIds.AddRange(GetAllChildCategoryIds(child.CategoryID));
                 }
+
             }
             catch (Exception ex)
             {

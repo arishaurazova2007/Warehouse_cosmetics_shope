@@ -10,13 +10,15 @@ namespace Warehouse_cosmetics_shope
     public partial class NewCategoryForm : Form
     {
         private Guid currentUserId;
+        private readonly IWarehouseContext _db;
 
         /// <summary>
         /// Конструктор по умолчанию
         /// </summary>
-        public NewCategoryForm()
+        public NewCategoryForm(IWarehouseContext db)
         {
             InitializeComponent();
+            _db = db;
             LoadParentCategories();
             Log.Information("Открыта форма создания новой категории");
         }
@@ -25,10 +27,11 @@ namespace Warehouse_cosmetics_shope
         /// Конструктор с идентификатором пользователя
         /// </summary>
         /// <param name="userId">Идентификатор текущего пользователя</param>
-        public NewCategoryForm(Guid userId)
+        public NewCategoryForm(Guid userId, IWarehouseContext db)
         {
             InitializeComponent();
             this.currentUserId = userId;
+            _db = db;
             LoadParentCategories();
             Log.Information("Пользователь {UserId} открыл форму создания категории", userId);
         }
@@ -78,35 +81,33 @@ namespace Warehouse_cosmetics_shope
 
             try
             {
-                using (var db = new WarehouseContext())
+                var existingCategory = _db.Categories.FirstOrDefault(c => c.CategoryName == newCategoryName);
+                if (existingCategory != null)
                 {
-                    var existingCategory = db.Categories.FirstOrDefault(c => c.CategoryName == newCategoryName);
-                    if (existingCategory != null)
-                    {
-                        Log.Warning("Попытка добавить существующую категорию '{CategoryName}'", newCategoryName);
-                        MessageBox.Show($"Категория с названием \"{newCategoryName}\" уже существует!",
-                            "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        categoryNameInput.Focus();
-                        return;
-                    }
-
-                    var newCategory = new Category
-                    {
-                        CategoryID = Guid.NewGuid(),
-                        CategoryName = newCategoryName,
-                        ParentID = parentId
-                    };
-
-                    db.Categories.Add(newCategory);
-                    db.SaveChanges();
-
-                    Log.Information("Создана новая категория: '{CategoryName}' (ID: {CategoryId}), родитель: {ParentName}",
-                        newCategoryName, newCategory.CategoryID, parentName);
-
-                    MessageBox.Show($"Категория \"{newCategoryName}\" успешно добавлена в {parentName}!",
-                        "Оповещение", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Hide();
+                    Log.Warning("Попытка добавить существующую категорию '{CategoryName}'", newCategoryName);
+                    MessageBox.Show($"Категория с названием \"{newCategoryName}\" уже существует!",
+                        "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    categoryNameInput.Focus();
+                    return;
                 }
+
+                var newCategory = new Category
+                {
+                    CategoryID = Guid.NewGuid(),
+                    CategoryName = newCategoryName,
+                    ParentID = parentId
+                };
+
+                _db.Categories.Add(newCategory);
+                _db.SaveChanges();
+
+                Log.Information("Создана новая категория: '{CategoryName}' (ID: {CategoryId}), родитель: {ParentName}",
+                    newCategoryName, newCategory.CategoryID, parentName);
+
+                MessageBox.Show($"Категория \"{newCategoryName}\" успешно добавлена в {parentName}!",
+                    "Оповещение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Hide();
+
             }
             catch (Exception ex)
             {
@@ -123,24 +124,21 @@ namespace Warehouse_cosmetics_shope
         {
             try
             {
-                using (var db = new WarehouseContext())
+                var allCategories = _db.Categories.ToList();
+                var displayList = allCategories.Select(cat => new CategoryPath
                 {
-                    var allCategories = db.Categories.ToList();
-                    var displayList = allCategories.Select(cat => new CategoryPath
-                    {
-                        CategoryID = cat.CategoryID,
-                        FullPath = GetCategoryPath(cat.CategoryID, allCategories)
-                    }).OrderBy(c => c.FullPath).ToList();
+                    CategoryID = cat.CategoryID,
+                    FullPath = GetCategoryPath(cat.CategoryID, allCategories)
+                }).OrderBy(c => c.FullPath).ToList();
 
-                    parentCategoryComboBox.DataSource = displayList;
-                    parentCategoryComboBox.DisplayMember = "FullPath";
-                    parentCategoryComboBox.ValueMember = "CategoryID";
+                parentCategoryComboBox.DataSource = displayList;
+                parentCategoryComboBox.DisplayMember = "FullPath";
+                parentCategoryComboBox.ValueMember = "CategoryID";
 
-                    parentCategoryComboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                    parentCategoryComboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
+                parentCategoryComboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                parentCategoryComboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
 
-                    Log.Debug("Загружено {CategoryCount} категорий для выбора родителя", displayList.Count);
-                }
+                Log.Debug("Загружено {CategoryCount} категорий для выбора родителя", displayList.Count);
             }
             catch (Exception ex)
             {
