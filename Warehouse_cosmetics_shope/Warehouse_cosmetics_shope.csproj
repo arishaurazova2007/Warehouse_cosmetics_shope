@@ -40,14 +40,20 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BCrypt.Net-Next, Version=4.1.0.0, Culture=neutral, PublicKeyToken=1e11be04b6288443, processorArchitecture=MSIL">
-      <HintPath>..\packages\BCrypt.Net-Next.4.1.0\lib\net462\BCrypt.Net-Next.dll</HintPath>
+    <Reference Include="Autofac, Version=6.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.6.5.0\lib\netstandard2.0\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="BCrypt-Net-Next, Version=4.2.0.0, Culture=neutral, PublicKeyToken=1e11be04b6288443, processorArchitecture=MSIL">
+      <HintPath>..\packages\BCrypt.Net-Next.4.2.0\lib\net48\BCrypt-Net-Next.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=10.0.0.6, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.10.0.6\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -108,6 +114,11 @@
     <Compile Include="CatalogFormKlad.Designer.cs">
       <DependentUpon>CatalogFormKlad.cs</DependentUpon>
     </Compile>
+    <Compile Include="ContainerConfig.cs" />
+    <Compile Include="CurrencySettings.cs" />
+    <Compile Include="DataBaseClass\CheckHistory.cs" />
+    <Compile Include="DataBaseClass\CurrencyRates.cs" />
+    <Compile Include="DataBaseClass\IWarehouseContext.cs" />
     <Compile Include="DataBaseEnum\ClientTypes.cs" />
     <Compile Include="DataBaseEnum\MeasurementUnits.cs" />
     <Compile Include="DataBaseEnum\Roles.cs" />
@@ -123,8 +134,21 @@
     <Compile Include="DeliveryForm.Designer.cs">
       <DependentUpon>DeliveryForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CurrencyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CurrencyForm.Designer.cs">
+      <DependentUpon>CurrencyForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HeatMapForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HeatMapForm.Designer.cs">
+      <DependentUpon>HeatMapForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\CategoryPath.cs" />
     <Compile Include="Helpers\ExportShipmentItem.cs" />
+    <Compile Include="Helpers\LoadingHelper.cs" />
     <Compile Include="Helpers\ShipmentHistoryItem.cs" />
     <Compile Include="Helpers\ShipmentItem.cs" />
     <Compile Include="Helpers\DeliveryItem.cs" />
@@ -146,6 +170,18 @@
     <Compile Include="Migrations\202604250143373_AddNewProductsAgain.cs" />
     <Compile Include="Migrations\202604250143373_AddNewProductsAgain.Designer.cs">
       <DependentUpon>202604250143373_AddNewProductsAgain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202605221844107_AddCurrencyAndCheckHistory.cs" />
+    <Compile Include="Migrations\202605221844107_AddCurrencyAndCheckHistory.Designer.cs">
+      <DependentUpon>202605221844107_AddCurrencyAndCheckHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202605251951063_AddPurchaseRateToItem.cs" />
+    <Compile Include="Migrations\202605251951063_AddPurchaseRateToItem.Designer.cs">
+      <DependentUpon>202605251951063_AddPurchaseRateToItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202605262016521_AssignCellNumbers.cs" />
+    <Compile Include="Migrations\202605262016521_AssignCellNumbers.Designer.cs">
+      <DependentUpon>202605262016521_AssignCellNumbers.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NewItemForm.cs">
@@ -221,11 +257,17 @@
     <EmbeddedResource Include="CatalogFormKlad.resx">
       <DependentUpon>CatalogFormKlad.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CurrencyForm.resx">
+      <DependentUpon>CurrencyForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditCategoryForm.resx">
       <DependentUpon>EditCategoryForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DeliveryForm.resx">
       <DependentUpon>DeliveryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HeatMapForm.resx">
+      <DependentUpon>HeatMapForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LossForm.resx">
       <DependentUpon>LossForm.cs</DependentUpon>
@@ -238,6 +280,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202604250143373_AddNewProductsAgain.resx">
       <DependentUpon>202604250143373_AddNewProductsAgain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202605221844107_AddCurrencyAndCheckHistory.resx">
+      <DependentUpon>202605221844107_AddCurrencyAndCheckHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202605251951063_AddPurchaseRateToItem.resx">
+      <DependentUpon>202605251951063_AddPurchaseRateToItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202605262016521_AssignCellNumbers.resx">
+      <DependentUpon>202605262016521_AssignCellNumbers.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NewItemForm.resx">
       <DependentUpon>NewItemForm.cs</DependentUpon>

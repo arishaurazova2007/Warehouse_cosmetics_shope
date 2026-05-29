@@ -5,8 +5,6 @@ VisualStudioVersion = 17.14.36414.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Warehouse_cosmetics_shope", "Warehouse_cosmetics_shope\Warehouse_cosmetics_shope.csproj", "{164A93C6-FE6D-4BBF-BA29-FB351672E075}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Warehouse_cosmetics_shope.Tests", "Warehouse_cosmetics_shope.Tests\Warehouse_cosmetics_shope.Tests.csproj", "{69E3A55D-6E28-4DCC-9120-C35BCDFC0449}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +19,10 @@ Global
 		{69E3A55D-6E28-4DCC-9120-C35BCDFC0449}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69E3A55D-6E28-4DCC-9120-C35BCDFC0449}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69E3A55D-6E28-4DCC-9120-C35BCDFC0449}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52570C7D-70C2-66CD-B64A-15652EA30113}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52570C7D-70C2-66CD-B64A-15652EA30113}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52570C7D-70C2-66CD-B64A-15652EA30113}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52570C7D-70C2-66CD-B64A-15652EA30113}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

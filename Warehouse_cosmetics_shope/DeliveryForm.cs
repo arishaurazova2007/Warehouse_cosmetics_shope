@@ -16,17 +16,19 @@ namespace Warehouse_cosmetics_shope
         private Guid currentUserId;
         private string currentUserLogin;
         private List<DeliveryItem> deliveryItems = new List<DeliveryItem>();
+        private readonly IWarehouseContext _db;
 
         /// <summary>
         /// Конструктор формы поставки
         /// </summary>
         /// <param name="userId">Идентификатор текущего пользователя</param>
         /// <param name="userLogin">Логин текущего пользователя</param>
-        public DeliveryForm(Guid userId, string userLogin)
+        public DeliveryForm(Guid userId, string userLogin, IWarehouseContext db)
         {
             InitializeComponent();
             currentUserId = userId;
             currentUserLogin = userLogin;
+            _db = db;
 
             Log.Information("Пользователь {UserLogin} открыл форму поставки", currentUserLogin);
 
@@ -34,6 +36,7 @@ namespace Warehouse_cosmetics_shope
             SetupCatalogGridView();
             SetupEventHandlers();
             SetupSearchBox();
+            LoadCurrencyComboBox();
         }
 
         /// <summary>
@@ -62,29 +65,68 @@ namespace Warehouse_cosmetics_shope
         }
 
         /// <summary>
+        /// Загружает список валют из БД в выпадающий список
+        /// </summary>
+        private void LoadCurrencyComboBox()
+        {
+            try
+            {
+
+                var currencies = _db.CurrencyRates.Select(c => c.CurrencyCode).ToList();
+                currencyComboBox.Items.Clear();
+                foreach (var c in currencies)
+                    currencyComboBox.Items.Add(c);
+                currencyComboBox.SelectedItem = CurrencySettings.CurrentCurrency;
+
+                currencyComboBox.SelectedIndexChanged += (s, e) =>
+                {
+                    if (currencyComboBox.SelectedItem == null) return;
+                    string selected = currencyComboBox.SelectedItem.ToString();
+                    using (var db = new WarehouseContext())
+                    {
+                        var rate = db.CurrencyRates.Find(selected);
+                        if (rate != null)
+                        {
+                            CurrencySettings.CurrentCurrency = selected;
+                            CurrencySettings.CurrentRate = rate.Rate;
+                        }
+                    }
+                    // Обновляем колонку цены продажи
+                    if (catalogInDeliveryGridView.Columns.Contains("SellPrice"))
+                        catalogInDeliveryGridView.Columns["SellPrice"].HeaderText =
+                            $"Цена продажи ({selected})";
+                    LoadCatalog();
+                };
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка загрузки валют: " + ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Загружает каталог товаров для выбора в поставку
         /// </summary>
         private void LoadCatalog()
         {
             try
             {
-                using (var db = new WarehouseContext())
-                {
-                    var items = db.Items
-                        .Select(i => new
-                        {
-                            i.ProductID,
-                            i.ProductNumber,
-                            i.ProductName,
-                            i.Category.CategoryName,
-                            i.SellPrice,
-                            i.Units
-                        })
-                        .ToList();
+                var items = _db.Items
+                    .Select(i => new
+                    {
+                        i.ProductID,
+                        i.ProductNumber,
+                        i.ProductName,
+                        i.Category.CategoryName,
+                        SellPrice = Math.Round(i.SellPrice / CurrencySettings.CurrentRate, 2),
+                        i.Units
+                    })
+                    .ToList();
 
-                    catalogInDeliveryGridView.DataSource = items;
-                    Log.Information("Загружено {ItemCount} товаров в каталог поставки", items.Count);
-                }
+                catalogInDeliveryGridView.DataSource = items;
+                Log.Information("Загружено {ItemCount} товаров в каталог поставки", items.Count);
+
             }
             catch (Exception ex)
             {
@@ -104,7 +146,7 @@ namespace Warehouse_cosmetics_shope
             catalogInDeliveryGridView.Columns["CategoryName"].HeaderText = "Категория";
             catalogInDeliveryGridView.Columns["SellPrice"].HeaderText = "Цена продажи";
             catalogInDeliveryGridView.Columns["Units"].HeaderText = "Ед. изм.";
-            catalogInDeliveryGridView.Columns["SellPrice"].DefaultCellStyle.Format = "C2";
+            catalogInDeliveryGridView.Columns["SellPrice"].DefaultCellStyle.Format = "N2";
         }
 
         /// <summary>
@@ -148,34 +190,33 @@ namespace Warehouse_cosmetics_shope
 
             try
             {
-                using (var db = new WarehouseContext())
+
+                var items = _db.Items
+                     .Where(i => i.ProductNumber.ToString().Contains(searchText) ||
+                                i.ProductName.ToLower().Contains(searchText))
+                    .Select(i => new
+                    {
+                        i.ProductID,
+                        i.ProductNumber,
+                        i.ProductName,
+                        i.Category.CategoryName,
+                        i.SellPrice,
+                        i.Units
+                    })
+                    .ToList();
+
+                catalogInDeliveryGridView.DataSource = items;
+                catalogInDeliveryGridView.Columns["ProductID"].Visible = false;
+
+                if (items.Count == 0)
                 {
-                    var items = db.Items
-                        .Where(i => i.ProductNumber.ToString().Contains(searchText) ||
-                                    i.ProductName.ToLower().Contains(searchText))
-                        .Select(i => new
-                        {
-                            i.ProductID,
-                            i.ProductNumber,
-                            i.ProductName,
-                            i.Category.CategoryName,
-                            i.SellPrice,
-                            i.Units
-                        })
-                        .ToList();
-
-                    catalogInDeliveryGridView.DataSource = items;
-                    catalogInDeliveryGridView.Columns["ProductID"].Visible = false;
-
-                    if (items.Count == 0)
-                    {
-                        Log.Warning("По запросу '{SearchText}' ничего не найдено", searchText);
-                    }
-                    else
-                    {
-                        Log.Information("По запросу '{SearchText}' найдено {ItemCount} товаров", searchText, items.Count);
-                    }
+                    Log.Warning("По запросу '{SearchText}' ничего не найдено", searchText);
                 }
+                else
+                {
+                    Log.Information("По запросу '{SearchText}' найдено {ItemCount} товаров", searchText, items.Count);
+                }
+
             }
             catch (Exception ex)
             {
@@ -217,8 +258,6 @@ namespace Warehouse_cosmetics_shope
         private void buttonBack_Click(object sender, EventArgs e)
         {
             Log.Information("Пользователь {UserLogin} вернулся в каталог из поставки", currentUserLogin);
-            var catalogForm = new CatalogFormAdmin(currentUserId, currentUserLogin);
-            catalogForm.Show();
             this.Close();
         }
 
@@ -345,27 +384,43 @@ namespace Warehouse_cosmetics_shope
 
             try
             {
-                using (var db = new WarehouseContext())
+
+                foreach (var item in deliveryItems)
                 {
-                    foreach (var item in deliveryItems)
+                    var product = _db.Items.FirstOrDefault(i => i.ProductID == item.ProductID);
+                    if (product != null)
                     {
-                        var product = db.Items.FirstOrDefault(i => i.ProductID == item.ProductID);
-                        if (product != null)
+                        product.Quantity += item.Quantity;
+                        // назначаем ячейку если её ещё нет
+                        if (product.CellNumber == 0)
                         {
-                            product.Quantity += item.Quantity;
-                            product.PurPrice = item.PurPrice;
-                            product.ManufDate = item.ManufDate;
-                            product.ExpDate = item.ExpDate;
-                            Log.Debug("Обновлён товар {ProductName}: остаток увеличен на {Quantity}, новая закупочная цена {Price}",
-                                product.ProductName, item.Quantity, item.PurPrice);
+                            int nextCell = _db.Items
+                                .Where(i => i.CellNumber > 0)
+                                    .Select(i => i.CellNumber)
+                                    .DefaultIfEmpty(0)
+                                    .Max() + 1;
+                            product.CellNumber = nextCell;
                         }
-                        else
-                        {
-                            Log.Warning("Товар с ID {ProductId} не найден в БД при подтверждении поставки", item.ProductID);
-                        }
+                        product.PurPrice = item.PurPrice;
+                        // Фиксируем валюту и курс на момент поставки
+                        string selectedCurrency = currencyComboBox.SelectedItem?.ToString() ?? "RUB";
+                        var rate = _db.CurrencyRates.Find(selectedCurrency);
+                        product.CurrencyCode = selectedCurrency;
+                        product.PurchaseRate = rate != null ? rate.Rate : 1m;
+                        if (selectedCurrency != "RUB" && product.PurchaseRate > 0)
+                            product.PurPrice = item.PurPrice * product.PurchaseRate;
+                        product.ManufDate = item.ManufDate;
+                        product.ExpDate = item.ExpDate;
+                        Log.Debug("Обновлён товар {ProductName}: остаток увеличен на {Quantity}, новая закупочная цена {Price}",
+                            product.ProductName, item.Quantity, item.PurPrice);
                     }
-                    db.SaveChanges();
+                    else
+                    {
+                        Log.Warning("Товар с ID {ProductId} не найден в БД при подтверждении поставки", item.ProductID);
+                    }
                 }
+                _db.SaveChanges();
+
 
                 Log.Information("Поставка оформлена! Добавлено {ItemCount} товаров", deliveryItems.Count);
                 MessageBox.Show($"Поставка оформлена!\nДобавлено {deliveryItems.Count} товаров",
@@ -494,41 +549,39 @@ namespace Warehouse_cosmetics_shope
         {
             try
             {
-                using (var db = new WarehouseContext())
+                var existingItem = _db.Items.FirstOrDefault(i => i.ProductNumber == importItem.ProductNumber);
+
+                if (existingItem == null)
                 {
-                    var existingItem = db.Items.FirstOrDefault(i => i.ProductNumber == importItem.ProductNumber);
-
-                    if (existingItem == null)
-                    {
-                        Log.Warning("Товар с артикулом {ProductNumber} не найден в каталоге", importItem.ProductNumber);
-                        MessageBox.Show($"Товар с артикулом {importItem.ProductNumber} не найден в каталоге",
-                            "Товар не найден", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-
-                    var existingDelivery = deliveryItems.FirstOrDefault(d => d.ProductID == existingItem.ProductID);
-                    if (existingDelivery != null)
-                    {
-                        existingDelivery.Quantity += importItem.Quantity;
-                        Log.Debug("Обновлён импортированный товар {ProductName}: количество увеличено на {Quantity}",
-                            existingItem.ProductName, importItem.Quantity);
-                    }
-                    else
-                    {
-                        deliveryItems.Add(new DeliveryItem
-                        {
-                            ProductID = existingItem.ProductID,
-                            ProductName = existingItem.ProductName,
-                            PurPrice = importItem.PurPrice,
-                            SellPrice = existingItem.SellPrice,
-                            Quantity = importItem.Quantity,
-                            ManufDate = importItem.ManufDate,
-                            ExpDate = importItem.ExpDate
-                        });
-                        Log.Information("Импортирован новый товар в поставку: {ProductName}, количество: {Quantity}",
-                            existingItem.ProductName, importItem.Quantity);
-                    }
+                    Log.Warning("Товар с артикулом {ProductNumber} не найден в каталоге", importItem.ProductNumber);
+                    MessageBox.Show($"Товар с артикулом {importItem.ProductNumber} не найден в каталоге",
+                        "Товар не найден", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
                 }
+
+                var existingDelivery = deliveryItems.FirstOrDefault(d => d.ProductID == existingItem.ProductID);
+                if (existingDelivery != null)
+                {
+                    existingDelivery.Quantity += importItem.Quantity;
+                    Log.Debug("Обновлён импортированный товар {ProductName}: количество увеличено на {Quantity}",
+                        existingItem.ProductName, importItem.Quantity);
+                }
+                else
+                {
+                    deliveryItems.Add(new DeliveryItem
+                    {
+                        ProductID = existingItem.ProductID,
+                        ProductName = existingItem.ProductName,
+                        PurPrice = importItem.PurPrice,
+                        SellPrice = existingItem.SellPrice,
+                        Quantity = importItem.Quantity,
+                        ManufDate = importItem.ManufDate,
+                        ExpDate = importItem.ExpDate
+                    });
+                    Log.Information("Импортирован новый товар в поставку: {ProductName}, количество: {Quantity}",
+                        existingItem.ProductName, importItem.Quantity);
+                }
+
             }
             catch (Exception ex)
             {

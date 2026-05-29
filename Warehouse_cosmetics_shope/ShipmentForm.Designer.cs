@@ -45,6 +45,9 @@
             this.shipmentDataDridView = new System.Windows.Forms.DataGridView();
             this.quantityNumeric = new System.Windows.Forms.NumericUpDown();
             this.clientTypeLabel = new System.Windows.Forms.Label();
+            this.innTextBox = new System.Windows.Forms.TextBox();
+            this.buttonCheckINN = new System.Windows.Forms.Button();
+            this.innLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.catalogInShipmentGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.shipmentDataDridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.quantityNumeric)).BeginInit();
@@ -65,7 +68,7 @@
             // 
             this.quantityLabel.AutoSize = true;
             this.quantityLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.quantityLabel.Location = new System.Drawing.Point(822, 288);
+            this.quantityLabel.Location = new System.Drawing.Point(828, 245);
             this.quantityLabel.Name = "quantityLabel";
             this.quantityLabel.Size = new System.Drawing.Size(119, 22);
             this.quantityLabel.TabIndex = 10;
@@ -75,7 +78,7 @@
             // 
             this.clientNameLabel.AutoSize = true;
             this.clientNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.clientNameLabel.Location = new System.Drawing.Point(865, 434);
+            this.clientNameLabel.Location = new System.Drawing.Point(871, 331);
             this.clientNameLabel.Name = "clientNameLabel";
             this.clientNameLabel.Size = new System.Drawing.Size(76, 22);
             this.clientNameLabel.TabIndex = 12;
@@ -102,7 +105,7 @@
             this.clientTypeComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.clientTypeComboBox.ForeColor = System.Drawing.Color.Black;
             this.clientTypeComboBox.FormattingEnabled = true;
-            this.clientTypeComboBox.Location = new System.Drawing.Point(967, 360);
+            this.clientTypeComboBox.Location = new System.Drawing.Point(967, 289);
             this.clientTypeComboBox.Name = "clientTypeComboBox";
             this.clientTypeComboBox.Size = new System.Drawing.Size(306, 24);
             this.clientTypeComboBox.TabIndex = 19;
@@ -141,7 +144,7 @@
             this.productNameLabel.AutoSize = true;
             this.productNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold);
             this.productNameLabel.ForeColor = System.Drawing.Color.Black;
-            this.productNameLabel.Location = new System.Drawing.Point(874, 216);
+            this.productNameLabel.Location = new System.Drawing.Point(880, 183);
             this.productNameLabel.Name = "productNameLabel";
             this.productNameLabel.Size = new System.Drawing.Size(67, 22);
             this.productNameLabel.TabIndex = 34;
@@ -151,14 +154,14 @@
             // 
             this.shipmentSearchBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.shipmentSearchBox.ForeColor = System.Drawing.Color.Gray;
-            this.shipmentSearchBox.Location = new System.Drawing.Point(967, 213);
+            this.shipmentSearchBox.Location = new System.Drawing.Point(967, 183);
             this.shipmentSearchBox.MaximumSize = new System.Drawing.Size(300, 50);
             this.shipmentSearchBox.Name = "shipmentSearchBox";
             this.shipmentSearchBox.Size = new System.Drawing.Size(226, 27);
             this.shipmentSearchBox.TabIndex = 33;
             this.shipmentSearchBox.Text = "Поиск";
-            shipmentSearchBox.Enter += ShipmentSearchBox_Enter;
-            shipmentSearchBox.Leave += ShipmentSearchBox_Leave;
+            this.shipmentSearchBox.Enter += new System.EventHandler(this.ShipmentSearchBox_Enter);
+            this.shipmentSearchBox.Leave += new System.EventHandler(this.ShipmentSearchBox_Leave);
             // 
             // shipmentSearchButton
             // 
@@ -167,19 +170,20 @@
             this.shipmentSearchButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.shipmentSearchButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.shipmentSearchButton.ForeColor = System.Drawing.Color.White;
-            this.shipmentSearchButton.Location = new System.Drawing.Point(1199, 213);
+            this.shipmentSearchButton.Location = new System.Drawing.Point(1199, 183);
             this.shipmentSearchButton.Name = "shipmentSearchButton";
             this.shipmentSearchButton.Size = new System.Drawing.Size(74, 29);
             this.shipmentSearchButton.TabIndex = 32;
             this.shipmentSearchButton.Text = "Искать";
             this.shipmentSearchButton.UseVisualStyleBackColor = false;
-            shipmentSearchButton.Click += ShipmentSearchButton_Click;
+            this.shipmentSearchButton.Click += new System.EventHandler(this.ShipmentSearchButton_Click);
+
             // 
             // clientNameTextBox
             // 
             this.clientNameTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.clientNameTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.clientNameTextBox.Location = new System.Drawing.Point(967, 436);
+            this.clientNameTextBox.Location = new System.Drawing.Point(967, 333);
             this.clientNameTextBox.Name = "clientNameTextBox";
             this.clientNameTextBox.Size = new System.Drawing.Size(306, 20);
             this.clientNameTextBox.TabIndex = 35;
@@ -216,7 +220,7 @@
             this.catalogInShipmentGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.catalogInShipmentGridView.Size = new System.Drawing.Size(721, 293);
             this.catalogInShipmentGridView.TabIndex = 51;
-            catalogInShipmentGridView.CellClick += CatalogInShipmentGridView_CellClick;
+            this.catalogInShipmentGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.CatalogInShipmentGridView_CellClick);
             // 
             // shipmentDataDridView
             // 
@@ -233,7 +237,7 @@
             // quantityNumeric
             // 
             this.quantityNumeric.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.quantityNumeric.Location = new System.Drawing.Point(967, 286);
+            this.quantityNumeric.Location = new System.Drawing.Point(967, 245);
             this.quantityNumeric.Maximum = new decimal(new int[] {
             100000000,
             0,
@@ -257,11 +261,42 @@
             // 
             this.clientTypeLabel.AutoSize = true;
             this.clientTypeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.clientTypeLabel.Location = new System.Drawing.Point(822, 362);
+            this.clientTypeLabel.Location = new System.Drawing.Point(822, 287);
             this.clientTypeLabel.Name = "clientTypeLabel";
             this.clientTypeLabel.Size = new System.Drawing.Size(125, 22);
             this.clientTypeLabel.TabIndex = 55;
             this.clientTypeLabel.Text = "Тип клиента";
+            // 
+            // innTextBox
+            // 
+            this.innTextBox.Location = new System.Drawing.Point(967, 396);
+            this.innTextBox.Name = "innTextBox";
+            this.innTextBox.Size = new System.Drawing.Size(210, 22);
+            this.innTextBox.TabIndex = 56;
+            // 
+            // buttonCheckINN
+            // 
+            this.buttonCheckINN.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
+            this.buttonCheckINN.FlatAppearance.BorderSize = 0;
+            this.buttonCheckINN.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonCheckINN.ForeColor = System.Drawing.Color.White;
+            this.buttonCheckINN.Location = new System.Drawing.Point(1181, 395);
+            this.buttonCheckINN.Name = "buttonCheckINN";
+            this.buttonCheckINN.Size = new System.Drawing.Size(92, 23);
+            this.buttonCheckINN.TabIndex = 57;
+            this.buttonCheckINN.Text = "Проверить";
+            this.buttonCheckINN.UseVisualStyleBackColor = false;
+            this.buttonCheckINN.Click += new System.EventHandler(this.buttonCheckINN_Click);
+            // 
+            // innLabel
+            // 
+            this.innLabel.AutoSize = true;
+            this.innLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.innLabel.Location = new System.Drawing.Point(776, 396);
+            this.innLabel.Name = "innLabel";
+            this.innLabel.Size = new System.Drawing.Size(171, 22);
+            this.innLabel.TabIndex = 58;
+            this.innLabel.Text = "ИНН контрагента";
             // 
             // ShipmentForm
             // 
@@ -269,6 +304,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(1329, 820);
+            this.Controls.Add(this.innLabel);
+            this.Controls.Add(this.buttonCheckINN);
+            this.Controls.Add(this.innTextBox);
             this.Controls.Add(this.clientTypeLabel);
             this.Controls.Add(this.quantityNumeric);
             this.Controls.Add(this.itemsToShipmentLabel);
@@ -286,6 +324,7 @@
             this.Controls.Add(this.clientNameLabel);
             this.Controls.Add(this.quantityLabel);
             this.Controls.Add(this.shipmentFormLabel);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ForeColor = System.Drawing.Color.Black;
             this.Name = "ShipmentForm";
             this.Text = "Отгрузка";
@@ -315,5 +354,8 @@
         private System.Windows.Forms.DataGridView shipmentDataDridView;
         private System.Windows.Forms.NumericUpDown quantityNumeric;
         private System.Windows.Forms.Label clientTypeLabel;
+        private System.Windows.Forms.TextBox innTextBox;
+        private System.Windows.Forms.Button buttonCheckINN;
+        private System.Windows.Forms.Label innLabel;
     }
 }

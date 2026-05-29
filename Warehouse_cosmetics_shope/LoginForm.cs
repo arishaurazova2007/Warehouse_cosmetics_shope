@@ -9,9 +9,14 @@ namespace Warehouse_cosmetics_shope
 {
     public partial class LoginForm : Form
     {
-        public LoginForm()
+        private readonly IWarehouseContext _db;
+        /// <summary>
+        /// Конструктор формы авторизации
+        /// </summary>
+        public LoginForm(IWarehouseContext db)
         {
             InitializeComponent();
+            _db = db;
             textBoxPassword.PasswordChar = '*';
             Log.Information("Открыта форма авторизации");
         }
@@ -35,14 +40,14 @@ namespace Warehouse_cosmetics_shope
                     if (userRole == Roles.Admin)
                     {
                         Log.Information("Администратор {UserLogin} успешно вошёл в систему", userLogin);
-                        var catalogForm = new CatalogFormAdmin(userId, userLogin);
+                        var catalogForm = new CatalogFormAdmin(userId, userLogin, _db);
                         catalogForm.Show();
                         this.Hide();
                     }
                     else if (userRole == Roles.Storekeeper)
                     {
                         Log.Information("Кладовщик {UserLogin} успешно вошёл в систему", userLogin);
-                        var catalogForm = new CatalogFormKlad(userId, userLogin);
+                        var catalogForm = new CatalogFormKlad(userId, userLogin, _db);
                         catalogForm.Show();
                         this.Hide();
                     }
@@ -65,48 +70,30 @@ namespace Warehouse_cosmetics_shope
 
             try
             {
-                using (var db = new WarehouseContext())
+
+                string login = IdTextBox.Text.Trim();
+
+                if (string.IsNullOrWhiteSpace(login))
                 {
-                    string login = IdTextBox.Text.Trim();
+                    Log.Warning("Попытка входа с пустым логином");
+                    MessageBox.Show("Введите логин", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
 
-                    if (string.IsNullOrWhiteSpace(login))
+                var user = _db.Users.FirstOrDefault(u => u.UserLogin == login);
+
+                    if (user != null && BCrypt.Net.BCrypt.Verify(textBoxPassword.Text, user.Password))
                     {
-                        errorMessage = "Введите логин";
-                        Log.Warning("Попытка входа с пустым логином");
-                        return false;
+                        userId = user.UserID;
+                        userLogin = user.UserLogin;
+                        return true;
                     }
 
-                    var user = db.Users.FirstOrDefault(u => u.UserLogin == login);
-
-                    if (user == null)
-                    {
-                        errorMessage = $"Пользователь с логином '{login}' не найден";
-                        Log.Warning("Пользователь с логином {Login} не найден", login);
-                        return false;
-                    }
-
-                    bool passwordValid;
-                    try
-                    {
-                        passwordValid = BCrypt.Net.BCrypt.Verify(textBoxPassword.Text, user.Password);
-                    }
-                    catch (Exception ex)
-                    {
-                        errorMessage = $"Ошибка проверки пароля: {ex.Message}";
-                        Log.Error(ex, "Ошибка при проверке пароля для пользователя {Login}", login);
-                        return false;
-                    }
-
-                    if (!passwordValid)
-                    {
-                        errorMessage = "Неверный пароль";
-                        Log.Warning("Неверный пароль для пользователя {Login}", login);
-                        return false;
-                    }
-
-                    userId = user.UserID;
-                    userLogin = user.UserLogin;
-                    return true;
+                    Log.Warning("Неудачная попытка входа с логином {Login}", login);
+                    MessageBox.Show("Неверный логин или пароль", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
                 }
             }
             catch (Exception ex)
@@ -121,16 +108,15 @@ namespace Warehouse_cosmetics_shope
         {
             try
             {
-                using (var db = new WarehouseContext())
+
+                var user = _db.Users.FirstOrDefault(u => u.UserID == userId);
+                if (user != null)
                 {
-                    var user = db.Users.FirstOrDefault(u => u.UserID == userId);
-                    if (user != null)
-                    {
-                        return user.Role;
-                    }
-                    Log.Warning("Пользователь с ID {UserId} не найден при получении роли", userId);
-                    return Roles.Storekeeper;
+                    return user.Role;
                 }
+                Log.Warning("Пользователь с ID {UserId} не найден при получении роли", userId);
+                return Roles.Storekeeper;
+
             }
             catch (Exception ex)
             {

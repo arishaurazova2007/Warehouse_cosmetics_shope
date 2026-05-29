@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.topPanel = new System.Windows.Forms.Panel();
+            this.buttonWarehoeseMap = new System.Windows.Forms.Button();
             this.deliveryFromCatalogButton = new System.Windows.Forms.Button();
             this.labelShowLogin = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -39,13 +40,17 @@
             this.searchBox = new System.Windows.Forms.TextBox();
             this.searchButton = new System.Windows.Forms.Button();
             this.buttonFilter = new System.Windows.Forms.Button();
+            this.spinnerPanel = new System.Windows.Forms.Panel();
+            this.spinnerLabel = new System.Windows.Forms.Label();
             this.topPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kladCatalogGrid)).BeginInit();
+            this.spinnerPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // topPanel
             // 
             this.topPanel.BackColor = System.Drawing.Color.White;
+            this.topPanel.Controls.Add(this.buttonWarehoeseMap);
             this.topPanel.Controls.Add(this.deliveryFromCatalogButton);
             this.topPanel.Controls.Add(this.labelShowLogin);
             this.topPanel.Controls.Add(this.label2);
@@ -55,6 +60,19 @@
             this.topPanel.Name = "topPanel";
             this.topPanel.Size = new System.Drawing.Size(1132, 49);
             this.topPanel.TabIndex = 8;
+            // 
+            // buttonWarehoeseMap
+            // 
+            this.buttonWarehoeseMap.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
+            this.buttonWarehoeseMap.FlatAppearance.BorderSize = 2;
+            this.buttonWarehoeseMap.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonWarehoeseMap.Location = new System.Drawing.Point(354, 0);
+            this.buttonWarehoeseMap.Name = "buttonWarehoeseMap";
+            this.buttonWarehoeseMap.Size = new System.Drawing.Size(139, 49);
+            this.buttonWarehoeseMap.TabIndex = 17;
+            this.buttonWarehoeseMap.Text = "Тепловая карта склада";
+            this.buttonWarehoeseMap.UseVisualStyleBackColor = true;
+            this.buttonWarehoeseMap.Click += new System.EventHandler(this.buttonWarehoeseMap_Click);
             // 
             // deliveryFromCatalogButton
             // 
@@ -171,12 +189,32 @@
             this.buttonFilter.Text = "Фильтровать";
             this.buttonFilter.UseVisualStyleBackColor = false;
             // 
+            // spinnerPanel
+            // 
+            this.spinnerPanel.BackColor = System.Drawing.Color.White;
+            this.spinnerPanel.Controls.Add(this.spinnerLabel);
+            this.spinnerPanel.Location = new System.Drawing.Point(433, 236);
+            this.spinnerPanel.Name = "spinnerPanel";
+            this.spinnerPanel.Size = new System.Drawing.Size(267, 157);
+            this.spinnerPanel.TabIndex = 17;
+            this.spinnerPanel.Visible = false;
+            // 
+            // spinnerLabel
+            // 
+            this.spinnerLabel.AutoSize = true;
+            this.spinnerLabel.Location = new System.Drawing.Point(92, 23);
+            this.spinnerLabel.Name = "spinnerLabel";
+            this.spinnerLabel.Size = new System.Drawing.Size(93, 16);
+            this.spinnerLabel.TabIndex = 0;
+            this.spinnerLabel.Text = "⏳ Загрузка...";
+            // 
             // CatalogFormKlad
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(1132, 628);
+            this.Controls.Add(this.spinnerPanel);
             this.Controls.Add(this.buttonFilter);
             this.Controls.Add(this.searchBox);
             this.Controls.Add(this.searchButton);
@@ -188,6 +226,8 @@
             this.topPanel.ResumeLayout(false);
             this.topPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kladCatalogGrid)).EndInit();
+            this.spinnerPanel.ResumeLayout(false);
+            this.spinnerPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -206,5 +246,8 @@
         private System.Windows.Forms.Button searchButton;
         private System.Windows.Forms.Button buttonFilter;
         private System.Windows.Forms.Button deliveryFromCatalogButton;
+        private System.Windows.Forms.Button buttonWarehoeseMap;
+        private System.Windows.Forms.Panel spinnerPanel;
+        private System.Windows.Forms.Label spinnerLabel;
     }
 }

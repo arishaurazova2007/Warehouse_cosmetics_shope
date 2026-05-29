@@ -5,7 +5,7 @@ namespace Warehouse_cosmetics_shope.DataBaseClass
     /// Основной контекст данных приложения для взаимодействия с базой данных через Entity Framework
     /// Обеспечивает доступ к таблицам клиентов, пользователей, товаров и документов отгрузки
     /// </summary>
-    public class WarehouseContext : DbContext
+    public class WarehouseContext : DbContext, IWarehouseContext
     {
         /// <summary>
         /// Инициализирует новый экземпляр контекста, используя строку подключения
@@ -21,6 +21,8 @@ namespace Warehouse_cosmetics_shope.DataBaseClass
         public DbSet<Category> Categories { get; set; }
         public DbSet<Shipment> Shipments { get; set; }
         public DbSet<ShipmentComposition> ShipmentCompositions { get; set; }
+        public DbSet<CurrencyRates> CurrencyRates { get; set; }
+        public DbSet<CheckHistory> CheckHistory { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -64,6 +66,20 @@ namespace Warehouse_cosmetics_shope.DataBaseClass
                 .HasRequired(sc => sc.Product)
                 .WithMany(p => p.ShipmentCompositions)
                 .HasForeignKey(sc => sc.ProductID)
+                .WillCascadeOnDelete(false);
+
+            // Настройка связи Item с CurrencyRates
+            modelBuilder.Entity<Item>()
+                .HasOptional(i => i.CurrencyRate)
+                .WithMany(c => c.Items)
+                .HasForeignKey(i => i.CurrencyCode)
+                .WillCascadeOnDelete(false);
+
+            // Настройка связи CheckHistory с Client
+            modelBuilder.Entity<CheckHistory>()
+                .HasRequired(ch => ch.Client)
+                .WithMany(c => c.CheckHistories)
+                .HasForeignKey(ch => ch.ClientID)
                 .WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);

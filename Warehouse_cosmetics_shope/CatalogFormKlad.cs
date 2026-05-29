@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Warehouse_cosmetics_shope.DataBaseClass;
 using Warehouse_cosmetics_shope.Enum;
 using Serilog;
+using System.Threading.Tasks;
 
 namespace Warehouse_cosmetics_shope
 {
@@ -21,131 +22,123 @@ namespace Warehouse_cosmetics_shope
         private bool? currentNotInStockOnly = null;
         private bool? currentWithDiscount = null;
         private bool? currentWithoutDiscount = null;
+        private readonly IWarehouseContext _db;
 
         /// <summary>
         /// Конструктор формы каталога кладовщика
         /// </summary>
         /// <param name="userId">Идентификатор текущего пользователя</param>
         /// <param name="userLogin">Логин текущего пользователя</param>
-        public CatalogFormKlad(Guid userId, string userLogin)
+        public CatalogFormKlad(Guid userId, string userLogin, IWarehouseContext db)
         {
             InitializeComponent();
             currentUserId = userId;
             currentUserLogin = userLogin;
+            _db = db;
 
             Log.Information("Кладовщик {UserLogin} открыл каталог", currentUserLogin);
 
-            LoadCatalog();
+            InitSpinner();
+            this.Shown += async (s, e) => await LoadCatalogAsync();
             ShowUserLogin();
             kladCatalogGrid.CellClick += KladCatalogGrid_CellClick;
             kladCatalogGrid.CellFormatting += KladCatalogGrid_CellFormatting;
             kladCatalogGrid.DataError += (s, ev) => ev.ThrowException = false;
             searchButton.Click += SearchButton_Click;
+            searchBox.Enter += searchBox_Enter;
+            searchBox.Leave += searchBox_Leave;
         }
 
+        
         /// <summary>
-        /// Загружает каталог товаров с учётом всех активных фильтров
-        /// </summary>
-        private void LoadCatalog()
+/// Асинхронно загружает каталог товаров, не блокируя UI
+/// </summary>
+private async Task LoadCatalogAsync()
         {
-            Log.Debug("Загрузка каталога кладовщика с фильтрами: Категории={CategoryCount}, Цена от={PriceFrom}, Цена до={PriceTo}",
-                currentFilterCategoryIds?.Count ?? 0, currentPriceFrom, currentPriceTo);
+            spinnerPanel.Visible = true;
+            spinnerPanel.BringToFront();
 
             try
             {
-                using (var db = new WarehouseContext())
-                {
-                    var today = DateTime.Now.Date;
+                var today = DateTime.Now.Date;
 
-                    var allItems = db.Items
+                var allItems = await Task.Run(() =>
+                    _db.Items
                         .Include(i => i.Category)
                         .Include(i => i.Category.Parent)
                         .Where(i => i.ExpDate > today)
+                        .ToList()
+                );
+
+                var filtered = allItems.AsEnumerable();
+
+                if (currentFilterCategoryIds != null && currentFilterCategoryIds.Any())
+                {
+                    var allCategoryIds = new List<Guid>();
+                    foreach (var catId in currentFilterCategoryIds)
+                    {
+                        allCategoryIds.Add(catId);
+                        allCategoryIds.AddRange(GetAllDescendantIds(catId));
+                    }
+                    var expandedIds = allCategoryIds.Distinct().ToList();
+                    filtered = filtered.Where(i => expandedIds.Contains(i.CategoryID));
+                }
+
+                if (currentPriceFrom.HasValue)
+                    filtered = filtered.Where(i => i.SellPrice >= currentPriceFrom.Value);
+
+                if (currentPriceTo.HasValue)
+                    filtered = filtered.Where(i => i.SellPrice <= currentPriceTo.Value);
+
+                if (currentInStockOnly == true)
+                    filtered = filtered.Where(i => i.Quantity > 0);
+                else if (currentNotInStockOnly == true)
+                    filtered = filtered.Where(i => i.Quantity == 0);
+                else
+                    filtered = filtered.Where(i => i.Quantity > 0);
+
+                if (currentWithDiscount == true || currentWithoutDiscount == true)
+                {
+                    var discountedIds = filtered
+                        .Where(i => IsDiscounted(i, today))
+                        .Select(i => i.ProductID)
                         .ToList();
 
-                    var filtered = allItems.AsEnumerable();
-
-                    // 1. Фильтр по категориям (с учётом дочерних)
-                    if (currentFilterCategoryIds != null && currentFilterCategoryIds.Any())
-                    {
-                        var allCategoryIds = new List<Guid>();
-                        foreach (var catId in currentFilterCategoryIds)
-                        {
-                            allCategoryIds.Add(catId);
-                            allCategoryIds.AddRange(GetAllDescendantIds(catId));
-                        }
-                        var expandedIds = allCategoryIds.Distinct().ToList();
-                        filtered = filtered.Where(i => expandedIds.Contains(i.CategoryID));
-                    }
-
-                    // 2. Фильтр по цене
-                    if (currentPriceFrom.HasValue)
-                    {
-                        filtered = filtered.Where(i => i.SellPrice >= currentPriceFrom.Value);
-                    }
-                    if (currentPriceTo.HasValue)
-                    {
-                        filtered = filtered.Where(i => i.SellPrice <= currentPriceTo.Value);
-                    }
-
-                    // 3. Фильтр по наличию
-                    if (currentInStockOnly == true)
-                    {
-                        filtered = filtered.Where(i => i.Quantity > 0);
-                    }
-                    else if (currentNotInStockOnly == true)
-                    {
-                        filtered = filtered.Where(i => i.Quantity == 0);
-                    }
-                    else
-                    {
-                        filtered = filtered.Where(i => i.Quantity > 0);
-                    }
-
-                    // 4. Фильтр по скидке
-                    if (currentWithDiscount == true || currentWithoutDiscount == true)
-                    {
-                        var discountedIds = filtered
-                            .Where(i => IsDiscounted(i, today))
-                            .Select(i => i.ProductID)
-                            .ToList();
-
-                        if (currentWithDiscount == true)
-                        {
-                            filtered = filtered.Where(i => discountedIds.Contains(i.ProductID));
-                        }
-                        else if (currentWithoutDiscount == true)
-                        {
-                            filtered = filtered.Where(i => !discountedIds.Contains(i.ProductID));
-                        }
-                    }
-
-                    var displayList = filtered.Select(i => new
-                    {
-                        i.ProductNumber,
-                        i.ProductName,
-                        ParentCategoryName = i.Category?.Parent?.CategoryName,
-                        ChildCategoryName = i.Category?.CategoryName,
-                        Units = GetUnitDisplayName(i.Units),
-                        i.ManufDate,
-                        i.ExpDate,
-                        i.PurPrice,
-                        SellPrice = GetPriceWithDiscount(i, today),
-                        i.Quantity
-                    }).ToList();
-
-                    kladCatalogGrid.DataSource = displayList;
-
-                    Log.Information("Загружено {ItemCount} товаров", displayList.Count);
+                    if (currentWithDiscount == true)
+                        filtered = filtered.Where(i => discountedIds.Contains(i.ProductID));
+                    else if (currentWithoutDiscount == true)
+                        filtered = filtered.Where(i => !discountedIds.Contains(i.ProductID));
                 }
+
+                var displayList = filtered.Select(i => new
+                {
+                    i.ProductNumber,
+                    i.ProductName,
+                    ParentCategoryName = i.Category?.Parent?.CategoryName,
+                    ChildCategoryName = i.Category?.CategoryName,
+                    Units = GetUnitDisplayName(i.Units),
+                    i.ManufDate,
+                    i.ExpDate,
+                    i.PurPrice,
+                    SellPrice = GetPriceWithDiscount(i, today),
+                    i.Quantity
+                }).ToList();
+
+                kladCatalogGrid.DataSource = displayList;
+                ConfigureColumns();
+
+                Log.Information("Загружено {ItemCount} товаров", displayList.Count);
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "Ошибка при загрузке каталога кладовщика");
-                MessageBox.Show("Ошибка при загрузке каталога", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ошибка при загрузке каталога", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            ConfigureColumns();
+            finally
+            {
+                spinnerPanel.Visible = false;
+            }
         }
 
         /// <summary>
@@ -192,14 +185,12 @@ namespace Warehouse_cosmetics_shope
             var result = new List<Guid>();
             try
             {
-                using (var db = new WarehouseContext())
+
+                var children = _db.Categories.Where(c => c.ParentID == parentId).ToList();
+                foreach (var child in children)
                 {
-                    var children = db.Categories.Where(c => c.ParentID == parentId).ToList();
-                    foreach (var child in children)
-                    {
-                        result.Add(child.CategoryID);
-                        result.AddRange(GetAllDescendantIds(child.CategoryID));
-                    }
+                    result.Add(child.CategoryID);
+                    result.AddRange(GetAllDescendantIds(child.CategoryID));
                 }
             }
             catch (Exception ex)
@@ -235,9 +226,9 @@ namespace Warehouse_cosmetics_shope
             if (kladCatalogGrid.Columns.Contains("ExpDate"))
                 kladCatalogGrid.Columns["ExpDate"].HeaderText = "Годен до";
             if (kladCatalogGrid.Columns.Contains("PurPrice"))
-                kladCatalogGrid.Columns["PurPrice"].HeaderText = "Цена закупки";
+                kladCatalogGrid.Columns["PurPrice"].HeaderText = "Цена закупки(" + CurrencySettings.CurrentCurrency + ")";
             if (kladCatalogGrid.Columns.Contains("SellPrice"))
-                kladCatalogGrid.Columns["SellPrice"].HeaderText = "Цена продажи";
+                kladCatalogGrid.Columns["SellPrice"].HeaderText = "Цена продажи(" + CurrencySettings.CurrentCurrency + ")";
             if (kladCatalogGrid.Columns.Contains("Quantity"))
                 kladCatalogGrid.Columns["Quantity"].HeaderText = "Остаток";
 
@@ -278,6 +269,20 @@ namespace Warehouse_cosmetics_shope
             }
         }
 
+        private void InitSpinner()
+        {
+            this.Resize += (s, e) => CenterSpinner();
+            this.Shown += (s, e) => CenterSpinner();
+        }
+
+        private void CenterSpinner()
+        {
+            spinnerPanel.Location = new System.Drawing.Point(
+                (this.ClientSize.Width - spinnerPanel.Width) / 2,
+                (this.ClientSize.Height - spinnerPanel.Height) / 2
+            );
+        }
+
         /// <summary>
         /// Обработчик нажатия кнопки "Выход"
         /// </summary>
@@ -292,12 +297,12 @@ namespace Warehouse_cosmetics_shope
         /// <summary>
         /// Обработчик нажатия кнопки "Фильтр"
         /// </summary>
-        private void buttonFilter_Click(object sender, EventArgs e)
+        private async void buttonFilter_Click(object sender, EventArgs e)
         {
             Log.Information("Кладовщик {UserLogin} открыл форму фильтрации", currentUserLogin);
-            var filterForm = new FiltrationForm();
+            var filterForm = new FiltrationForm(_db);
 
-            filterForm.FilterApplied += (selectedCategoryIds, priceFrom, priceTo, inStockOnly, notInStockOnly, withDiscount, withoutDiscount) =>
+            filterForm.FilterApplied += async (selectedCategoryIds, priceFrom, priceTo, inStockOnly, notInStockOnly, withDiscount, withoutDiscount) =>
             {
                 if (selectedCategoryIds == null || selectedCategoryIds.Count == 0)
                 {
@@ -314,7 +319,7 @@ namespace Warehouse_cosmetics_shope
                 currentNotInStockOnly = notInStockOnly;
                 currentWithDiscount = withDiscount;
                 currentWithoutDiscount = withoutDiscount;
-                LoadCatalog();
+                await LoadCatalogAsync();
             };
 
             filterForm.ShowDialog();
@@ -326,7 +331,7 @@ namespace Warehouse_cosmetics_shope
         private void buttonOtgruzka_Click(object sender, EventArgs e)
         {
             Log.Information("Кладовщик {UserLogin} открыл форму отгрузки", currentUserLogin);
-            var otgruzkaForm = new ShipmentForm(currentUserId, currentUserLogin);
+            var otgruzkaForm = new ShipmentForm(currentUserId, currentUserLogin, _db);
             otgruzkaForm.Show();
             this.Hide();
         }
@@ -342,23 +347,21 @@ namespace Warehouse_cosmetics_shope
                 {
                     int productNumber = (int)kladCatalogGrid.Rows[e.RowIndex].Cells["ProductNumber"].Value;
 
-                    using (var db = new WarehouseContext())
+                    var product = _db.Items.FirstOrDefault(i => i.ProductNumber == productNumber);
+                    if (product != null)
                     {
-                        var product = db.Items.FirstOrDefault(i => i.ProductNumber == productNumber);
-                        if (product != null)
-                        {
-                            Log.Information("Кладовщик {UserLogin} открыл карточку товара {ProductName} (арт. {ProductNumber})",
-                                currentUserLogin, product.ProductName, productNumber);
-                            var itemForm = new ItemForm(product.ProductID, currentUserId, currentUserLogin, Roles.Storekeeper, true);
-                            itemForm.Show();
-                            this.Hide();
-                        }
-                        else
-                        {
-                            Log.Warning("Товар с артикулом {ProductNumber} не найден в БД", productNumber);
-                            MessageBox.Show("Товар не найден", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
+                        Log.Information("Кладовщик {UserLogin} открыл карточку товара {ProductName} (арт. {ProductNumber})",
+                            currentUserLogin, product.ProductName, productNumber);
+                        var itemForm = new ItemForm(product.ProductID, currentUserId, currentUserLogin, Roles.Storekeeper, false, _db);
+                        itemForm.Show();
+                        this.Hide();
                     }
+                    else
+                    {
+                        Log.Warning("Товар с артикулом {ProductNumber} не найден в БД", productNumber);
+                        MessageBox.Show("Товар не найден", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+
                 }
                 catch (Exception ex)
                 {
@@ -438,13 +441,13 @@ namespace Warehouse_cosmetics_shope
         /// <summary>
         /// Обработчик нажатия кнопки поиска
         /// </summary>
-        private void SearchButton_Click(object sender, EventArgs e)
+        private async void SearchButton_Click(object sender, EventArgs e)
         {
             string searchText = searchBox.Text.Trim().ToLower();
 
             if (searchText == "поиск" || string.IsNullOrWhiteSpace(searchText))
             {
-                LoadCatalog();
+                await LoadCatalogAsync();
                 return;
             }
 
@@ -454,111 +457,127 @@ namespace Warehouse_cosmetics_shope
             {
                 var today = DateTime.Now.Date;
 
-                using (var db = new WarehouseContext())
-                {
-                    var allItems = db.Items
+
+                spinnerPanel.Visible = true;
+                spinnerPanel.BringToFront();
+
+                var allItems = await Task.Run(() =>
+                    _db.Items
                         .Include(i => i.Category)
                         .Include(i => i.Category.Parent)
                         .Where(i => i.ExpDate > today)
+                        .ToList()
+                );
+
+                var filtered = allItems
+                    .Where(i => i.ProductNumber.ToString().Contains(searchText) ||
+                                i.ProductName.ToLower().Contains(searchText))
+                    .AsEnumerable();
+
+                //фильтр по категориям (с учётом дочерних)
+                if (currentFilterCategoryIds != null && currentFilterCategoryIds.Any())
+                {
+                    var allCategoryIds = new List<Guid>();
+                    foreach (var catId in currentFilterCategoryIds)
+                    {
+                        allCategoryIds.Add(catId);
+                        allCategoryIds.AddRange(GetAllDescendantIds(catId));
+                    }
+                    var expandedIds = allCategoryIds.Distinct().ToList();
+                    filtered = filtered.Where(i => expandedIds.Contains(i.CategoryID));
+                }
+
+                if (currentPriceFrom.HasValue)
+                {
+                    filtered = filtered.Where(i => i.SellPrice >= currentPriceFrom.Value);
+                }
+                if (currentPriceTo.HasValue)
+                {
+                    filtered = filtered.Where(i => i.SellPrice <= currentPriceTo.Value);
+                }
+
+                if (currentInStockOnly == true)
+                {
+                    filtered = filtered.Where(i => i.Quantity > 0);
+                }
+                else if (currentNotInStockOnly == true)
+                {
+                    filtered = filtered.Where(i => i.Quantity == 0);
+                }
+                else
+                {
+                    filtered = filtered.Where(i => i.Quantity > 0);
+                }
+
+                if (currentWithDiscount == true || currentWithoutDiscount == true)
+                {
+                    var discountedIds = filtered
+                        .Where(i => IsDiscounted(i, today))
+                        .Select(i => i.ProductID)
                         .ToList();
 
-                    var filtered = allItems
-                        .Where(i => i.ProductNumber.ToString().Contains(searchText) ||
-                                    i.ProductName.ToLower().Contains(searchText))
-                        .AsEnumerable();
-
-                    //фильтр по категориям (с учётом дочерних)
-                    if (currentFilterCategoryIds != null && currentFilterCategoryIds.Any())
+                    if (currentWithDiscount == true)
                     {
-                        var allCategoryIds = new List<Guid>();
-                        foreach (var catId in currentFilterCategoryIds)
-                        {
-                            allCategoryIds.Add(catId);
-                            allCategoryIds.AddRange(GetAllDescendantIds(catId));
-                        }
-                        var expandedIds = allCategoryIds.Distinct().ToList();
-                        filtered = filtered.Where(i => expandedIds.Contains(i.CategoryID));
+                        filtered = filtered.Where(i => discountedIds.Contains(i.ProductID));
                     }
-
-                    if (currentPriceFrom.HasValue)
+                    else if (currentWithoutDiscount == true)
                     {
-                        filtered = filtered.Where(i => i.SellPrice >= currentPriceFrom.Value);
-                    }
-                    if (currentPriceTo.HasValue)
-                    {
-                        filtered = filtered.Where(i => i.SellPrice <= currentPriceTo.Value);
-                    }
-
-                    if (currentInStockOnly == true)
-                    {
-                        filtered = filtered.Where(i => i.Quantity > 0);
-                    }
-                    else if (currentNotInStockOnly == true)
-                    {
-                        filtered = filtered.Where(i => i.Quantity == 0);
-                    }
-                    else
-                    {
-                        filtered = filtered.Where(i => i.Quantity > 0);
-                    }
-
-                    if (currentWithDiscount == true || currentWithoutDiscount == true)
-                    {
-                        var discountedIds = filtered
-                            .Where(i => IsDiscounted(i, today))
-                            .Select(i => i.ProductID)
-                            .ToList();
-
-                        if (currentWithDiscount == true)
-                        {
-                            filtered = filtered.Where(i => discountedIds.Contains(i.ProductID));
-                        }
-                        else if (currentWithoutDiscount == true)
-                        {
-                            filtered = filtered.Where(i => !discountedIds.Contains(i.ProductID));
-                        }
-                    }
-
-                    var displayList = filtered.Select(i => new
-                    {
-                        i.ProductNumber,
-                        i.ProductName,
-                        ParentCategoryName = i.Category?.Parent?.CategoryName ?? string.Empty,
-                        ChildCategoryName = i.Category?.CategoryName ?? string.Empty,
-                        Units = GetUnitDisplayName(i.Units),
-                        i.ManufDate,
-                        i.ExpDate,
-                        i.PurPrice,
-                        SellPrice = GetPriceWithDiscount(i, today),
-                        i.Quantity
-                    }).ToList();
-
-                    kladCatalogGrid.DataSource = displayList;
-                    ConfigureColumns();
-
-                    if (displayList.Count == 0)
-                    {
-                        Log.Warning("По запросу '{SearchText}' ничего не найдено", searchText);
-                    }
-                    else
-                    {
-                        Log.Information("По запросу '{SearchText}' найдено {ItemCount} товаров", searchText, displayList.Count);
+                        filtered = filtered.Where(i => !discountedIds.Contains(i.ProductID));
                     }
                 }
+
+                var displayList = filtered.Select(i => new
+                {
+                    i.ProductNumber,
+                    i.ProductName,
+                    ParentCategoryName = i.Category?.Parent?.CategoryName ?? string.Empty,
+                    ChildCategoryName = i.Category?.CategoryName ?? string.Empty,
+                    Units = GetUnitDisplayName(i.Units),
+                    i.ManufDate,
+                    i.ExpDate,
+                    i.PurPrice,
+                    SellPrice = GetPriceWithDiscount(i, today),
+                    i.Quantity
+                }).ToList();
+
+                kladCatalogGrid.DataSource = displayList;
+                ConfigureColumns();
+
+                if (displayList.Count == 0)
+                {
+                    Log.Warning("По запросу '{SearchText}' ничего не найдено", searchText);
+                }
+                else
+                {
+                    Log.Information("По запросу '{SearchText}' найдено {ItemCount} товаров", searchText, displayList.Count);
+                }
+
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "Ошибка при поиске товаров по запросу {SearchText}", searchText);
                 MessageBox.Show("Ошибка при поиске товаров", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            finally
+            {
+                spinnerPanel.Visible = false;
+            }
         }
 
         private void deliveryFromCatalogButton_Click(object sender, EventArgs e)
         {
             Log.Information("Кладовщик {UserLogin} открыл форму поставки", currentUserLogin);
-            var deliveryForm = new DeliveryForm(currentUserId, currentUserLogin);
-            deliveryForm.Show(); 
-            this.Hide();          
+            var deliveryForm = new DeliveryForm(currentUserId, currentUserLogin, _db);
+            deliveryForm.FormClosed += (s, args) => this.Show();
+            deliveryForm.Show();
+            this.Hide();      
+        }
+
+        private void buttonWarehoeseMap_Click(object sender, EventArgs e)
+        {
+            var heatMap = new HeatMapForm(currentUserId, currentUserLogin, Roles.Storekeeper, _db);
+            heatMap.Show();
+            this.Hide();
         }
     }
     

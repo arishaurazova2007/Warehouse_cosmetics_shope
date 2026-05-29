@@ -33,9 +33,11 @@
             this.searchBox = new System.Windows.Forms.TextBox();
             this.catalogLabel = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.buttonCurrency = new System.Windows.Forms.Button();
             this.buttonPlus = new System.Windows.Forms.Button();
             this.buttonFilter = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonWarehoeseMap = new System.Windows.Forms.Button();
             this.buttonEditCategory = new System.Windows.Forms.Button();
             this.lossFromCatalogButton = new System.Windows.Forms.Button();
             this.deliveryFromCatalogButton = new System.Windows.Forms.Button();
@@ -45,10 +47,13 @@
             this.labelShowUserLogin = new System.Windows.Forms.Label();
             this.buttonExit = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.spinnerPanel = new System.Windows.Forms.Panel();
+            this.spinnerLabel = new System.Windows.Forms.Label();
             this.dataGridViewCatalog = new System.Windows.Forms.DataGridView();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.spinnerPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCatalog)).BeginInit();
             this.SuspendLayout();
             // 
@@ -104,6 +109,7 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
+            this.panel2.Controls.Add(this.buttonCurrency);
             this.panel2.Controls.Add(this.buttonPlus);
             this.panel2.Controls.Add(this.buttonFilter);
             this.panel2.Controls.Add(this.panel1);
@@ -115,6 +121,20 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1132, 150);
             this.panel2.TabIndex = 8;
+            // 
+            // buttonCurrency
+            // 
+            this.buttonCurrency.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
+            this.buttonCurrency.FlatAppearance.BorderSize = 0;
+            this.buttonCurrency.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonCurrency.ForeColor = System.Drawing.Color.Black;
+            this.buttonCurrency.Location = new System.Drawing.Point(39, 63);
+            this.buttonCurrency.Name = "buttonCurrency";
+            this.buttonCurrency.Size = new System.Drawing.Size(244, 23);
+            this.buttonCurrency.TabIndex = 10;
+            this.buttonCurrency.Text = "Настройки валют";
+            this.buttonCurrency.UseVisualStyleBackColor = false;
+            this.buttonCurrency.Click += new System.EventHandler(this.buttonCurrency_Click);
             // 
             // buttonPlus
             // 
@@ -149,6 +169,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.buttonWarehoeseMap);
             this.panel1.Controls.Add(this.buttonEditCategory);
             this.panel1.Controls.Add(this.lossFromCatalogButton);
             this.panel1.Controls.Add(this.deliveryFromCatalogButton);
@@ -162,6 +183,19 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1272, 49);
             this.panel1.TabIndex = 7;
+            // 
+            // buttonWarehoeseMap
+            // 
+            this.buttonWarehoeseMap.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(196)))), ((int)(((byte)(209)))));
+            this.buttonWarehoeseMap.FlatAppearance.BorderSize = 2;
+            this.buttonWarehoeseMap.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonWarehoeseMap.Location = new System.Drawing.Point(612, 0);
+            this.buttonWarehoeseMap.Name = "buttonWarehoeseMap";
+            this.buttonWarehoeseMap.Size = new System.Drawing.Size(139, 49);
+            this.buttonWarehoeseMap.TabIndex = 13;
+            this.buttonWarehoeseMap.Text = "Тепловая карта склада";
+            this.buttonWarehoeseMap.UseVisualStyleBackColor = true;
+            this.buttonWarehoeseMap.Click += new System.EventHandler(this.buttonWarehoeseMap_Click);
             // 
             // buttonEditCategory
             // 
@@ -251,12 +285,31 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.White;
+            this.panel3.Controls.Add(this.spinnerPanel);
             this.panel3.Controls.Add(this.dataGridViewCatalog);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(0, 150);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(1132, 478);
             this.panel3.TabIndex = 9;
+            // 
+            // spinnerPanel
+            // 
+            this.spinnerPanel.Controls.Add(this.spinnerLabel);
+            this.spinnerPanel.Location = new System.Drawing.Point(363, 61);
+            this.spinnerPanel.Name = "spinnerPanel";
+            this.spinnerPanel.Size = new System.Drawing.Size(267, 157);
+            this.spinnerPanel.TabIndex = 1;
+            this.spinnerPanel.Visible = false;
+            // 
+            // spinnerLabel
+            // 
+            this.spinnerLabel.AutoSize = true;
+            this.spinnerLabel.Location = new System.Drawing.Point(92, 23);
+            this.spinnerLabel.Name = "spinnerLabel";
+            this.spinnerLabel.Size = new System.Drawing.Size(93, 16);
+            this.spinnerLabel.TabIndex = 0;
+            this.spinnerLabel.Text = "⏳ Загрузка...";
             // 
             // dataGridViewCatalog
             // 
@@ -287,6 +340,8 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel3.ResumeLayout(false);
+            this.spinnerPanel.ResumeLayout(false);
+            this.spinnerPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCatalog)).EndInit();
             this.ResumeLayout(false);
 
@@ -312,5 +367,9 @@
         private System.Windows.Forms.Button lossFromCatalogButton;
         private System.Windows.Forms.Button deliveryFromCatalogButton;
         private System.Windows.Forms.Button buttonEditCategory;
+        private System.Windows.Forms.Button buttonCurrency;
+        private System.Windows.Forms.Button buttonWarehoeseMap;
+        private System.Windows.Forms.Panel spinnerPanel;
+        private System.Windows.Forms.Label spinnerLabel;
     }
 }

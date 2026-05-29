@@ -11,14 +11,16 @@ namespace Warehouse_cosmetics_shope
     {
         private Guid categoryId;
         private Guid currentUserId;
+        private readonly IWarehouseContext _db;
 
         /// <summary>
         /// Конструктор по умолчанию (для создания новой категории)
         /// </summary>
-        public EditCategoryForm()
+        public EditCategoryForm(IWarehouseContext db)  
         {
             InitializeComponent();
             categoryId = Guid.Empty;
+            _db = db;
             LoadCategories();
         }
 
@@ -27,11 +29,12 @@ namespace Warehouse_cosmetics_shope
         /// </summary>
         /// <param name="categoryId">Идентификатор редактируемой категории</param>
         /// <param name="userId">Идентификатор текущего пользователя</param>
-        public EditCategoryForm(Guid categoryId, Guid userId)
+        public EditCategoryForm(Guid categoryId, Guid userId, IWarehouseContext db)
         {
             InitializeComponent();
             this.categoryId = categoryId;
             this.currentUserId = userId;
+            _db = db;
             Log.Information("Открыта форма редактирования категории с ID {CategoryId}", categoryId);
             LoadCategories();
         }
@@ -51,7 +54,7 @@ namespace Warehouse_cosmetics_shope
         private void buttonNewCategory_Click(object sender, EventArgs e)
         {
             Log.Information("Открыта форма создания новой категории");
-            var newCategoryForm = new NewCategoryForm();
+            var newCategoryForm = new NewCategoryForm(_db);
             newCategoryForm.Show();
             this.Hide();
         }
@@ -80,24 +83,22 @@ namespace Warehouse_cosmetics_shope
         {
             try
             {
-                using (var db = new WarehouseContext())
+                var allCategories = _db.Categories.ToList();
+                var displayList = allCategories.Select(cat => new CategoryPath
                 {
-                    var allCategories = db.Categories.ToList();
-                    var displayList = allCategories.Select(cat => new CategoryPath
-                    {
-                        CategoryID = cat.CategoryID,
-                        FullPath = GetCategoryPath(cat.CategoryID, allCategories)
-                    }).OrderBy(c => c.FullPath).ToList();
+                    CategoryID = cat.CategoryID,
+                    FullPath = GetCategoryPath(cat.CategoryID, allCategories)
+                }).OrderBy(c => c.FullPath).ToList();
 
-                    categoryComboBox.DataSource = displayList;
-                    categoryComboBox.DisplayMember = "FullPath";
-                    categoryComboBox.ValueMember = "CategoryID";
+                categoryComboBox.DataSource = displayList;
+                categoryComboBox.DisplayMember = "FullPath";
+                categoryComboBox.ValueMember = "CategoryID";
 
-                    categoryComboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                    categoryComboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
+                categoryComboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                categoryComboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
 
-                    Log.Debug("Загружено {CategoryCount} категорий", displayList.Count);
-                }
+                Log.Debug("Загружено {CategoryCount} категорий", displayList.Count);
+
             }
             catch (Exception ex)
             {
@@ -155,27 +156,24 @@ namespace Warehouse_cosmetics_shope
 
             try
             {
-                using (var db = new WarehouseContext())
+                var category = _db.Categories.FirstOrDefault(c => c.CategoryID == selectedCategoryId);
+                if (category != null)
                 {
-                    var category = db.Categories.FirstOrDefault(c => c.CategoryID == selectedCategoryId);
-                    if (category != null)
-                    {
-                        string oldName = category.CategoryName;
-                        category.CategoryName = newName;
-                        db.SaveChanges();
+                    string oldName = category.CategoryName;
+                    category.CategoryName = newName;
+                    _db.SaveChanges();
 
-                        Log.Information("Категория переименована: '{OldName}' → '{NewName}' (ID: {CategoryId})",
+                    Log.Information("Категория переименована: '{OldName}' → '{NewName}' (ID: {CategoryId})",
                             oldName, newName, selectedCategoryId);
 
-                        MessageBox.Show($"Категория успешно переименована в \"{newName}\"!", "Оповещение",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        Log.Warning("Категория с ID {CategoryId} не найдена при сохранении", selectedCategoryId);
-                        MessageBox.Show("Категория не найдена", "Ошибка",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    MessageBox.Show($"Категория успешно переименована в \"{newName}\"!", "Оповещение",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    Log.Warning("Категория с ID {CategoryId} не найдена при сохранении", selectedCategoryId);
+                    MessageBox.Show("Категория не найдена", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
@@ -194,53 +192,50 @@ namespace Warehouse_cosmetics_shope
         {
             try
             {
-                using (var db = new WarehouseContext())
+                if (categoryComboBox.SelectedItem == null)
                 {
-                    if (categoryComboBox.SelectedItem == null)
-                    {
-                        Log.Warning("Попытка удалить категорию без выбора");
-                        MessageBox.Show("Выберите категорию для удаления", "Ошибка",
-                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
+                    Log.Warning("Попытка удалить категорию без выбора");
+                    MessageBox.Show("Выберите категорию для удаления", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-                    Guid selectedCategoryId = (Guid)categoryComboBox.SelectedValue;
-                    string categoryName = categoryComboBox.Text;
+                Guid selectedCategoryId = (Guid)categoryComboBox.SelectedValue;
+                string categoryName = categoryComboBox.Text;
 
-                    var checkResult = MessageBox.Show($"Вы уверены, что хотите удалить категорию \"{categoryName}\"?",
-                        "Подтверждение удаления", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var checkResult = MessageBox.Show($"Вы уверены, что хотите удалить категорию \"{categoryName}\"?",
+                    "Подтверждение удаления", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-                    if (checkResult != DialogResult.Yes) return;
+                if (checkResult != DialogResult.Yes) return;
 
-                    //проверяем, есть ли товары в этой категории
-                    var hasItems = db.Items.Any(i => i.CategoryID == selectedCategoryId);
-                    if (hasItems)
-                    {
-                        Log.Warning("Попытка удалить категорию '{CategoryName}' с товарами", categoryName);
-                        MessageBox.Show("Нельзя удалить категорию, в которой есть товары. Сначала удалите или переместите товары.",
-                            "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
+                //проверяем, есть ли товары в этой категории
+                var hasItems = _db.Items.Any(i => i.CategoryID == selectedCategoryId);
+                if (hasItems)
+                {
+                    Log.Warning("Попытка удалить категорию '{CategoryName}' с товарами", categoryName);
+                    MessageBox.Show("Нельзя удалить категорию, в которой есть товары. Сначала удалите или переместите товары.",
+                        "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-                    var category = db.Categories.FirstOrDefault(c => c.CategoryID == selectedCategoryId);
-                    if (category != null)
-                    {
-                        db.Categories.Remove(category);
-                        db.SaveChanges();
+                var category = _db.Categories.FirstOrDefault(c => c.CategoryID == selectedCategoryId);
+                if (category != null)
+                {
+                    _db.Categories.Remove(category);
+                    _db.SaveChanges();
 
-                        Log.Information("Категория '{CategoryName}' (ID: {CategoryId}) удалена", categoryName, selectedCategoryId);
+                    Log.Information("Категория '{CategoryName}' (ID: {CategoryId}) удалена", categoryName, selectedCategoryId);
 
-                        MessageBox.Show("Категория удалена!", "Оповещение",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Категория удалена!", "Оповещение",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        LoadCategories();
-                    }
-                    else
-                    {
-                        Log.Warning("Категория с ID {CategoryId} не найдена при удалении", selectedCategoryId);
-                        MessageBox.Show("Категория не найдена", "Ошибка",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    LoadCategories();
+                }
+                else
+                {
+                    Log.Warning("Категория с ID {CategoryId} не найдена при удалении", selectedCategoryId);
+                    MessageBox.Show("Категория не найдена", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)

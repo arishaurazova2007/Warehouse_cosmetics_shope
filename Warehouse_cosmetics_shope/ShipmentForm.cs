@@ -20,17 +20,24 @@ namespace Warehouse_cosmetics_shope
         private int selectedProductNumber = 0;
         private int selectedProductQuantity = 0;
         private string selectedCategoryName = string.Empty;
+        private readonly IWarehouseContext _db;
+
+        /// <summary>
+        /// Флаг — пройдена ли проверка ИНН контрагента
+        /// </summary>
+        private bool innCheckPassed = false;
 
         /// <summary>
         /// Конструктор формы отгрузки
         /// </summary>
         /// <param name="userId">Идентификатор текущего пользователя</param>
         /// <param name="userLogin">Логин текущего пользователя</param>
-        public ShipmentForm(Guid userId, string userLogin)
+        public ShipmentForm(Guid userId, string userLogin, IWarehouseContext db)
         {
             InitializeComponent();
             currentUserId = userId;
             currentUserLogin = userLogin;
+            _db = db;
 
             Log.Information("Пользователь {UserLogin} открыл форму отгрузки", currentUserLogin);
 
@@ -48,28 +55,25 @@ namespace Warehouse_cosmetics_shope
         {
             try
             {
-                using (var db = new WarehouseContext())
-                {
-                    var today = DateTime.Now.Date;
+                var today = DateTime.Now.Date;
 
-                    var items = db.Items
-                        .Include(i => i.Category)
-                        .Where(i => i.Quantity > 0 && i.ExpDate > today)
-                        .Select(i => new
-                        {
-                            i.ProductID,
-                            i.ProductNumber,
-                            i.ProductName,
-                            i.Category.CategoryName,
-                            i.Quantity,
-                            i.SellPrice
-                        })
-                        .ToList();
+                var items = _db.Items
+                    .Include(i => i.Category)
+                    .Where(i => i.Quantity > 0 && i.ExpDate > today)
+                    .Select(i => new
+                    {
+                        i.ProductID,
+                        i.ProductNumber,
+                        i.ProductName,
+                        i.Category.CategoryName,
+                        i.Quantity,
+                        i.SellPrice
+                    })
+                    .ToList();
 
-                    catalogInShipmentGridView.DataSource = items;
+                catalogInShipmentGridView.DataSource = items;
 
-                    Log.Debug("Загружено {ItemCount} товаров в каталог отгрузки", items.Count);
-                }
+                Log.Debug("Загружено {ItemCount} товаров в каталог отгрузки", items.Count);
             }
             catch (Exception ex)
             {
@@ -148,6 +152,15 @@ namespace Warehouse_cosmetics_shope
         {
             shipmentSearchBox.Text = "Поиск";
             shipmentSearchBox.ForeColor = System.Drawing.Color.Gray;
+            innTextBox.Text = "Введите ИНН";
+            innTextBox.ForeColor = System.Drawing.Color.Gray;
+            innTextBox.Enter += (s, e) => {
+                if (innTextBox.Text == "Введите ИНН") { innTextBox.Text = ""; innTextBox.ForeColor = System.Drawing.Color.Black; }
+            };
+            innTextBox.Leave += (s, e) => {
+                if (string.IsNullOrWhiteSpace(innTextBox.Text)) { innTextBox.Text = "Введите ИНН"; innTextBox.ForeColor = System.Drawing.Color.Gray; }
+            };
+
         }
 
         /// <summary>
@@ -191,36 +204,33 @@ namespace Warehouse_cosmetics_shope
 
             try
             {
-                using (var db = new WarehouseContext())
+                var today = DateTime.Now.Date;
+
+                var items = _db.Items
+                    .Include(i => i.Category)
+                    .Where(i => i.Quantity > 0 && i.ExpDate > today &&
+                        (i.ProductNumber.ToString().Contains(searchText) || i.ProductName.ToLower().Contains(searchText)))
+                    .Select(i => new
+                    {
+                        i.ProductID,
+                        i.ProductNumber,
+                        i.ProductName,
+                        i.Category.CategoryName,
+                        i.Quantity,
+                        i.SellPrice
+                    })
+                    .ToList();
+
+                catalogInShipmentGridView.DataSource = items;
+                catalogInShipmentGridView.Columns["ProductID"].Visible = false;
+
+                if (items.Count == 0)
                 {
-                    var today = DateTime.Now.Date;
-
-                    var items = db.Items
-                        .Include(i => i.Category)
-                        .Where(i => i.Quantity > 0 && i.ExpDate > today &&
-                            (i.ProductNumber.ToString().Contains(searchText) || i.ProductName.ToLower().Contains(searchText)))
-                        .Select(i => new
-                        {
-                            i.ProductID,
-                            i.ProductNumber,
-                            i.ProductName,
-                            i.Category.CategoryName,
-                            i.Quantity,
-                            i.SellPrice
-                        })
-                        .ToList();
-
-                    catalogInShipmentGridView.DataSource = items;
-                    catalogInShipmentGridView.Columns["ProductID"].Visible = false;
-
-                    if (items.Count == 0)
-                    {
-                        Log.Warning("По запросу '{SearchText}' ничего не найдено", searchText);
-                    }
-                    else
-                    {
-                        Log.Information("По запросу '{SearchText}' найдено {ItemCount} товаров", searchText, items.Count);
-                    }
+                    Log.Warning("По запросу '{SearchText}' ничего не найдено", searchText);
+                }
+                else
+                {
+                    Log.Information("По запросу '{SearchText}' найдено {ItemCount} товаров", searchText, items.Count);
                 }
             }
             catch (Exception ex)
@@ -323,8 +333,22 @@ namespace Warehouse_cosmetics_shope
                 ClearForm();
                 LoadCatalog();
 
-                MessageBox.Show("Товар добавлен в отгрузку", "Успех",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                /// <summary>
+                /// Показывает предупреждение если добавленный товар помечен как хрупкий
+                /// </summary>
+
+                var product = _db.Items.FirstOrDefault(i => i.ProductID == selectedProductId);
+                if (product != null && product.IsFragile)
+                {
+                    MessageBox.Show($"⚠️ Внимание! Товар \"{selectedProductName}\" хрупкий.\nПри транспортировке могут потребоваться специальные условия.",
+                        "Хрупкий товар", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    MessageBox.Show("Товар добавлен в отгрузку", "Успех",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
             }
             catch (Exception ex)
             {
@@ -369,6 +393,12 @@ namespace Warehouse_cosmetics_shope
         /// </summary>
         private void buttonGenerateList_Click(object sender, EventArgs e)
         {
+            if (!innCheckPassed)
+            {
+                MessageBox.Show("Необходимо пройти проверку ИНН контрагента перед отгрузкой",
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             if (shipmentItems.Count == 0)
             {
                 Log.Warning("Попытка оформить пустую отгрузку");
@@ -395,55 +425,53 @@ namespace Warehouse_cosmetics_shope
 
             try
             {
-                using (var db = new WarehouseContext())
+                var client = _db.Clients.FirstOrDefault(c => c.ClientName == clientNameTextBox.Text.Trim());
+                if (client == null)
                 {
-                    var client = db.Clients.FirstOrDefault(c => c.ClientName == clientNameTextBox.Text.Trim());
-                    if (client == null)
+                    client = new Client
                     {
-                        client = new Client
-                        {
-                            ClientID = Guid.NewGuid(),
-                            ClientName = clientNameTextBox.Text.Trim(),
-                            CType = (ClientTypes)clientTypeComboBox.SelectedValue
-                        };
-                        db.Clients.Add(client);
-                        db.SaveChanges();
-                        Log.Information("Создан новый клиент: {ClientName}", client.ClientName);
-                    }
-
-                    var shipment = new Shipment
-                    {
-                        ShipmentID = Guid.NewGuid(),
-                        ClientID = client.ClientID,
-                        UserID = currentUserId,
-                        Date = DateTime.Now
+                        ClientID = Guid.NewGuid(),
+                        ClientName = clientNameTextBox.Text.Trim(),
+                        CType = (ClientTypes)clientTypeComboBox.SelectedValue
                     };
-                    db.Shipments.Add(shipment);
-                    db.SaveChanges();
-
-                    Log.Information("Создана отгрузка #{ShipmentId} для клиента {ClientName}",
-                        shipment.ShipmentID, client.ClientName);
-
-                    foreach (var item in shipmentItems)
-                    {
-                        var product = db.Items.FirstOrDefault(i => i.ProductID == item.ProductID);
-                        if (product != null)
-                        {
-                            var composition = new ShipmentComposition
-                            {
-                                ShipmentID = shipment.ShipmentID,
-                                ProductID = item.ProductID,
-                                Quantity = item.Quantity
-                            };
-                            db.ShipmentCompositions.Add(composition);
-                            product.Quantity -= item.Quantity;
-
-                            Log.Debug("Списано {Quantity} шт. товара {ProductName}, остаток {NewStock}",
-                                item.Quantity, product.ProductName, product.Quantity);
-                        }
-                    }
-                    db.SaveChanges();
+                    _db.Clients.Add(client);
+                    _db.SaveChanges();
+                    Log.Information("Создан новый клиент: {ClientName}", client.ClientName);
                 }
+
+                var shipment = new Shipment
+                {
+                    ShipmentID = Guid.NewGuid(),
+                    ClientID = client.ClientID,
+                    UserID = currentUserId,
+                    Date = DateTime.Now
+                };
+                _db.Shipments.Add(shipment);
+                _db.SaveChanges();
+
+                Log.Information("Создана отгрузка #{ShipmentId} для клиента {ClientName}",
+                    shipment.ShipmentID, client.ClientName);
+
+                foreach (var item in shipmentItems)
+                {
+                    var product = _db.Items.FirstOrDefault(i => i.ProductID == item.ProductID);
+                    if (product != null)
+                    {
+                        var composition = new ShipmentComposition
+                        {
+                            ShipmentID = shipment.ShipmentID,
+                            ProductID = item.ProductID,
+                            Quantity = item.Quantity
+                        };
+                        _db.ShipmentCompositions.Add(composition);
+                        product.Quantity -= item.Quantity;
+
+                        Log.Debug("Списано {Quantity} шт. товара {ProductName}, остаток {NewStock}",
+                            item.Quantity, product.ProductName, product.Quantity);
+                    }
+                }
+                _db.SaveChanges();
+
 
                 Log.Information("Отгрузка оформлена! Клиент: {ClientName}, товаров: {ItemCount}",
                     clientNameTextBox.Text, shipmentItems.Count);
@@ -473,9 +501,255 @@ namespace Warehouse_cosmetics_shope
         private void buttonBack_Click(object sender, EventArgs e)
         {
             Log.Information("Пользователь {UserLogin} вернулся в каталог из отгрузки", currentUserLogin);
-            var catalogForm = new CatalogFormKlad(currentUserId, currentUserLogin);
+
+            var catalogForm = new CatalogFormKlad(currentUserId, currentUserLogin, _db);
             catalogForm.Show();
             this.Hide();
+
+        }
+        /// <summary>
+        /// Получает координаты города по названию через бесплатный геокодер Open-Meteo.
+        /// Возвращает (широта, долгота) или null если город не найден.
+        /// </summary>
+        private (double lat, double lon)? GetCityCoordinates(string city)
+        {
+            try
+            {
+                using (var client = new System.Net.WebClient())
+                {
+                    client.Encoding = System.Text.Encoding.UTF8;
+                    string url = $"https://geocoding-api.open-meteo.com/v1/search?name={Uri.EscapeDataString(city)}&count=1&language=ru";
+                    string response = client.DownloadString(url);
+
+                    // Парсим координаты из JSON вручную
+                    if (!response.Contains("\"latitude\"")) return null;
+
+                    int latIdx = response.IndexOf("\"latitude\":") + 11;
+                    int latEnd = response.IndexOfAny(new char[] { ',', '}' }, latIdx);
+                    double lat = double.Parse(response.Substring(latIdx, latEnd - latIdx).Trim(),
+                        System.Globalization.CultureInfo.InvariantCulture);
+
+                    int lonIdx = response.IndexOf("\"longitude\":") + 12;
+                    int lonEnd = response.IndexOfAny(new char[] { ',', '}' }, lonIdx);
+                    double lon = double.Parse(response.Substring(lonIdx, lonEnd - lonIdx).Trim(),
+                        System.Globalization.CultureInfo.InvariantCulture);
+
+                    return (lat, lon);
+                }
+            }
+            catch { return null; }
+        }
+        /// <summary>
+        /// Проверяет погоду в регионе клиента на ближайшие 2 дня.
+        /// Возвращает предупреждение если ожидается аномальная жара (выше 30°C) или мороз (ниже -10°C).
+        /// </summary>
+        private string CheckWeather(string region)
+        {
+            try
+            {
+                var coords = GetCityCoordinates(region);
+                if (coords == null)
+                    return null;
+
+                using (var client = new System.Net.WebClient())
+                {
+                    string url = $"https://api.open-meteo.com/v1/forecast?latitude={coords.Value.lat.ToString(System.Globalization.CultureInfo.InvariantCulture)}&longitude={coords.Value.lon.ToString(System.Globalization.CultureInfo.InvariantCulture)}&daily=temperature_2m_max,temperature_2m_min&forecast_days=2&timezone=auto";
+                    string response = client.DownloadString(url);
+
+                    // Парсим максимальную температуру
+                    int maxIdx = response.IndexOf("\"temperature_2m_max\":[") + 21;
+                    int maxEnd = response.IndexOf("]", maxIdx);
+                    string maxStr = response.Substring(maxIdx, maxEnd - maxIdx);
+                    var maxTemps = maxStr.Split(',')
+                        .Select(t => double.Parse(t.Trim(), System.Globalization.CultureInfo.InvariantCulture))
+                        .ToList();
+
+                    double maxTemp = maxTemps.Max();
+                    double minTemp = maxTemps.Min();
+
+                    if (maxTemp > 30)
+                        return $"⚠️ Внимание! Погодные условия.\nВ регионе клиента ожидается +{maxTemp}°C.";
+                    if (minTemp < -10)
+                        return $"⚠️ Внимание! Погодные условия.\nВ регионе клиента ожидается {minTemp}°C.";
+
+                    return null; // погода нормальная
+                }
+            }
+            catch { return null; }
+        }
+        /// <summary>
+        /// Обработчик нажатия кнопки проверки ИНН контрагента.
+        /// Проверяет компанию по реестру ЕГРЮЛ и погодные условия в регионе клиента.
+        /// Блокирует отгрузку если контрагент находится в реестре банкротов или имеет задолженности.
+        /// </summary>
+        private void buttonCheckINN_Click(object sender, EventArgs e)
+        {
+            string inn = innTextBox.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(inn) || inn == "Введите ИНН")
+            {
+                MessageBox.Show("Введите ИНН контрагента", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                // Ищем клиента в нашей БД по ИНН
+               
+                    var client = _db.Clients.FirstOrDefault(c => c.INN == inn);
+
+                    // Проверяем по ЕГРЮЛ
+                    string companyName = "Неизвестная компания";
+                    bool isBankrupt = false;
+                    decimal debt = 0;
+
+                    try
+                    {
+                        using (var webClient = new System.Net.WebClient())
+                        {
+                            webClient.Encoding = System.Text.Encoding.UTF8;
+                            string token = "fe6f6c4e863aa3c085484d2618b4e9731728fe26";
+                            string secret = "8a75801d293f8a87fe0b2f7b1eafa16684964554";
+
+                            webClient.Headers.Add("Content-Type", "application/json");
+                            webClient.Headers.Add("Authorization", $"Token {token}");
+                            webClient.Headers.Add("X-Secret", secret);
+
+                            string body = $"{{\"query\": \"{inn}\"}}";
+                            string response = webClient.UploadString(
+                                "https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party",
+                                "POST", body);
+
+                            // Парсим имя компании
+                            if (response.Contains("\"value\":"))
+                            {
+                                int valueIdx = response.IndexOf("\"value\":\"") + 9;
+                                int valueEnd = response.IndexOf("\"", valueIdx);
+                                if (valueIdx > 9 && valueEnd > valueIdx)
+                                    companyName = response.Substring(valueIdx, valueEnd - valueIdx);
+                            }
+
+                            // Парсим статус — ликвидирована или банкрот
+                            if (response.Contains("\"state\""))
+                            {
+                                if (response.Contains("\"LIQUIDATED\"") || response.Contains("\"BANKRUPT\""))
+                                {
+                                    isBankrupt = true;
+                                    debt = 1000000;
+                                }
+                            }
+
+                            Log.Information("Dadata вернула данные для ИНН {INN}: {CompanyName}", inn, companyName);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Warning("Ошибка запроса к Dadata: {Message}", ex.Message);
+                        if (client != null)
+                            companyName = client.ClientName;
+                    }
+
+                    // Формируем результат проверки
+                    string region = client?.Region ?? "";
+                    string weatherWarning = !string.IsNullOrEmpty(region) ? CheckWeather(region) : null;
+
+                    // Проверяем есть ли хрупкие товары в списке отгрузки
+                    bool hasFragileItems = false;
+                    string fragileItemName = "";
+                if (shipmentItems.Any())
+                {
+                    foreach (var item in shipmentItems)
+                    {
+                        var product = _db.Items.FirstOrDefault(i => i.ProductID == item.ProductID);
+                        if (product != null && product.IsFragile)
+                        {
+                            hasFragileItems = true;
+                            fragileItemName = product.ProductName;
+                            break;
+                        }
+                    }
+
+                }
+
+                // Строим сообщение
+                string message = $"Компания: {companyName}\nИНН: {inn}\n\n";
+
+                if (isBankrupt || debt > 0)
+                {
+                    // Контрагент проблемный
+                    innCheckPassed = false;
+                    message = $"🚫 Внимание!\n\nКомпания: {companyName}\nИНН: {inn}\n\nНайдены риски:\n";
+                    if (isBankrupt) message += "⚠️ Компания в реестре банкротов\n";
+                    if (debt > 0) message += $"⚠️ Задолженность: {debt} млн руб\n";
+                    message += "\nОтгрузка этому контрагенту запрещена политикой компании.";
+
+                    MessageBox.Show(message, "Проверка не пройдена",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    // Сохраняем в историю проверок
+                    SaveCheckHistory(client?.ClientID, inn, "Отклонена", message);
+                }
+                else
+                {
+                    // Контрагент надёжный
+                    innCheckPassed = true;
+                    message += "✅ Проверка пройдена\n\nНе в реестре банкротов\n";
+
+                    if (weatherWarning != null)
+                    {
+                        message += $"\n{weatherWarning}";
+                        if (hasFragileItems)
+                            message += $" В списке есть хрупкий товар ({fragileItemName})";
+                        message += "\n\nСпециальные условия: Термоконтейнер.";
+                    }
+                    else
+                    {
+                        message += "\n✅ Погодные условия в регионе благоприятные\n\nСпециальные условия: не нужны.";
+                    }
+
+                    MessageBox.Show(message, "Проверка пройдена",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Сохраняем в историю проверок
+                    SaveCheckHistory(client?.ClientID, inn, "Пройдена", message);
+                }
+
+                Log.Information("Проверка ИНН {INN}: результат — {Result}", inn, innCheckPassed ? "пройдена" : "отклонена");
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Ошибка при проверке ИНН {INN}", inn);
+                MessageBox.Show("Ошибка при проверке ИНН: " + ex.Message, "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        /// <summary>
+        /// Сохраняет результат проверки контрагента в таблицу CheckHistory.
+        /// Если клиент не найден в БД — запись не создаётся.
+        /// </summary>
+        private void SaveCheckHistory(Guid? clientId, string inn, string status, string details)
+        {
+            try
+            {
+                if (clientId == null) return;
+
+                _db.CheckHistory.Add(new DataBaseClass.CheckHistory
+                {
+                    HistoryID = Guid.NewGuid(),
+                    ClientID = clientId.Value,
+                    CheckDate = DateTime.Now,
+                    Status = status,
+                    Details = details
+                });
+                _db.SaveChanges();
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Ошибка при сохранении истории проверки ИНН {INN}", inn);
+            }
         }
     }
 }

@@ -14,17 +14,19 @@ namespace Warehouse_cosmetics_shope
     {
         private Guid currentUserId;
         private string currentUserLogin;
+        private readonly IWarehouseContext _db;
 
         /// <summary>
         /// Конструктор формы истории отгрузок
         /// </summary>
         /// <param name="userId">Идентификатор текущего пользователя</param>
         /// <param name="userLogin">Логин текущего пользователя</param>
-        public ShipmentHistoryForm(Guid userId, string userLogin)
+        public ShipmentHistoryForm(Guid userId, string userLogin, IWarehouseContext db)
         {
             InitializeComponent();
             currentUserId = userId;
             currentUserLogin = userLogin;
+            _db = db;
 
             lowDatePicker.Value = DateTime.Now.AddMonths(-1);
             upDatePicker.Value = DateTime.Now;
@@ -52,58 +54,56 @@ namespace Warehouse_cosmetics_shope
 
                 Log.Debug("Загрузка истории отгрузок за период с {FromDate} по {ToDate}", fromDate, toDate);
 
-                using (var db = new WarehouseContext())
+                var shipments = _db.Shipments
+                    .Include("Client")
+                    .Include("User")
+                    .Include("ShipmentCompositions")
+                    .Include("ShipmentCompositions.Product")
+                    .Where(s => s.Date >= fromDate && s.Date <= toDate)
+                    .ToList();
+
+                Log.Information("Найдено {ShipmentCount} отгрузок за выбранный период", shipments.Count);
+
+                var historyList = new List<ShipmentHistoryItem>();
+
+                foreach (var shipment in shipments)
                 {
-                    var shipments = db.Shipments
-                        .Include("Client")
-                        .Include("User")
-                        .Include("ShipmentCompositions")
-                        .Include("ShipmentCompositions.Product")
-                        .Where(s => s.Date >= fromDate && s.Date <= toDate)
-                        .ToList();
+                    decimal totalAmount = 0;
+                    decimal totalProfit = 0;
+                    int totalQuantity = 0;
 
-                    Log.Information("Найдено {ShipmentCount} отгрузок за выбранный период", shipments.Count);
-
-                    var historyList = new List<ShipmentHistoryItem>();
-
-                    foreach (var shipment in shipments)
+                    if (shipment.ShipmentCompositions != null)
                     {
-                        decimal totalAmount = 0;
-                        decimal totalProfit = 0;
-                        int totalQuantity = 0;
-
-                        if (shipment.ShipmentCompositions != null)
+                        foreach (var composition in shipment.ShipmentCompositions)
                         {
-                            foreach (var composition in shipment.ShipmentCompositions)
+                            if (composition.Product != null)
                             {
-                                if (composition.Product != null)
-                                {
-                                    totalAmount += composition.Quantity * composition.Product.SellPrice;
-                                    totalProfit += composition.Quantity * (composition.Product.SellPrice - composition.Product.PurPrice);
-                                    totalQuantity += composition.Quantity;
-                                }
+                                totalAmount += composition.Quantity * composition.Product.SellPrice;
+                                totalProfit += composition.Quantity * (composition.Product.SellPrice - composition.Product.PurPrice);
+                                totalQuantity += composition.Quantity;
                             }
                         }
-
-                        historyList.Add(new ShipmentHistoryItem
-                        {
-                            Date = shipment.Date,
-                            EmployeeName = $"{shipment.User?.Surname} {shipment.User?.Name}",
-                            ClientName = shipment.Client?.ClientName ?? "Не указан",
-                            TotalAmount = totalAmount,
-                            Profit = totalProfit,
-                            Quantity = totalQuantity
-                        });
                     }
 
-                    ShipHistoryDataGridView.DataSource = historyList;
-                    ConfigureColumns();
-
-                    if (historyList.Count == 0)
+                    historyList.Add(new ShipmentHistoryItem
                     {
-                        Log.Warning("За период с {FromDate} по {ToDate} отгрузок не найдено", fromDate, toDate);
-                    }
+                        Date = shipment.Date,
+                        EmployeeName = $"{shipment.User?.Surname} {shipment.User?.Name}",
+                        ClientName = shipment.Client?.ClientName ?? "Не указан",
+                        TotalAmount = totalAmount,
+                        Profit = totalProfit,
+                        Quantity = totalQuantity
+                    });
                 }
+
+                ShipHistoryDataGridView.DataSource = historyList;
+                ConfigureColumns();
+
+                if (historyList.Count == 0)
+                {
+                    Log.Warning("За период с {FromDate} по {ToDate} отгрузок не найдено", fromDate, toDate);
+                }
+
             }
             catch (Exception ex)
             {
@@ -155,9 +155,7 @@ namespace Warehouse_cosmetics_shope
 
                 Log.Information("Экспорт истории отгрузок за период с {FromDate} по {ToDate}", fromDate, toDate);
 
-                using (var db = new WarehouseContext())
-                {
-                    var shipments = db.Shipments
+                    var shipments = _db.Shipments
                         .Include("Client")
                         .Include("User")
                         .Include("ShipmentCompositions")
@@ -218,7 +216,6 @@ namespace Warehouse_cosmetics_shope
                         MessageBox.Show($"История отгрузок сохранена в файл:\n{saveFileDialog.FileName}", "Оповещение",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                }
             }
             catch (Exception ex)
             {
@@ -234,9 +231,7 @@ namespace Warehouse_cosmetics_shope
         private void ButtonBackToCatalog_Click(object sender, EventArgs e)
         {
             Log.Information("Пользователь {UserLogin} вернулся в каталог из истории отгрузок", currentUserLogin);
-            var catalogForm = new CatalogFormAdmin(currentUserId, currentUserLogin);
-            catalogForm.Show();
-            this.Hide();
+            this.Close();  
         }
     }
 }

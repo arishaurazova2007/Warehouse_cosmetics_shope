@@ -34,5 +34,18 @@ namespace Warehouse_cosmetics_shope
         /// Позволяет отслеживать все товары, когда-либо отправленные данному клиенту
         /// </summary>
         public virtual ICollection<Shipment> Shipments { get; set; } = new List<Shipment>();
+        /// <summary>
+        /// ИНН контрагента
+        /// </summary>
+        public string INN { get; set; }
+        /// <summary>
+        /// Регион контрагента
+        /// </summary>
+        public string Region { get; set; }
+        /// <summary>
+        /// История проверок данного контрагента
+        /// </summary>
+        public virtual ICollection<CheckHistory> CheckHistories { get; set; } = new List<CheckHistory>();
+
     }
 }

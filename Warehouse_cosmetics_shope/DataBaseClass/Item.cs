@@ -64,5 +64,30 @@ namespace Warehouse_cosmetics_shope.DataBaseClass
         /// Связывает товар с конкретными накладными через таблицу ShipmentComposition
         /// </summary>
         public virtual ICollection<ShipmentComposition> ShipmentCompositions { get; set; } = new List<ShipmentComposition>();
+        /// <summary>
+        /// Признак хрупкости товара (для отображения checkbox)
+        /// </summary>
+        public bool IsFragile { get; set; }
+
+        /// <summary>
+        /// Номер ячейки хранения на складе (для тепловой карты)
+        /// </summary>
+        public int CellNumber { get; set; }
+
+        /// <summary>
+        /// Код валюты закупки 
+        /// </summary>
+        public string CurrencyCode { get; set; }
+
+        /// <summary>
+        /// Навигационное свойство для доступа к курсу валюты
+        /// </summary>
+        [ForeignKey("CurrencyCode")]
+        public virtual CurrencyRates CurrencyRate { get; set; }
+        /// <summary>
+        /// Фиксированный курс валюты на момент закупки
+        /// </summary>
+        public decimal PurchaseRate { get; set; }
+
     }
 }
