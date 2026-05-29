@@ -303,8 +303,15 @@ namespace Warehouse_cosmetics_shope
                 {
                     productNameInput.Text = product.ProductName;
                     showProductNumberLabel.Text = product.ProductNumber.ToString();
-                    purPriceNumeric.Value = product.PurPrice;
-                    sellPriceNumeric.Value = product.SellPrice;
+                    // Пересчитываем цены в текущую валюту
+                    purPriceNumeric.Value = product.PurPrice > 0
+                        ? Math.Round(product.PurPrice / CurrencySettings.CurrentRate, 2)
+                        : 0;
+                    sellPriceNumeric.Value = product.SellPrice > 0
+                        ? Math.Round(product.SellPrice / CurrencySettings.CurrentRate, 2)
+                        : 0;
+                    purPriceLabel.Text = $"Цена закупки ({CurrencySettings.CurrentCurrency})";
+                    sellPriceLabel.Text = $"Цена для продажи ({CurrencySettings.CurrentCurrency})";
                     quantityPickOrShowNumeric.Value = product.Quantity;
                     expDatePicker.Value = product.ExpDate;
                     manufdatePicker.Value = product.ManufDate;

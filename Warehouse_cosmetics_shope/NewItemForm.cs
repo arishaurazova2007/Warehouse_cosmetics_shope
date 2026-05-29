@@ -29,6 +29,7 @@ namespace Warehouse_cosmetics_shope
 
             LoadCategories();
             LoadUnits();
+            LoadCurrencies();
         }
 
         /// <summary>
@@ -106,6 +107,29 @@ namespace Warehouse_cosmetics_shope
         }
 
         /// <summary>
+        /// Загружает список доступных валют из БД в выпадающий список
+        /// </summary>
+        private void LoadCurrencies()
+        {
+            try
+            {
+                var currencies = _db.CurrencyRates.Select(c => c.CurrencyCode).ToList();
+                currencyComboBox.Items.Clear();
+                foreach (var c in currencies)
+                    currencyComboBox.Items.Add(c);
+                currencyComboBox.SelectedItem = CurrencySettings.CurrentCurrency;
+
+                Log.Debug("Загружены валюты в форму добавления товара");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Ошибка при загрузке валют");
+                MessageBox.Show("Ошибка при загрузке валют", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
         /// Возвращает русское название единицы измерения
         /// </summary>
         /// <param name="unit">Единица измерения</param>
@@ -172,7 +196,18 @@ namespace Warehouse_cosmetics_shope
         private void buttonSave_Click(object sender, EventArgs e)
         {
             if (!ValidateForm()) return;
+            decimal sellPriceInRub = sellPriceNumeric.Value;
+            string selectedCurrency = currencyComboBox.SelectedItem?.ToString() ?? "RUB";
 
+            if (selectedCurrency != "RUB")
+            {
+                using (var dbRate = new WarehouseContext())
+                {
+                    var rate = dbRate.CurrencyRates.Find(selectedCurrency);
+                    if (rate != null)
+                        sellPriceInRub = sellPriceNumeric.Value * rate.Rate;
+                }
+            }
             try
             {
                 var newProduct = new Item
@@ -181,12 +216,13 @@ namespace Warehouse_cosmetics_shope
                     ProductName = productNameTextBox.Text.Trim(),
                     CategoryID = (Guid)categoryComboBox.SelectedValue,
                     PurPrice = 0,
-                    SellPrice = sellPriceNumeric.Value,
+                    SellPrice = sellPriceInRub,
                     Quantity = 0,
                     Units = (MeasurementUnits)unitComboBox.SelectedValue,
                     ExpDate = DateTime.Now.AddYears(3),
                     ManufDate = DateTime.Now,
-                    IsFragile = isFragileCheckBox.Checked
+                    IsFragile = isFragileCheckBox.Checked,
+                    CurrencyCode = selectedCurrency
                 };
 
                 _db.Items.Add(newProduct);
@@ -228,5 +264,7 @@ namespace Warehouse_cosmetics_shope
         {
 
         }
+
+        
     }
 }

@@ -103,7 +103,7 @@
             this.purPriceLabel.AutoSize = true;
             this.purPriceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold);
             this.purPriceLabel.ForeColor = System.Drawing.Color.Black;
-            this.purPriceLabel.Location = new System.Drawing.Point(249, 409);
+            this.purPriceLabel.Location = new System.Drawing.Point(177, 409);
             this.purPriceLabel.Name = "purPriceLabel";
             this.purPriceLabel.Size = new System.Drawing.Size(136, 22);
             this.purPriceLabel.TabIndex = 7;
@@ -197,7 +197,7 @@
             this.sellPriceLabel.AutoSize = true;
             this.sellPriceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold);
             this.sellPriceLabel.ForeColor = System.Drawing.Color.Black;
-            this.sellPriceLabel.Location = new System.Drawing.Point(199, 454);
+            this.sellPriceLabel.Location = new System.Drawing.Point(128, 451);
             this.sellPriceLabel.Name = "sellPriceLabel";
             this.sellPriceLabel.Size = new System.Drawing.Size(185, 22);
             this.sellPriceLabel.TabIndex = 25;

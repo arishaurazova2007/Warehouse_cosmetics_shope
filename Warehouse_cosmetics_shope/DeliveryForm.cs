@@ -78,6 +78,26 @@ namespace Warehouse_cosmetics_shope
                     currencyComboBox.Items.Add(c);
                 currencyComboBox.SelectedItem = CurrencySettings.CurrentCurrency;
 
+                currencyComboBox.SelectedIndexChanged += (s, e) =>
+                {
+                    if (currencyComboBox.SelectedItem == null) return;
+                    string selected = currencyComboBox.SelectedItem.ToString();
+                    using (var db = new WarehouseContext())
+                    {
+                        var rate = db.CurrencyRates.Find(selected);
+                        if (rate != null)
+                        {
+                            CurrencySettings.CurrentCurrency = selected;
+                            CurrencySettings.CurrentRate = rate.Rate;
+                        }
+                    }
+                    // Обновляем колонку цены продажи
+                    if (catalogInDeliveryGridView.Columns.Contains("SellPrice"))
+                        catalogInDeliveryGridView.Columns["SellPrice"].HeaderText =
+                            $"Цена продажи ({selected})";
+                    LoadCatalog();
+                };
+
             }
             catch (Exception ex)
             {
@@ -99,7 +119,7 @@ namespace Warehouse_cosmetics_shope
                         i.ProductNumber,
                         i.ProductName,
                         i.Category.CategoryName,
-                        i.SellPrice,
+                        SellPrice = Math.Round(i.SellPrice / CurrencySettings.CurrentRate, 2),
                         i.Units
                     })
                     .ToList();
@@ -126,7 +146,7 @@ namespace Warehouse_cosmetics_shope
             catalogInDeliveryGridView.Columns["CategoryName"].HeaderText = "Категория";
             catalogInDeliveryGridView.Columns["SellPrice"].HeaderText = "Цена продажи";
             catalogInDeliveryGridView.Columns["Units"].HeaderText = "Ед. изм.";
-            catalogInDeliveryGridView.Columns["SellPrice"].DefaultCellStyle.Format = "C2";
+            catalogInDeliveryGridView.Columns["SellPrice"].DefaultCellStyle.Format = "N2";
         }
 
         /// <summary>

@@ -170,7 +170,7 @@ namespace Warehouse_cosmetics_shope
             if (dataGridViewCatalog.Columns.Contains("ExpDate"))
                 dataGridViewCatalog.Columns["ExpDate"].HeaderText = "Годен до";
             if (dataGridViewCatalog.Columns.Contains("PurPrice"))
-                dataGridViewCatalog.Columns["PurPrice"].HeaderText = "Цена закупки";
+                dataGridViewCatalog.Columns["PurPrice"].HeaderText = "Цена закупки(" + CurrencySettings.CurrentCurrency + ")";
             if (dataGridViewCatalog.Columns.Contains("SellPrice"))
                 dataGridViewCatalog.Columns["SellPrice"].HeaderText = "Цена продажи(" + CurrencySettings.CurrentCurrency + ")";
             if (dataGridViewCatalog.Columns.Contains("Quantity"))

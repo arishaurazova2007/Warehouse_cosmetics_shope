@@ -45,6 +45,8 @@ namespace Warehouse_cosmetics_shope
             kladCatalogGrid.CellFormatting += KladCatalogGrid_CellFormatting;
             kladCatalogGrid.DataError += (s, ev) => ev.ThrowException = false;
             searchButton.Click += SearchButton_Click;
+            searchBox.Enter += searchBox_Enter;
+            searchBox.Leave += searchBox_Leave;
         }
 
         
@@ -224,9 +226,9 @@ private async Task LoadCatalogAsync()
             if (kladCatalogGrid.Columns.Contains("ExpDate"))
                 kladCatalogGrid.Columns["ExpDate"].HeaderText = "Годен до";
             if (kladCatalogGrid.Columns.Contains("PurPrice"))
-                kladCatalogGrid.Columns["PurPrice"].HeaderText = "Цена закупки";
+                kladCatalogGrid.Columns["PurPrice"].HeaderText = "Цена закупки(" + CurrencySettings.CurrentCurrency + ")";
             if (kladCatalogGrid.Columns.Contains("SellPrice"))
-                kladCatalogGrid.Columns["SellPrice"].HeaderText = "Цена продажи";
+                kladCatalogGrid.Columns["SellPrice"].HeaderText = "Цена продажи(" + CurrencySettings.CurrentCurrency + ")";
             if (kladCatalogGrid.Columns.Contains("Quantity"))
                 kladCatalogGrid.Columns["Quantity"].HeaderText = "Остаток";
 

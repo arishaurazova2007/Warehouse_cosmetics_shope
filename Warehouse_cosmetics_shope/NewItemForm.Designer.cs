@@ -43,6 +43,8 @@
             this.sellPriceNumeric = new System.Windows.Forms.NumericUpDown();
             this.isFragileCheckBox = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.currencyLabel = new System.Windows.Forms.Label();
+            this.currencyComboBox = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.sellPriceNumeric)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,7 +53,7 @@
             this.itemNumberTitle.AutoSize = true;
             this.itemNumberTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold);
             this.itemNumberTitle.ForeColor = System.Drawing.Color.Black;
-            this.itemNumberTitle.Location = new System.Drawing.Point(227, 202);
+            this.itemNumberTitle.Location = new System.Drawing.Point(227, 186);
             this.itemNumberTitle.Name = "itemNumberTitle";
             this.itemNumberTitle.Size = new System.Drawing.Size(85, 22);
             this.itemNumberTitle.TabIndex = 57;
@@ -60,7 +62,7 @@
             // categoryComboBox
             // 
             this.categoryComboBox.FormattingEnabled = true;
-            this.categoryComboBox.Location = new System.Drawing.Point(337, 245);
+            this.categoryComboBox.Location = new System.Drawing.Point(337, 229);
             this.categoryComboBox.Name = "categoryComboBox";
             this.categoryComboBox.Size = new System.Drawing.Size(489, 24);
             this.categoryComboBox.TabIndex = 53;
@@ -87,7 +89,7 @@
             // showProductNumberLabel
             // 
             this.showProductNumberLabel.AutoSize = true;
-            this.showProductNumberLabel.Location = new System.Drawing.Point(334, 206);
+            this.showProductNumberLabel.Location = new System.Drawing.Point(334, 192);
             this.showProductNumberLabel.Name = "showProductNumberLabel";
             this.showProductNumberLabel.Size = new System.Drawing.Size(264, 16);
             this.showProductNumberLabel.TabIndex = 47;
@@ -96,7 +98,7 @@
             // productNameTextBox
             // 
             this.productNameTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.productNameTextBox.Location = new System.Drawing.Point(337, 167);
+            this.productNameTextBox.Location = new System.Drawing.Point(337, 158);
             this.productNameTextBox.Name = "productNameTextBox";
             this.productNameTextBox.Size = new System.Drawing.Size(489, 15);
             this.productNameTextBox.TabIndex = 44;
@@ -132,7 +134,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold);
             this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(206, 246);
+            this.label4.Location = new System.Drawing.Point(206, 227);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(106, 22);
             this.label4.TabIndex = 37;
@@ -143,7 +145,7 @@
             this.productNameLabel.AutoSize = true;
             this.productNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold);
             this.productNameLabel.ForeColor = System.Drawing.Color.Black;
-            this.productNameLabel.Location = new System.Drawing.Point(214, 164);
+            this.productNameLabel.Location = new System.Drawing.Point(216, 151);
             this.productNameLabel.Name = "productNameLabel";
             this.productNameLabel.Size = new System.Drawing.Size(100, 22);
             this.productNameLabel.TabIndex = 36;
@@ -165,7 +167,7 @@
             this.sellPriceLabel.AutoSize = true;
             this.sellPriceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold);
             this.sellPriceLabel.ForeColor = System.Drawing.Color.Black;
-            this.sellPriceLabel.Location = new System.Drawing.Point(167, 294);
+            this.sellPriceLabel.Location = new System.Drawing.Point(168, 308);
             this.sellPriceLabel.Name = "sellPriceLabel";
             this.sellPriceLabel.Size = new System.Drawing.Size(145, 22);
             this.sellPriceLabel.TabIndex = 58;
@@ -174,7 +176,7 @@
             // 
             // sellPriceNumeric
             // 
-            this.sellPriceNumeric.Location = new System.Drawing.Point(337, 294);
+            this.sellPriceNumeric.Location = new System.Drawing.Point(337, 308);
             this.sellPriceNumeric.Maximum = new decimal(new int[] {
             -727379968,
             232,
@@ -205,12 +207,34 @@
             this.label1.TabIndex = 61;
             this.label1.Text = "При транспортировке";
             // 
+            // currencyLabel
+            // 
+            this.currencyLabel.AutoSize = true;
+            this.currencyLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold);
+            this.currencyLabel.ForeColor = System.Drawing.Color.Black;
+            this.currencyLabel.Location = new System.Drawing.Point(227, 264);
+            this.currencyLabel.Name = "currencyLabel";
+            this.currencyLabel.Size = new System.Drawing.Size(79, 22);
+            this.currencyLabel.TabIndex = 62;
+            this.currencyLabel.Text = "Валюта";
+            // 
+            // currencyComboBox
+            // 
+            this.currencyComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.currencyComboBox.FormattingEnabled = true;
+            this.currencyComboBox.Location = new System.Drawing.Point(337, 266);
+            this.currencyComboBox.Name = "currencyComboBox";
+            this.currencyComboBox.Size = new System.Drawing.Size(210, 24);
+            this.currencyComboBox.TabIndex = 63;
+            // 
             // NewItemForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
             this.ClientSize = new System.Drawing.Size(1005, 553);
+            this.Controls.Add(this.currencyComboBox);
+            this.Controls.Add(this.currencyLabel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.isFragileCheckBox);
             this.Controls.Add(this.sellPriceNumeric);
@@ -251,5 +275,7 @@
         private System.Windows.Forms.NumericUpDown sellPriceNumeric;
         private System.Windows.Forms.CheckBox isFragileCheckBox;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label currencyLabel;
+        private System.Windows.Forms.ComboBox currencyComboBox;
     }
 }

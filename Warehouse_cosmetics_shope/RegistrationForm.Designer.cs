@@ -35,14 +35,14 @@
             this.registerButton = new System.Windows.Forms.Button();
             this.backButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.loginBox = new System.Windows.Forms.TextBox();
+            this.loginTitle = new System.Windows.Forms.Label();
             this.passwordBox = new System.Windows.Forms.TextBox();
             this.patronimicBox = new System.Windows.Forms.TextBox();
             this.nameBox = new System.Windows.Forms.TextBox();
             this.surnameBox = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.registrationTitle = new System.Windows.Forms.Label();
-            this.loginBox = new System.Windows.Forms.TextBox();
-            this.loginTitle = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -124,6 +124,25 @@
             this.panel1.Size = new System.Drawing.Size(433, 277);
             this.panel1.TabIndex = 13;
             // 
+            // loginBox
+            // 
+            this.loginBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
+            this.loginBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.loginBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.loginBox.Location = new System.Drawing.Point(151, 30);
+            this.loginBox.Name = "loginBox";
+            this.loginBox.Size = new System.Drawing.Size(195, 19);
+            this.loginBox.TabIndex = 19;
+            // 
+            // loginTitle
+            // 
+            this.loginTitle.AutoSize = true;
+            this.loginTitle.Location = new System.Drawing.Point(51, 33);
+            this.loginTitle.Name = "loginTitle";
+            this.loginTitle.Size = new System.Drawing.Size(46, 16);
+            this.loginTitle.TabIndex = 18;
+            this.loginTitle.Text = "Логин";
+            // 
             // passwordBox
             // 
             this.passwordBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
@@ -185,25 +204,6 @@
             this.registrationTitle.Size = new System.Drawing.Size(193, 32);
             this.registrationTitle.TabIndex = 14;
             this.registrationTitle.Text = "Регистрация";
-            // 
-            // loginBox
-            // 
-            this.loginBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(236)))), ((int)(((byte)(240)))));
-            this.loginBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.loginBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.loginBox.Location = new System.Drawing.Point(151, 30);
-            this.loginBox.Name = "loginBox";
-            this.loginBox.Size = new System.Drawing.Size(195, 19);
-            this.loginBox.TabIndex = 19;
-            // 
-            // loginTitle
-            // 
-            this.loginTitle.AutoSize = true;
-            this.loginTitle.Location = new System.Drawing.Point(51, 33);
-            this.loginTitle.Name = "loginTitle";
-            this.loginTitle.Size = new System.Drawing.Size(46, 16);
-            this.loginTitle.TabIndex = 18;
-            this.loginTitle.Text = "Логин";
             // 
             // RegistrationForm
             // 
