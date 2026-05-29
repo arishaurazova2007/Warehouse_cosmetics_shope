@@ -23,6 +23,7 @@ namespace Warehouse_cosmetics_shope
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new MainForm());
 
                 Log.Information("Приложение запущено");
 

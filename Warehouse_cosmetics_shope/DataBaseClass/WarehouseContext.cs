@@ -8,9 +8,9 @@ namespace Warehouse_cosmetics_shope.DataBaseClass
     public class WarehouseContext : DbContext, IWarehouseContext
     {
         /// <summary>
-        /// Инициализирует новый экземпляр контекста, используя строку подключения "DBConnection"
+        /// Инициализирует новый экземпляр контекста, используя строку подключения
         /// </summary>
-        public WarehouseContext() : base("DBConnection")
+        public WarehouseContext() : base("WarehouseContext")
         {
             Database.SetInitializer<WarehouseContext>(null);
         }
